@@ -1,9 +1,7 @@
 import HomePageProducts from '@/components/homepage/home-page-products'
 import HomepageSection from '@/components/homepage/homepage-component-1'
 import HomepageComponent2 from '@/components/homepage/homepage-component-2'
-import Landing_Section from '@/components/homepage/homepage-heroSection'
 import Slider_landing_page from '@/components/homepage/homepage-slider'
-import ServiceSolutions from '@/components/listing_swipper'
 import React from 'react'
 
 const Homepage = () => {
