@@ -1,3 +1,4 @@
+import ConnectCompany from '@/components/connectBanner'
 import HomePageProducts from '@/components/homepage/home-page-products'
 import HomepageSection from '@/components/homepage/homepage-component-1'
 import HomepageComponent2 from '@/components/homepage/homepage-component-2'
@@ -7,14 +8,12 @@ import React from 'react'
 const Homepage = () => {
   return (
     <div>
-      <div className="min-h-[100vh] relative bg-red-200 w-full">
+      <div className="min-h-[100vh] relative  w-full">
       <Slider_landing_page />
         </div>
-      
+        <HomePageProducts/>
+        <HomepageComponent2/>
       <HomepageSection/>
-      <HomepageComponent2/>
-      <HomePageProducts/>
-     
     </div>
   )
 }

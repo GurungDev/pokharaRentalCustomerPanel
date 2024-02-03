@@ -26,7 +26,7 @@ const Landing_Section = ({ title, description, page,button, link, video }) => {
         Your browser does not support the video tag.
       </video>
 
-      <div className=" w-[90%] py-[7em] absolute inset-0 m-auto">
+      <div className="layout py-[7em] absolute inset-0 m-auto">
         <div className=" pb-2 border-b-[1px]">
           <p className="small text-neutral-100 ">{page}</p>
         </div>

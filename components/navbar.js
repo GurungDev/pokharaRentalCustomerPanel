@@ -11,81 +11,66 @@ import { RxCross2 } from "react-icons/rx";
 import Image from "next/image";
 
 export default function Navbar() {
- const nav_data = [
+  const nav_data = [
+    {
+      id: "home",
+      title: "Home",
+      url: "/",
+      hasSubMenu: false,
+    },
+    {
+      id: "Stores",
+      title: "Listings",
+      img_url: "/storeNearMe",
+      img_title: "Find listings Near you !!",
+      img_desc:
+        "We can find the nearest rental store available near you using our GPS.",
+      url: "#",
+      hasSubMenu: true,
+      subMenu: [
         {
-          id: "home",
-          title: "Home",
-          url: "/",
-          hasSubMenu: false,
+          bg: "linear-gradient(90deg, rgba(40,198,235,1) 21%, rgba(3,4,6,0.9220938375350141) 100%)",
+          id: "Boats",
+          title: "Boats",
+          header: "Rent a boat from us and set sail on your next adventure, creating memories that will last a lifetime.",
+          img: "/boat.png",
+          url: "/boats",
         },
         {
-          id: "Stores",
-          title: "Listings",
-          img: "/image/insightCover.jpg",
-          img_title:
-            "Insight is born to help your both current and future projects with great initiatives, designs, plannings and development.",
-          img_desc:
-            "We work with any types of industries to help you bring your idea into reality and transform your business.",
-          img_url:
-            "/insight/migrateYourOldLegacyInfrastructureAndApplicationsToTheCloud",
-          url: "#",
-          hasSubMenu: true,
-          subMenu: [
-            {
-              bg: "linear-gradient(90deg, rgba(40,198,235,1) 21%, rgba(3,4,6,0.9220938375350141) 100%)",
-              id: "Boats",
-              title: "Boats",
-              url: "/service/cloud",
-              header:
-                "Cloud is born to help your both current and future projects with great initiatives, designs, plannings and development.",
-              description:
-                "We work with any types of industries to help you bring your idea into reality and transform your business.",
-            },
-            {
-              id: "Cycles",
-              bg: "linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(36,82,136,0.8632703081232493) 100%)",
-              title: "Cycles",
-      
-              url: "/service/cyber",
-              header:
-                "Cloud is born to help your both current and future projects with great initiatives, designs, plannings and development.",
-      
-              description:
-                "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            } 
-          ],
+          id: "Cycles",
+          bg: "linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(36,82,136,0.8632703081232493) 100%)",
+          title: "Cycles",
+          header: "Explore your surroundings at your own pace with our reliable cycle rental services.",
+          img: "/cycle.png",
+          url: "/cycles",
         },
-        {
-          id: "Store near me",
-          title: "Store Near Me",
-          img: "/image/insightCover.jpg",
-          img_title:
-            "Cloud is born to help your both current and future projects with great initiatives, designs, plannings and development.",
-          img_desc:
-            "We work with any types of industries to help you bring your idea into reality and transform your business.",
-          img_url: "/service/cloud",
-          url: "/insight",
-          hasSubMenu: false,
-        },
-        {
-          id: "who-we-are",
-          title: "About Us",
-          url: "/whoWeAre",
-          hasSubMenu: false,
-        },
-        {
-          id: "Login",
-          title: "Login",
-          url: "/contact",
-          hasSubMenu: false,
-        },
-        {
-          id: "Contact",
-          title: "Contact Us",
-          url: "/contact",
-          hasSubMenu: false,
-        },
-      ];
+      ],
+    },
+    {
+      id: "Store near me",
+      title: "Store Near Me",
+      url: "/storeNearMe",
+      hasSubMenu: false,
+    },
+    {
+      id: "who-we-are",
+      title: "About Us",
+      url: "/aboutUs",
+      hasSubMenu: false,
+    },
+    {
+      id: "Login",
+      title: "Login",
+      url: "/login",
+      hasSubMenu: false,
+    },
+    {
+      id: "Contact",
+      title: "Contact Us",
+      url: "/contact",
+      hasSubMenu: false,
+    },
+  ];
   const [isHover, setIsHover] = useState(false);
   const [hoveringWhich, setHoveringWhich] = useState();
   const [clicked, setClicked] = useState(false);
@@ -99,7 +84,7 @@ export default function Navbar() {
     <div className="fixed   top-0 left-0 w-full py-[.5rem] bg-white     z-[993]">
       <div className=" lg:hidden py-2 text-text flex justify-between items-center m-auto w-[90%]">
         <div className=" secondary-title">
-          <Image src={"/logo-black.png"} width={50} height={50}/>
+          <Image src={"/logo-black.png"} width={50} height={50} />
         </div>
         <div>
           <button onClick={toggleDrawer}>
@@ -159,8 +144,11 @@ export default function Navbar() {
           </Drawer>
         </div>
       </div>
-      <div className="hidden lg:flex w-[90%]   text-text  m-auto   items-stretch justify-between">
-        <div className=" secondary-title">  <Image src={"/logo-black.png"} width={45} height={45}/></div>
+      <div className="hidden lg:flex layout   text-text  m-auto   items-stretch justify-between">
+        <div className=" secondary-title">
+          {" "}
+          <Image src={"/logo-black.png"} width={45} height={45} />
+        </div>
         <div className="flex justify-between gap-6">
           {nav_data.map((item, i) => (
             <div
@@ -199,11 +187,11 @@ export default function Navbar() {
               {item?.hasSubMenu ? (
                 <div
                   className={`${
-                    clicked ? "group-hover:h-[0vh]" : "group-hover:h-[55vh]"
+                    clicked ? "group-hover:h-[0vh]" : "group-hover:h-[35vh]"
                   } absolute flex top-[65px]  left-0 bg-white  h-0 w-full transition-all ease-in-out duration-500 overflow-hidden shadow-2xl shadow-black/20`}
                 >
-                  <div className="flex gap-2 w-[90%] mx-auto justify-between overflow-hidden">
-                    <div className="max-w-md w-full flex  flex-col gap-2 justify-center">
+                  <div className="flex gap-2 layout mx-auto justify-between overflow-hidden">
+                    <div className="max-w-md layout flex  flex-col gap-2 justify-center">
                       {item.subMenu?.map((subItem, j) => (
                         <Link
                           href={subItem.url}
@@ -238,24 +226,20 @@ export default function Navbar() {
 
                     {hoveringWhich ? (
                       <div
-                        className={`text-text  
-                          } rounded-md px-3 bg-white py-5 font-[300] h-[70%] w-[60%] my-auto`}
+                        className={`text-text grid grid-cols-2 items-center justify-between bg-white py-5 font-[300] h-[70%] layout my-auto`}
                       >
-                        <h1 className="text-[.9rem] lg:text-[1.4rem] min-[1900px]:text-[1.8rem] font-[400]">
+                        <Image src= {nav_data[hoveringWhich[0]].subMenu?.[
+                              hoveringWhich[1]
+                            ].img} alt="image" className="object-cover inset-0" width={300} height={200}/>
+                        <h1 className="paragraph mt-7">
                           {
                             nav_data[hoveringWhich[0]].subMenu?.[
                               hoveringWhich[1]
                             ].header
                           }
                         </h1>
-                        <p className="paragraph mt-7">
-                          {
-                            nav_data[hoveringWhich[0]].subMenu?.[
-                              hoveringWhich[1]
-                            ].description
-                          }
-                        </p>
                       </div>
+                      
                     ) : (
                       <div
                         className={`text-text  
@@ -278,7 +262,7 @@ export default function Navbar() {
                                 setClicked(false);
                               }, 300);
                             }}
-                            className="text-text bg-white w-[100px] small border-[1px] border-text rounded   hover:text-white btn-1    px-3 py-2 "
+                            className="text-secondary bg-white w-[100px] small border-[1px] border-text rounded   hover:text-white btn    px-3 py-2 "
                           >
                             Find more
                           </button>

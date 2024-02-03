@@ -4,19 +4,16 @@ import { HashNavigation, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
-import { useEffect, useState } from "react";
+ 
 
  
-export default function ServiceSolutions({ slides, title }) {
-  const [loop, setLoop] = useState(false);
-  useEffect(() => {
-    slides.length <= 6 ? setLoop(false) : setLoop(true);
-  }, [slides.length]);
+export default function ServiceSolutions({ slides }) {
+ 
   return (
     <section id="solutions" className="  ">
-      <div className="relative mx-2">
+      <div className="relative mx-2 layout">
         <Swiper
-          loop={loop}
+          loop={true}
           preventClicks={false}
           preventClicksPropagation={false}
           navigation={{
@@ -30,15 +27,15 @@ export default function ServiceSolutions({ slides, title }) {
               slidesPerView: 1,
             },
             380: {
-              slidesPerView: 1.2,
+              slidesPerView: 1,
               spaceBetween: 8,
             },
             480: {
-              slidesPerView: 1.3,
+              slidesPerView: 1.2,
               spaceBetween: 8,
             },
             640: {
-              slidesPerView: 1.5,
+              slidesPerView: 2,
               spaceBetween: 8,
             },
             750: {
@@ -54,24 +51,22 @@ export default function ServiceSolutions({ slides, title }) {
               spaceBetween: 20,
             },
             1080: {
-              slidesPerView: 3,
-              spaceBetween: 8,
+              slidesPerView: 2.8,
+              spaceBetween: 16,
             },
             1130: {
-              slidesPerView: 3.4,
-              spaceBetween: 8,
-              loop: loop,
+              slidesPerView: 3.2,
+              spaceBetween: 16,
             },
             1800: {
-              slidesPerView: 4.8,
-              spaceBetween: 16,
-              loop: false,
+              slidesPerView: 4.4,
+              spaceBetween: 16
             },
           }}
         >
           {slides.map((data, i) => (
             <SwiperSlide key={i} className="z-[49]">
-              <div className="!flex !flex-col group !items-center !justify-center max-w-[400px] bg-red-200 relative min-h-[550px] rounded-md overflow-hidden ">
+              <div className="!flex !flex-col group !items-center shadow-md !justify-center max-w-[300px] bg-red-200 relative min-h-[350px] rounded-md overflow-hidden ">
                 <Image
                   src={data.image}
                   alt="Server"
@@ -91,7 +86,7 @@ export default function ServiceSolutions({ slides, title }) {
                   <h6 className="text-[1.2] md:text-[1.4] lg:text-[1.7rem] min-[1900px]:text-[1.9rem] font-[400] text-white">
                     {data.title}
                   </h6>
-                  <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 group-hover:h-[25%] group-hover:opacity-[100%] duration-300 text-white text-[.8rem] md:text-[.9rem] lg:text-[1rem] min-[1900px]:text-[1.3rem] ">
+                  <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 group-hover:h-[55%] group-hover:opacity-[100%] duration-300 text-white text-[.8rem] md:text-[.9rem] lg:text-[1rem] min-[1900px]:text-[1.3rem] ">
                     {data.description}
                   </p>
                 </div>

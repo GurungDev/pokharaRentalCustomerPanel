@@ -1,11 +1,11 @@
-import React from "react";
+
 import ServiceSolutions from "../listing_swipper";
 
 const HomePageProducts = () => {
   return (
-    <div className="w-full bg-white">
-      <div className="  py-20   text-text w-[90%] md:w-[90%] m-auto">
-        <div className=" w-[70%] md:w-[60%]">
+    <div className="w-full bg-white pb-20 " id="bottom-home-section">
+      <div className="  py-20   text-text layout m-auto">
+        <div className="">
           <small className="secondary-title lg:text-[1.5rem]  text-neutral-500">
             FEATURED LISTING
           </small>
@@ -20,6 +20,14 @@ const HomePageProducts = () => {
           </p>
         </div>
       </div>
+
+      <div className="">
+      <div className="flex justify-between items-center  secondary-title lg:text-[1.5rem]  py-10 text-neutral-500 layout">
+          <h1>Boats</h1>
+          <div className="font-[500] text-[.9rem] hover:text-primary hover:translate-x-[-10px] duration-300 h-[30px] lg:text-[1rem] min-[2000px]:text-[1.2rem]">
+            Show more
+          </div>
+        </div>
       <ServiceSolutions
         slides={[
           {
@@ -52,6 +60,49 @@ const HomePageProducts = () => {
           },
         ]}
       />
+      </div>
+
+
+      <div className="">
+        <div className="flex justify-between items-center  secondary-title lg:text-[1.5rem]  py-10 text-neutral-500 layout">
+          <h1>Cycles</h1>
+          <div className="font-[500] text-[.9rem] hover:text-primary hover:translate-x-[-10px] duration-300 h-[30px] lg:text-[1rem] min-[2000px]:text-[1.2rem]">
+            Show more
+          </div>
+        </div>
+      <ServiceSolutions
+        slides={[
+          {
+            image: "/lakesideBoat.jpg",
+            title: "Boat",
+            bg: "bg-red-400",
+            description:
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+          },
+          {
+            image: "/lakesideBoat.jpg",
+            title: "Boat",
+            bg: "bg-blue-400",
+            description:
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+          },
+          {
+            image: "/lakesideBoat.jpg",
+            title: "Boat",
+            bg: "bg-purple-400",
+            description:
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+          },
+          {
+            image: "/lakesideBoat.jpg",
+            title: "Boat",
+            bg: "bg-red-400",
+            description:
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+          },
+        ]}
+      />
+      </div>
     </div>
   );
 };
