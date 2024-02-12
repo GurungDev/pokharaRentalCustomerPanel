@@ -12,7 +12,9 @@ const StoreProvider = ({ children }) => {
   return (
     <Provider store={store}>
       <Navbar/>
+      <div className="mt-8">
       { children }
+      </div>
       <ConnectCompany/>
       <Footer/>
       <Toaster />

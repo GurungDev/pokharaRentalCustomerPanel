@@ -9,68 +9,10 @@ import { FaBars } from "react-icons/fa";
 import { PiCaretDownBold } from "react-icons/pi";
 import { RxCross2 } from "react-icons/rx";
 import Image from "next/image";
+import { nav_data } from "@/lib/data";
 
 export default function Navbar() {
-  const nav_data = [
-    {
-      id: "home",
-      title: "Home",
-      url: "/",
-      hasSubMenu: false,
-    },
-    {
-      id: "Stores",
-      title: "Listings",
-      img_url: "/storeNearMe",
-      img_title: "Find listings Near you !!",
-      img_desc:
-        "We can find the nearest rental store available near you using our GPS.",
-      url: "#",
-      hasSubMenu: true,
-      subMenu: [
-        {
-          bg: "linear-gradient(90deg, rgba(40,198,235,1) 21%, rgba(3,4,6,0.9220938375350141) 100%)",
-          id: "Boats",
-          title: "Boats",
-          header: "Rent a boat from us and set sail on your next adventure, creating memories that will last a lifetime.",
-          img: "/boat.png",
-          url: "/boats",
-        },
-        {
-          id: "Cycles",
-          bg: "linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(36,82,136,0.8632703081232493) 100%)",
-          title: "Cycles",
-          header: "Explore your surroundings at your own pace with our reliable cycle rental services.",
-          img: "/cycle.png",
-          url: "/cycles",
-        },
-      ],
-    },
-    {
-      id: "Store near me",
-      title: "Store Near Me",
-      url: "/storeNearMe",
-      hasSubMenu: false,
-    },
-    {
-      id: "who-we-are",
-      title: "About Us",
-      url: "/aboutUs",
-      hasSubMenu: false,
-    },
-    {
-      id: "Login",
-      title: "Login",
-      url: "/login",
-      hasSubMenu: false,
-    },
-    {
-      id: "Contact",
-      title: "Contact Us",
-      url: "/contact",
-      hasSubMenu: false,
-    },
-  ];
+ 
   const [isHover, setIsHover] = useState(false);
   const [hoveringWhich, setHoveringWhich] = useState();
   const [clicked, setClicked] = useState(false);
@@ -147,7 +89,7 @@ export default function Navbar() {
       <div className="hidden lg:flex layout   text-text  m-auto   items-stretch justify-between">
         <div className=" secondary-title">
           {" "}
-          <Image src={"/logo-black.png"} width={45} height={45} />
+          <Image alt="pokhara rental logo" src={"/logo-black.png"} width={45} height={45} />
         </div>
         <div className="flex justify-between gap-6">
           {nav_data.map((item, i) => (

@@ -1,4 +1,4 @@
-import ConnectCompany from '@/components/connectBanner'
+ 
 import HomePageProducts from '@/components/homepage/home-page-products'
 import HomepageSection from '@/components/homepage/homepage-component-1'
 import HomepageComponent2 from '@/components/homepage/homepage-component-2'
