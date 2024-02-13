@@ -9,7 +9,7 @@ export default function GlobalError({ error, reset }) {
   const {push} = useRouter()
   return (
      
-    <div className="pb-20">
+    <div className="pb -20">
       <div className="flex flex-col justify-center items-center">
         <div className="w-[30%] m-auto mt-40">
           <Image src="/error.png" className="w-full  " width={500} height={300} alt="" />
