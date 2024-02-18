@@ -158,7 +158,7 @@ export default function RegisterForm() {
                       <Form {...registerFormAlognWithOtp}>
                         <form>
                           <div className="mt-2">
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500 mb-2">
                               OTP has been sent to your email. Please verify !!
                             </p>
                           </div>

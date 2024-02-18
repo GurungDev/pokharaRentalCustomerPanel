@@ -10,9 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
-// import { loginUser } from "@/services/auth/login.service"
-import { useRouter } from "next/navigation"
+ 
  
 import { StateContext } from "@/app/auth/page"
 import { Switch } from "@/components/ui/switch"
@@ -24,20 +22,9 @@ import { useContext, useState } from "react"
 
  
 export default function LoginForm() {
-  const { toast } = useToast()
-  const { push } = useRouter();
-  const {loginForm, onLoginFormSubmit} = useContext(StateContext)
-  const [rememberMe, setRememberMe] = useState(false);
-//   const dispatch = useDispatch();
-//   const state = store.getState();
-//   useEffect(()=> {
-//       if(state.account.loginStatus == true && state.account.token != null){
-//         push("/store/dashboard");
-//       }
-//   }, [])
-
-
-
+ 
+  const {loginForm, onLoginFormSubmit, rememberMe, setRememberMe} = useContext(StateContext)
+ 
  
   return (
    <main className="w-full pt-10 m-auto h-full ">

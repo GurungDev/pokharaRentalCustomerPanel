@@ -8,7 +8,6 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 
  
 export default function ServiceSolutions({ slides }) {
- 
   return (
     <section id="solutions" className="  ">
       <div className="relative mx-2 layout">
@@ -55,7 +54,7 @@ export default function ServiceSolutions({ slides }) {
               spaceBetween: 16,
             },
             1130: {
-              slidesPerView: 3.2,
+              slidesPerView: 3,
               spaceBetween: 16,
             },
             1800: {
@@ -64,11 +63,11 @@ export default function ServiceSolutions({ slides }) {
             },
           }}
         >
-          {slides.map((data, i) => (
+          {slides?.map((data, i) => (
             <SwiperSlide key={i} className="z-[49]">
               <div className="!flex !flex-col group !items-center shadow-md !justify-center max-w-[300px] bg-red-200 relative min-h-[350px] rounded-md overflow-hidden ">
                 <Image
-                  src={data.image}
+                  src={data.image || "/lakesideBoat.jpg"}
                   alt="Server"
                   width={400}
                   height={400}

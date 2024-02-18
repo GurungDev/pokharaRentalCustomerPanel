@@ -1,7 +1,31 @@
-
+"use client"
+import { useEffect, useState } from "react";
 import ServiceSolutions from "../listing_swipper";
+import { toast } from "../ui/use-toast";
+import { getAllBoatList } from "@/services/boat.service";
+import { getAllcycleList } from "@/services/cycle.service";
 
 const HomePageProducts = () => {
+  const [boatData, setBoatData] = useState();
+  const [cycleData, setCycleData] = useState();
+  useEffect(()=>{
+    async function getData() {
+      try {
+        const boats = await getAllBoatList();
+        const cyles = await getAllcycleList();
+        setBoatData(boats.data);
+        setCycleData(cyles.data);
+        console.log(boats)
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Something went wrong",
+          description: error.response?.data?.message || "Couldn't connect to the server",
+        });
+      }
+    }
+    getData();
+  }, [])
   return (
     <div className="w-full bg-white pb-20 " id="bottom-home-section">
       <div className="  py-20   text-text layout m-auto">
@@ -29,36 +53,7 @@ const HomePageProducts = () => {
           </div>
         </div>
       <ServiceSolutions
-        slides={[
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat",
-            bg: "bg-red-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat",
-            bg: "bg-blue-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat",
-            bg: "bg-purple-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat",
-            bg: "bg-red-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-        ]}
+        slides={boatData}
       />
       </div>
 
@@ -71,36 +66,7 @@ const HomePageProducts = () => {
           </div>
         </div>
       <ServiceSolutions
-        slides={[
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat",
-            bg: "bg-red-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat",
-            bg: "bg-blue-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat",
-            bg: "bg-purple-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat",
-            bg: "bg-red-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-        ]}
+        slides={cycleData}
       />
       </div>
     </div>
