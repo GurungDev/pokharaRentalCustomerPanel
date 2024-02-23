@@ -85,8 +85,12 @@ const Slider_landing_page = () => {
             href="#bottom-home-section"
             className="hidden md:block group opacity-50 animate-bounce-slow hover:opacity-[100]  transition-all text-[1.5em]  text-white "
           >
-            {<BsFillMouseFill className="group" />}
-            <BsArrowDownShort className="group-hover:translate-y-2 transform transition duration-300 ease-in-out" />
+           
+            <div className="animate-bounce">
+            {<BsFillMouseFill className="group animate-bounce-slow" />}
+            <BsArrowDownShort className="group-hover:translate-y-2 animate-bounce-slow transform transition duration-300 ease-in-out" />
+            </div>
+
           </Link>
         </div>
       </Swiper>

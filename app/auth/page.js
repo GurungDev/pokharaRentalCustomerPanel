@@ -1,5 +1,6 @@
 "use client";
 import Slider from "@/components/auth/slider";
+import { useAuth } from "@/components/authProvider";
 import { toast } from "@/components/ui/use-toast";
 import { OtpPurpose } from "@/lib/data";
 import {
@@ -19,8 +20,12 @@ import { createContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 export const StateContext = createContext();
+
+
+
 const AuthPage = () => {
   const { push } = useRouter();
+  const { setAuth } = useAuth();
   const [isOtpModelOpen, setIsOtpModelOpen] = useState(false);
   const dispatch = useDispatch();
   const [rememberMe, setRememberMe] = useState(false);
@@ -110,7 +115,7 @@ const AuthPage = () => {
       if (!res) {
         throw new Error(400, res.data?.messsage || "Something went wrong");
       }
-
+      setAuth(true)
       dispatch(setLogin({ token: res?.data?.token, isRememberMe: rememberMe }));
       push("/");
       toast({

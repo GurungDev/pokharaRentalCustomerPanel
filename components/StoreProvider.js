@@ -8,17 +8,27 @@ import ScrollToTopButton from "./goToTop";
 import Footer from "./footer";
 import ConnectCompany from "./connectBanner";
 
+import NavbarAuth from "./authNavbar";
+import Navprovider from "./navprovider";
+import AuthProvider from "./authProvider";
+
 const StoreProvider = ({ children }) => {
+  const state = store.getState();
   return (
     <Provider store={store}>
-      <Navbar/>
-      <div className="mt-8">
-      { children }
-      </div>
-      <ConnectCompany/>
-      <Footer/>
+     
+     {state?.account?.loginStatus == true && state?.account?.token != null ? (
+        <NavbarAuth />
+      ) : (
+        <Navbar />
+      )}
+      <AuthProvider>
+        <div className="mt-8">{children}</div>
+      </AuthProvider>
+      <ConnectCompany />
+      <Footer />
       <Toaster />
-      <ScrollToTopButton/>
+      <ScrollToTopButton />
     </Provider>
   );
 };

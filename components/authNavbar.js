@@ -1,31 +1,47 @@
 "use client";
+import { nav_data_auth } from "@/lib/data";
+import { getNotification } from "@/services/user.service";
+import { Menu, Transition } from "@headlessui/react";
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Collapsible from "react-collapsible";
+import { FaBars } from "react-icons/fa";
+import { IoIosNotifications } from "react-icons/io";
+import { PiCaretDownBold } from "react-icons/pi";
+import { RiAccountPinCircleFill } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
+import { TbSailboat2 } from "react-icons/tb";
 
-import { nav_data } from "@/lib/data";
-import Image from "next/image";
-import { FaBars } from "react-icons/fa";
-import { PiCaretDownBold } from "react-icons/pi";
-import { RxCross2 } from "react-icons/rx";
-
-export default function Navbar() {
-  const [isHover, setIsHover] = useState(false);
+export default function NavbarAuth() {
   const [hoveringWhich, setHoveringWhich] = useState();
   const [clicked, setClicked] = useState(false);
-
+  const [isHover, setIsHover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
 
+  const [notificationData, setnotificationData] = useState(null);
+  useEffect(() => {
+    async function getData() {
+      try {
+        const notifications = await getNotification({ data: { limit: 10 } });
+        setnotificationData(notifications?.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    getData();
+  }, []);
+
   return (
     <div className="fixed   top-0 left-0 w-full py-[.5rem] bg-white     z-[993]">
       <div className=" lg:hidden py-2 text-text flex justify-between items-center m-auto w-[90%]">
         <div className=" secondary-title">
-          <Image src={"/logo-black.png"} width={50} height={50} alt="black logo"/>
+          <Image src={"/logo-black.png"} width={50} height={50} alt="" />
         </div>
         <div>
           <button onClick={toggleDrawer}>
@@ -45,7 +61,7 @@ export default function Navbar() {
                 </button>
               </div>
               <div className="w-[90%] grid gap-4 mt-8 m-auto overflow-scroll">
-                {nav_data.map((e) => {
+                {nav_data_auth.map((e) => {
                   if (e.hasSubMenu) {
                     return (
                       <Collapsible
@@ -88,10 +104,15 @@ export default function Navbar() {
       <div className="hidden lg:flex layout   text-text  m-auto   items-stretch justify-between">
         <div className=" secondary-title">
           {" "}
-          <Image alt="pokhara rental logo" src={"/logo-black.png"} width={45} height={45} />
+          <Image
+            alt="pokhara rental logo"
+            src={"/logo-black.png"}
+            width={45}
+            height={45}
+          />
         </div>
         <div className="flex justify-between gap-6">
-          {nav_data.map((item, i) => (
+          {nav_data_auth?.map((item, i) => (
             <div
               className="group flex justify-between items-center "
               key={item.id}
@@ -169,18 +190,25 @@ export default function Navbar() {
                       <div
                         className={`text-text grid grid-cols-2 items-center justify-between bg-white py-5 font-[300] h-[70%] layout my-auto`}
                       >
-                        <Image src= {nav_data[hoveringWhich[0]].subMenu?.[
+                        <Image
+                          src={
+                            nav_data_auth[hoveringWhich[0]].subMenu?.[
                               hoveringWhich[1]
-                            ].img} alt="image" className="object-cover inset-0" width={300} height={200}/>
+                            ].img
+                          }
+                          alt="image"
+                          className="object-cover inset-0"
+                          width={300}
+                          height={200}
+                        />
                         <h1 className="paragraph mt-7">
                           {
-                            nav_data[hoveringWhich[0]].subMenu?.[
+                            nav_data_auth[hoveringWhich[0]].subMenu?.[
                               hoveringWhich[1]
                             ].header
                           }
                         </h1>
                       </div>
-                      
                     ) : (
                       <div
                         className={`text-text  
@@ -215,6 +243,124 @@ export default function Navbar() {
               ) : null}
             </div>
           ))}
+
+          <div className="text-black group flex justify-between gap-2 items-center border-none outline-none">
+            <Menu as="div" className="relative inline-block text-left">
+              <Menu.Button>
+                {" "}
+                <RiAccountPinCircleFill className="text-[1.7em]" />
+              </Menu.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items
+                  className={
+                    "py-2 px-3 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+                  }
+                >
+                  <Menu.Item className="p-4">
+                    {({ active }) => (
+                      <a
+                        className={`${
+                          active ? "bg-violet-500 text-white" : "text-gray-900"
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        href="/account-settings"
+                      >
+                        Profile
+                      </a>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item className="p-4">
+                    {({ active }) => (
+                      <a
+                        className={`${
+                          active ? "bg-violet-500 text-white" : "text-gray-900"
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        href="/account-settings"
+                      >
+                        Logout
+                      </a>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item
+                    disabled
+                    className={`text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  >
+                    <span className="opacity-75">Hello Nishan</span>
+                  </Menu.Item>
+                </Menu.Items>
+              </Transition>
+            </Menu>
+
+            <Menu as="div" className="relative inline-block text-left ">
+              <Menu.Button>
+                {" "}
+                <IoIosNotifications className="text-[1.7em] text-[#FBEC5D]" />
+              </Menu.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items
+                  className={
+                    "py-2 px-3 absolute w-[20vw] right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+                  }
+                >
+                  {notificationData?.notification.length > 0 ? (
+                    notificationData?.notification?.map((item, i) => {
+                      return (
+                        <Menu.Item key={i} className="" as={Fragment}>
+                          {({ active }) => (
+                            <div
+                              className={`${
+                                active
+                                  ? "bg-neutral-100 text-white"
+                                  : "text-gray-900"
+                              } group flex w-full gap-3 group items-center justify-between rounded-md px-5 py-2 text-accent`}
+                            >
+                              <TbSailboat2 className="text-[2rem]" />
+                              <div className="grid items-center">
+                                <h1 className="text-[.9rem] font-[400]">
+                                  {" "}
+                                  {item?.title}
+                                </h1>
+                                <h4 className="text-[.8rem] font-[300] leading-4	"> {item?.description}</h4>
+                              </div>
+                            </div>
+                          )}
+                        </Menu.Item>
+                      );
+                    })
+                  ) : (
+                    <Menu.Item className="" as={Fragment}>
+                      <div className="grid items-center justify-between">
+                        <Image
+                          src="/notification.jpg"
+                          alt="notification logo"
+                          width={300}
+                          height={500}
+                        ></Image>
+                        <p className="text-center text-accent small">
+                          No Notification
+                        </p>
+                      </div>
+                    </Menu.Item>
+                  )}
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          </div>
         </div>
       </div>
     </div>

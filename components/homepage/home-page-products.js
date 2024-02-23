@@ -1,9 +1,10 @@
 "use client"
-import { useEffect, useState } from "react";
-import ServiceSolutions from "../listing_swipper";
-import { toast } from "../ui/use-toast";
 import { getAllBoatList } from "@/services/boat.service";
 import { getAllcycleList } from "@/services/cycle.service";
+import { useEffect, useState } from "react";
+import BoatSlider from "../listing_swipper_boat";
+import CycleSlider from "../listing_swipper_cycle";
+import { toast } from "../ui/use-toast";
 
 const HomePageProducts = () => {
   const [boatData, setBoatData] = useState();
@@ -11,11 +12,11 @@ const HomePageProducts = () => {
   useEffect(()=>{
     async function getData() {
       try {
-        const boats = await getAllBoatList();
+        const boats = await getAllBoatList({limit: 8});
         const cyles = await getAllcycleList();
-        setBoatData(boats.data);
+        setBoatData(boats.data[0]);
         setCycleData(cyles.data);
-        console.log(boats)
+        console.log(boats.data)
       } catch (error) {
         toast({
           variant: "destructive",
@@ -52,7 +53,7 @@ const HomePageProducts = () => {
             Show more
           </div>
         </div>
-      <ServiceSolutions
+      <BoatSlider
         slides={boatData}
       />
       </div>
@@ -65,7 +66,7 @@ const HomePageProducts = () => {
             Show more
           </div>
         </div>
-      <ServiceSolutions
+      <CycleSlider
         slides={cycleData}
       />
       </div>

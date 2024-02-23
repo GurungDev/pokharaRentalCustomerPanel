@@ -151,7 +151,7 @@ const HomepageSection = () => {
               return (
                 <SwiperSlide key={i}>
                   <div
-                    key={i.id}
+                  
                     className=" flex flex-col pt-10  hover:border-red-600 border-b-[2px] duration-300 gap-3 items-center text-text  group     "
                   >
                     {i?.icon()}

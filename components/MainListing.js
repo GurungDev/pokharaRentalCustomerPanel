@@ -1,37 +1,32 @@
 "use client";
+import { RatingForEnum } from "@/lib/data";
+import { getTopRated } from "@/services/rating.service";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCreative, Navigation } from "swiper/modules";
 import "swiper/css/effect-creative";
+import { EffectCreative, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { toast } from "./ui/use-toast";
+
 const MainListing = () => {
-  const slides = [
-    {
-      image: "/lakesideBoat.jpg",
-      title: "Boat Name",
-      bg: "bg-red-400",
-      description: "Description",
-    },
-    {
-      image: "/lakesideBoat.jpg",
-      title: "Boat Name",
-      bg: "bg-red-400",
-      description: "Description",
-    },
-    {
-      image: "/lakesideBoat.jpg",
-      title: "Boat Name",
-      bg: "bg-red-400",
-      description: "Description",
-    },
-    {
-      image: "/lakesideBoat.jpg",
-      title: "Boat Name",
-      bg: "bg-red-400",
-      description: "Description",
-    },
-  ];
+  const [boatData, setBoatData]=  useState(null);
+  useEffect(()=>{
+    async function getData() {
+      try {
+        const boats = await getTopRated({ratingFor: RatingForEnum.BOAT});
+        setBoatData(boats?.data);
+      } catch (error) {
+        console.log(error.message)
+        toast({
+          variant: "destructive",
+          title: "Something went wrong",
+          description: error.response?.data?.message || "Couldn't connect to the server",
+        });
+      }
+    }
+    getData();
+  }, [])
   const [isEnd, setIsEnd] = useState(false);
   const [isStart, setIsStart] = useState(true);
 
@@ -98,14 +93,14 @@ const MainListing = () => {
         modules={[EffectCreative, Navigation]}
         className="h-full w-full "
       >
-        {slides.map((data, i) => (
+        {boatData?.map((data, i) => (
           <SwiperSlide key={i} className="h-full w-full ">
             {" "}
             <div className="  w-[80vw] m-auto min-[1200px]:w-full  relative h-full rounded-md overflow-hidden">
               <div className="flex flex-col group items-center justify-center h-full w-full bg-red-200 relative    ">
                 <Image
                   priority
-                  src={data.image}
+                  src={data.image || "/lakesideBoat.jpg"}
                   alt="Server"
                   width={400}
                   height={400}
@@ -121,10 +116,10 @@ const MainListing = () => {
                 <div className="absolute w-full group h-full flex flex-col justify-end   p-8   ">
                   <div className={`w-[30px] h-[5px] ${data.bg} `}></div>
                   <h6 className="text-[1.9rem] font-[400] text-white">
-                    {data.title}
+                    {data.boat_title}
                   </h6>
                   <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 group-hover:h-[25%] group-hover:opacity-[100%] duration-300 text-white  text-[1rem] min-[1900px]:text-[1.3rem] ">
-                    {data.description}
+                    {data.boat_description}
                   </p>
                 </div>
               </div>

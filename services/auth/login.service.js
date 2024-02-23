@@ -8,3 +8,8 @@ export const loginUser = async (data)=> {
     return res?.data;
 }
 
+export const getDetails = async ()=> {
+    const res = await http.get("/customer/get-details")
+    return res;
+}
+

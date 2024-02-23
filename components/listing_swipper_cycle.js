@@ -7,17 +7,17 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
  
 
  
-export default function ServiceSolutions({ slides }) {
+export default function CycleSlider({ slides }) {
   return (
-    <section id="solutions" className="  ">
+    <section  className="">
       <div className="relative mx-2 layout">
         <Swiper
           loop={true}
           preventClicks={false}
           preventClicksPropagation={false}
           navigation={{
-            prevEl: `#prev_slide5`,
-            nextEl: `#next_slide5`,
+            prevEl: `#prev_slide27`,
+            nextEl: `#next_slide27`,
           }}
           modules={[Navigation, HashNavigation]}
           speed={200}
@@ -83,23 +83,23 @@ export default function ServiceSolutions({ slides }) {
                 <div className="absolute w-full group h-full flex flex-col justify-end   p-8   ">
                   <div className={`w-[30px] h-[5px] ${data.bg}  `}></div>
                   <h6 className="text-[1.2] md:text-[1.4] lg:text-[1.7rem] min-[1900px]:text-[1.9rem] font-[400] text-white">
-                    {data.title}
+                    {data?.title}
                   </h6>
                   <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 group-hover:h-[55%] group-hover:opacity-[100%] duration-300 text-white text-[.8rem] md:text-[.9rem] lg:text-[1rem] min-[1900px]:text-[1.3rem] ">
-                    {data.description}
+                    {data?.description}
                   </p>
                 </div>
               </div>
             </SwiperSlide>
           ))}
           <button
-            id={`next_slide5`}
+            id={`next_slide27`}
             className="p-2 absolute right-[25px] z-50 top-1/2 transform -translate-y-1/2 rounded-full bg-white text-text duration-300 hover:bg-gradient-to-r from-indigo-300 to-purple-400 hover:text-white  backdrop-blur-sm"
           >
             <RxCaretRight size={32} className="" />
           </button>
           <button
-            id={`prev_slide5`}
+            id={`prev_slide27`}
             className="p-2 absolute left-[25px] z-50 top-1/2 transform -translate-y-1/2 rounded-full bg-white text-text duration-300 hover:bg-gradient-to-r from-indigo-300 to-purple-400 hover:text-white  backdrop-blur-sm"
           >
             <RxCaretLeft size={32} className="" />
