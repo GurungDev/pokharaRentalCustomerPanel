@@ -12,7 +12,7 @@ export default function CycleSlider({ slides }) {
     <section  className="">
       <div className="relative mx-2 layout">
         <Swiper
-          loop={true}
+          loop={false}
           preventClicks={false}
           preventClicksPropagation={false}
           navigation={{
@@ -54,7 +54,7 @@ export default function CycleSlider({ slides }) {
               spaceBetween: 16,
             },
             1130: {
-              slidesPerView: 3,
+              slidesPerView: 4,
               spaceBetween: 16,
             },
             1800: {

@@ -7,7 +7,7 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import "swiper/css/effect-creative";
 import { EffectCreative, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { toast } from "./ui/use-toast";
+import { toast } from "../../ui/use-toast";
 
 const MainListing = () => {
   const [boatData, setBoatData]=  useState(null);
