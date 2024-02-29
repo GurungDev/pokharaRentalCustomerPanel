@@ -1,9 +1,11 @@
 "use client";
 import { nav_data_auth } from "@/lib/data";
-import { getNotification } from "@/services/user.service";
+import { resetLogin } from "@/redux/slices/userSlice";
+import { getNotification, seenNotification } from "@/services/user.service";
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import Collapsible from "react-collapsible";
 import { FaBars } from "react-icons/fa";
@@ -11,18 +13,48 @@ import { IoIosNotifications } from "react-icons/io";
 import { PiCaretDownBold } from "react-icons/pi";
 import { RiAccountPinCircleFill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
+import { TbSailboat2 } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import { TbSailboat2 } from "react-icons/tb";
+import { useDispatch } from "react-redux";
+import { useAuth } from "./authProvider";
+import { toast } from "./ui/use-toast";
+ 
 
 export default function NavbarAuth() {
+  const { push } = useRouter();
+  const { setAuth } = useAuth();
   const [hoveringWhich, setHoveringWhich] = useState();
+  const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
   const [isHover, setIsHover] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
+  const[notificationSeen, setNotificationSeen] = useState(false)
+  async function seenANotification(id) {
+    try {
+      const notifications = await seenNotification({ data: { notificationId: id } });
+      setnotificationData(notifications?.data);
+      setNotificationSeen(!notificationSeen)
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async function logout() {
+    try {
+      setAuth(true)
+      dispatch(resetLogin());
+      push("/");
+      toast({
+        title: "Sucessfully logged out",
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   const [notificationData, setnotificationData] = useState(null);
   useEffect(() => {
@@ -35,7 +67,7 @@ export default function NavbarAuth() {
       }
     }
     getData();
-  }, []);
+  }, [notificationSeen]);
 
   return (
     <div className="fixed   top-0 left-0 w-full py-[.5rem] bg-white     z-[993]">
@@ -268,7 +300,7 @@ export default function NavbarAuth() {
                     {({ active }) => (
                       <a
                         className={`${
-                          active ? "bg-violet-500 text-white" : "text-gray-900"
+                          active ? "bg-primary text-white" : "text-gray-900"
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                         href="/account-settings"
                       >
@@ -278,19 +310,21 @@ export default function NavbarAuth() {
                   </Menu.Item>
                   <Menu.Item className="p-4">
                     {({ active }) => (
-                      <a
+                      <button
+                        onClick={()=>{logout()}}
                         className={`${
-                          active ? "bg-violet-500 text-white" : "text-gray-900"
+                          active ? "bg-primary text-white" : "text-gray-900"
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                        href="/account-settings"
+                       
                       >
                         Logout
-                      </a>
+                      </button>
                     )}
                   </Menu.Item>
                   <Menu.Item
                     disabled
                     className={`text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+
                   >
                     <span className="opacity-75">Hello Nishan</span>
                   </Menu.Item>
@@ -301,7 +335,14 @@ export default function NavbarAuth() {
             <Menu as="div" className="relative inline-block text-left ">
               <Menu.Button>
                 {" "}
-                <IoIosNotifications className="text-[1.7em] text-[#FBEC5D]" />
+                <div className="relative">
+                <IoIosNotifications className="text-[2em] text-[#FFBF00]" />
+                <div className=" leading-0 absolute   p-0 right-0  top-0 text-[.9rem]">
+                        {notificationData?.notification.length || 0}
+                </div>
+                </div>
+               
+
               </Menu.Button>
               <Transition
                 as={Fragment}
@@ -323,14 +364,15 @@ export default function NavbarAuth() {
                         <Menu.Item key={i} className="" as={Fragment}>
                           {({ active }) => (
                             <div
+                              onClick={()=>{seenANotification(item.id)}}
                               className={`${
                                 active
-                                  ? "bg-neutral-100 text-white"
-                                  : "text-gray-900"
-                              } group flex w-full gap-3 group items-center justify-between rounded-md px-5 py-2 text-accent`}
+                                  ? "bg-primary text-white"
+                                  : " text-accent"
+                              } group flex w-full gap-3 group border-y-[1px] items-center justify-between rounded-md px-5 py-2 text-accent`}
                             >
                               <TbSailboat2 className="text-[2rem]" />
-                              <div className="grid items-center">
+                              <div className="grid group items-center">
                                 <h1 className="text-[.9rem] font-[400]">
                                   {" "}
                                   {item?.title}
@@ -343,8 +385,8 @@ export default function NavbarAuth() {
                       );
                     })
                   ) : (
-                    <Menu.Item className="" as={Fragment}>
-                      <div className="grid items-center justify-between">
+                    <Menu.Item className="flex items-center justify-center" as={Fragment}>
+                      <div className="grid items-center justify-between p-[3rem]">
                         <Image
                           src="/notification.jpg"
                           alt="notification logo"

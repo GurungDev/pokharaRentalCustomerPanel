@@ -27,7 +27,7 @@ export default function LoginForm() {
  
  
   return (
-   <main className="w-full pt-10 m-auto h-full ">
+   <div className="w-full pt-10 m-auto h-full ">
      <Form
       {...loginForm} 
       >
@@ -81,7 +81,7 @@ export default function LoginForm() {
         <Button type="submit" className='btn'>Login</Button>
       </form>
     </Form>
-   </main>
+   </div>
   )
 }
 

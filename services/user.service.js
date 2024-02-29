@@ -1,8 +1,13 @@
 import http from "@/lib/https.utils";
 
 export const getNotification = async ({data})=> {
-    console.log("i ama here")
     const res = await http.get("/customer/notification/", {data})
+    return res?.data;
+}
+
+
+export const seenNotification = async ({data})=> {
+    const res = await http.post(`/customer/notification/seen/${data.notificationId}`)
     return res?.data;
 }
 
