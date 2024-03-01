@@ -1,7 +1,7 @@
 "use client";
-
-import Image from "next/image";
+import register from "@/animation/register.json";
 import RegisterForm from "./registerForm";
+import Lottie from "lottie-react";
  
  
 const RegisterComponent = () => {
@@ -16,7 +16,7 @@ const RegisterComponent = () => {
     </div>
         </div>
         <div className=" min-[1300px]:w-[70%] hidden min-[1000px]:flex justify-end ">
-          <Image src="/login-customer.jpg" width={300} height={300} />
+        <Lottie animationData={register} loop={true} />;
         </div>
       </div>
     </div>

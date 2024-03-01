@@ -16,8 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { useContext, useState } from "react";
 
 export default function LoginForm() {
-  const { loginForm, onLoginFormSubmit, rememberMe, setRememberMe } =
-    useContext(StateContext);
+
 
   return (
     <main className="w-full pt-10 m-auto h-full ">
@@ -66,6 +65,7 @@ export default function LoginForm() {
               <small> Remember me </small>
             </div>
           </div>
+
           <Button type="submit" className="btn">
             Login
           </Button>
@@ -73,4 +73,5 @@ export default function LoginForm() {
       </Form>
     </main>
   );
+
 }
