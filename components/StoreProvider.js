@@ -22,7 +22,7 @@ const StoreProvider = ({ children }) => {
       <AuthProvider>
         <div className="mt-8">{children}</div>
       </AuthProvider>
-      <ConnectCompany />
+    
       <Footer />
       <Toaster />
       <ScrollToTopButton />
