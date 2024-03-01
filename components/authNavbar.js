@@ -335,7 +335,10 @@ export default function NavbarAuth() {
                                   {" "}
                                   {item?.title}
                                 </h1>
-                                <h4 className="text-[.8rem] font-[300] leading-4	"> {item?.description}</h4>
+                                <h4 className="text-[.8rem] font-[300] leading-4	">
+                                  {" "}
+                                  {item?.description}
+                                </h4>
                               </div>
                             </div>
                           )}
