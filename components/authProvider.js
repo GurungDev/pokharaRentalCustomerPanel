@@ -13,13 +13,18 @@ export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
   const state = store.getState();
-  const [auth, setAuth] = useState(
-    state.account.loginStatus == true && state.account.token != null
-  );
+  const [auth, setAuth] = useState(false);
+
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setAuth(state.account.loginStatus == true && state.account.token != null);
+    }
+  }, [state]);
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth,setUser, user }}>
+    <AuthContext.Provider value={{ auth, setAuth, setUser, user }}>
       {children}
     </AuthContext.Provider>
   );
