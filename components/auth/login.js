@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import LoginForm from "./loginForm";
+import Lottie from "lottie-react";
+import login from "@/animation/login.json";
 
 const LoginComponent = () => {
   return (
@@ -10,7 +12,8 @@ const LoginComponent = () => {
           <LoginForm />
         </div>
         <div className=" min-[1300px]:w-full hidden min-[1000px]:flex justify-end ">
-          <Image src="/login-customer.jpg" width={300} height={300} />
+          {/* <Image src="/login-customer.jpg" width={300} height={300} /> */}
+          <Lottie animationData={login} loop={true} />;
         </div>
       </div>
     </div>
