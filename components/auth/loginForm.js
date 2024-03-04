@@ -16,8 +16,12 @@ import { Switch } from "@/components/ui/switch";
 import { useContext, useState } from "react";
 
 export default function LoginForm() {
-
-
+  const {
+    rememberMe,
+    setRememberMe,
+    loginForm,
+    onLoginFormSubmit
+  } = useContext(StateContext);
   return (
     <main className="w-full pt-10 m-auto h-full ">
       <Form {...loginForm}>

@@ -8,7 +8,7 @@ const withAuth = (WrappedComponent) => {
   return (props) => {
     if (typeof window !== "undefined") {
       const Router = useRouter();
-      const state = store.getState();
+      
       if(state.account.loginStatus == false || state.account.token == null){
         Router.push("/");
         toast({

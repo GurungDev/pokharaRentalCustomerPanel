@@ -1,37 +1,21 @@
-
+"use client"
 import ContactForm from "@/components/contact/contactForm";
+import Lottie from "lottie-react";
 import Link from "next/link";
 import { BsArrowRightShort } from "react-icons/bs";
 import { MdOutlineArticle } from "react-icons/md";
 import { RiCodeBoxLine } from "react-icons/ri";
+import contactAnimation from "@/animation/contact.json";
 
 export default function FormPage() {
   return (
     <div className="layout m-auto">
-      <div className="grid lg:grid-cols-6  gap-14  mt-[68px]">
-        <div className="lg:col-span-4 py-10">
+      <div className="grid lg:grid-cols-6  gap-14  mt-[10vh]">
+        <div className="lg:col-span-4 py-10 lg:order-first">
           <ContactForm />
         </div>
-        <div className="lg:col-span-2 py-20  ">
-          <div className="grid gap-5  m-auto">
-            <Link href="/aboutUs" className=" group    px-14  py-10 text-blue-600 bg-blue-100 rounded-md shadow">
-              <RiCodeBoxLine className="text-[4rem]" />
-              <h1 className="paragraph flex mt-3 justify-between items-center">
-                About Us
-                <BsArrowRightShort className="text-[1.8em]  group-hover:translate-x-[10px]  duration-300 " />
-              </h1>
-            </Link>
-            <Link
-              href="/store"
-              className=" group   px-14 py-10 text-green-600  bg-green-100 rounded-md shadow"
-            >
-              <MdOutlineArticle className="text-[4rem]" />
-              <h1 className="paragraph flex mt-3 justify-between items-center">
-                Our Stores
-                <BsArrowRightShort className="text-[1.8em]  group-hover:translate-x-[10px]  duration-300 " />
-              </h1>
-            </Link>
-          </div>
+        <div className="lg:col-span-2 lg:py-20 order-first ">
+               <Lottie animationData={contactAnimation} loop={true} />
         </div>
       </div>
       <div className="grid grid-cols-1 my-5 lg:grid-cols-2">
