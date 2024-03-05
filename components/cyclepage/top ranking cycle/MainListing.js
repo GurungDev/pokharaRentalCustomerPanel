@@ -8,25 +8,28 @@ import "swiper/css/effect-creative";
 import { EffectCreative, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { toast } from "../../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const MainListing = () => {
-  const [cycleData, setcycleData]=  useState(null);
-  useEffect(()=>{
+  const { push } = useRouter();
+  const [cycleData, setcycleData] = useState(null);
+  useEffect(() => {
     async function getData() {
       try {
-        const cycles = await getTopRated({ratingFor: RatingForEnum.CYCLE});
+        const cycles = await getTopRated({ ratingFor: RatingForEnum.CYCLE });
         setcycleData(cycles?.data);
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
         toast({
           variant: "destructive",
           title: "Something went wrong",
-          description: error.response?.data?.message || "Couldn't connect to the server",
+          description:
+            error.response?.data?.message || "Couldn't connect to the server",
         });
       }
     }
     getData();
-  }, [])
+  }, []);
   const [isEnd, setIsEnd] = useState(false);
   const [isStart, setIsStart] = useState(true);
 
@@ -96,7 +99,12 @@ const MainListing = () => {
         {cycleData?.map((data, i) => (
           <SwiperSlide key={i} className="h-full w-full ">
             {" "}
-            <div className="  w-[80vw] m-auto min-[1200px]:w-full  relative h-full rounded-md overflow-hidden">
+            <div
+              onClick={() => {
+                push(`/cycles/${data?.cycle_id}`);
+              }}
+              className="  w-[80vw] m-auto min-[1200px]:w-full  relative h-full rounded-md overflow-hidden"
+            >
               <div className="flex flex-col group items-center justify-center h-full w-full bg-red-200 relative    ">
                 <Image
                   priority

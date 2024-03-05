@@ -4,12 +4,12 @@ import { HashNavigation, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
- 
+import { useRouter } from "next/navigation";
 
- 
 export default function CycleSlider({ slides }) {
+  const { push } = useRouter();
   return (
-    <section  className="">
+    <section className="">
       <div className="relative mx-2 layout">
         <Swiper
           loop={false}
@@ -59,13 +59,18 @@ export default function CycleSlider({ slides }) {
             },
             1800: {
               slidesPerView: 4.4,
-              spaceBetween: 16
+              spaceBetween: 16,
             },
           }}
         >
           {slides?.map((data, i) => (
             <SwiperSlide key={i} className="z-[49]">
-              <div className="!flex !flex-col group !items-center shadow-md !justify-center max-w-[300px] bg-red-200 relative min-h-[350px] rounded-md overflow-hidden ">
+              <div
+                onClick={() => {
+                  push(`/cycles/${data?.id}`);
+                }}
+                className="!flex !flex-col group !items-center shadow-md !justify-center max-w-[300px] bg-red-200 relative min-h-[350px] rounded-md overflow-hidden "
+              >
                 <Image
                   src={data.image || "/lakesideBoat.jpg"}
                   alt="Server"

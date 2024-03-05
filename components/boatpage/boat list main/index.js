@@ -24,8 +24,10 @@ import {
 import { getAllBoatList } from "@/services/boat.service";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const BoatListing = () => {
+  const { push } = useRouter();
   const [boatData, setBoatData] = useState(null);
   const [paginationData, setPaginationData] = useState(null);
   useEffect(() => {
@@ -34,7 +36,6 @@ const BoatListing = () => {
         const boats = await getAllBoatList({});
         setBoatData(boats?.data[0]);
         setPaginationData(boats?.data[1]);
-        
       } catch (error) {
         toast({
           variant: "destructive",
@@ -45,7 +46,7 @@ const BoatListing = () => {
       }
     }
     getData();
-    console.log(boatData)
+    console.log(boatData);
   }, []);
   return (
     <div>
@@ -117,13 +118,18 @@ const BoatListing = () => {
         </div>
         <div className="pb-20 pt-10 grid   md:grid-cols-2 lg:grid-cols-3 min-[1800px]:grid-cols-4 gap-8 ">
           {boatData?.map((data, i) => (
-            
-            <Listing
+            <div
+              onClick={() => {
+                push(`/boats/${data?.id}`);
+              }}
               key={i}
-              image={data?.thumbnail}
-              title={data?.title}
-              description={data?.description}
-            />
+            >
+              <Listing
+                image={data?.thumbnail}
+                title={data?.title}
+                description={data?.description}
+              />
+            </div>
           ))}
         </div>
         <Pagination>

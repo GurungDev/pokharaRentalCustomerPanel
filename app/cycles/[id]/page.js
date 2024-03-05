@@ -8,11 +8,11 @@ import { IoMdArrowBack } from "react-icons/io";
 import { IoPricetagsOutline, IoStorefront } from "react-icons/io5";
 import { MdOutlineLocationOn } from "react-icons/md";
 
-const SingleBoatPage = () => {
+const SingleCyclePage = () => {
   return (
     <div className="py-28 ">
       <div className="layout ">
-        <Link href={"/boats"} className="flex gap-2 items-center group">
+        <Link href={"/cycles"} className="flex gap-2 items-center group">
           <IoMdArrowBack
             size={15}
             className="group-hover:translate-x-[-9px] duration-300"
@@ -21,14 +21,14 @@ const SingleBoatPage = () => {
         </Link>
         <div>
           <div className="flex items-center justify-between">
-            <h1 className="title font-[200] py-2">Boats Name</h1>
+            <h1 className="title font-[200] py-2">Cycles Name</h1>
             <div className="flex gap-2">
               <Ratings count={5} />
               (45)
             </div>
           </div>
           <p className="paragraph py-10">
-            Embark on adventures with hassle-free boat rentals for a memorable
+            Embark on adventures with hassle-free Cycle rentals for a memorable
             journey on the lakeside
           </p>
         </div>
@@ -74,7 +74,7 @@ const SingleBoatPage = () => {
           </div>
           <div className="w-[90%] min-[1100px]:w-[75%] ">
             <MainListing
-              imageList={["/lakeSideBoat.jpg", "/lakeSideBoat.jpg"]}
+              imageList={["/lakeSideCycle.jpg", "/lakeSideCycle.jpg"]}
             />
             <ServiceBenefits
               title="Some of the highlights are: "
@@ -91,36 +91,36 @@ const SingleBoatPage = () => {
       <MoreListings
         slides={[
           {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
+            image: "/lakesideCycle.jpg",
+            title: "Cycle Name",
             bg: "bg-red-400",
             description:
               "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
           },
           {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
+            image: "/lakesideCycle.jpg",
+            title: "Cycle Name",
             bg: "bg-blue-400",
             description:
               "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
           },
           {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
+            image: "/lakesideCycle.jpg",
+            title: "Cycle Name",
             bg: "bg-purple-400",
             description:
               "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
           },
           {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
+            image: "/lakesideCycle.jpg",
+            title: "Cycle Name",
             bg: "bg-pink-400",
             description:
               "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
           },
           {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
+            image: "/lakesideCycle.jpg",
+            title: "Cycle Name",
             bg: "bg-purple-400",
             description:
               "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
@@ -131,4 +131,4 @@ const SingleBoatPage = () => {
   );
 };
 
-export default SingleBoatPage;
+export default SingleCyclePage;
