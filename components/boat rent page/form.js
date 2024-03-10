@@ -11,7 +11,7 @@ const FormSectionConsultancy = () => {
   const [fourStorey, setfourStorey] = useState(false);
 
   return (
-    <div className=" w-[90%] bg-white  min-[1100px]:w-[55%] h-full m-auto shadow-md p-[1.5rem] min-[1100px]:p-[3rem] shadow-2xl">
+    <div className=" bg-white w-full h-full m-auto shadow-md p-[1.5rem] min-[1100px]:p-[3rem] shadow-2xl">
       
       <div className="grid gap-[1rem] pb-[3rem]">
         <div className="">

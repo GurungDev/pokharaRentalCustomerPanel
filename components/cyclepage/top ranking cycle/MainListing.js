@@ -9,6 +9,7 @@ import { EffectCreative, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { toast } from "../../ui/use-toast";
 import { useRouter } from "next/navigation";
+import Ratings from "@/components/ratings";
 
 const MainListing = () => {
   const { push } = useRouter();
@@ -108,7 +109,7 @@ const MainListing = () => {
               <div className="flex flex-col group items-center justify-center h-full w-full bg-red-200 relative    ">
                 <Image
                   priority
-                  src={data.cycle_thumbnail || "/lakesidecycle.jpg"}
+                  src={data?.cycle_thumbnail || "/lakesideBoat.jpg"}
                   alt="Server"
                   width={400}
                   height={400}
@@ -122,12 +123,21 @@ const MainListing = () => {
                   className="absolute inset-0 o"
                 ></div>
                 <div className="absolute w-full group h-full flex flex-col justify-end   p-8   ">
-                  <div className={`w-[30px] h-[5px] ${data.bg} `}></div>
-                  <h6 className="text-[1.9rem] font-[400] text-white">
-                    {data.cycle_title}
-                  </h6>
-                  <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 group-hover:h-[25%] group-hover:opacity-[100%] duration-300 text-white  text-[1rem] min-[1900px]:text-[1.3rem] ">
-                    {data.cycle_description}
+                  <div className={`w-[30px] h-[5px] ${data?.bg} `}></div>
+                  <div className="flex items-center justify-between">
+                    <h6 className="text-[1.9rem] font-[400] text-white">
+                    {data?.cycle_title}
+                    </h6>
+                    <div className="flex gap-2 text-white">
+                      <Ratings count={5} />
+                      {data?.count}
+                    </div>
+                  </div>
+                  
+                  <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 grid group-hover:h-[25%] group-hover:opacity-[100%] duration-300 text-white  text-[1rem] min-[1900px]:text-[1.3rem] ">
+                    
+                  <span> {data?.cycle_description}</span>
+                    <span className="text-[1.4rem] mt-5"> Rs {data?.cycle_priceInRs}</span> 
                   </p>
                 </div>
               </div>

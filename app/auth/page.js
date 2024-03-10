@@ -121,6 +121,7 @@ const AuthPage = () => {
       toast({
         title: "Login sucess",
       });
+      window.location.reload();
     } catch (error) {
       toast({
         variant: "destructive",

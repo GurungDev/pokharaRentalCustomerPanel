@@ -1,14 +1,46 @@
+"use client";
 import ServiceBenefits from "@/components/benefit";
 import Ratings from "@/components/ratings";
-import MainListing from "@/components/single boat page/imageSlider";
+import MainListing from "@/components/single cycle page/imageSlider";
 import MoreListings from "@/components/swipper_more_listing";
+import { getOnecycle } from "@/services/cycle.service";
+import { getOneRating } from "@/services/rating.service";
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useState } from "react";
 import { GiConfirmed } from "react-icons/gi";
 import { IoMdArrowBack } from "react-icons/io";
 import { IoPricetagsOutline, IoStorefront } from "react-icons/io5";
 import { MdOutlineLocationOn } from "react-icons/md";
 
 const SingleCyclePage = () => {
+  const { id } = useParams();
+  const [cycleData, setcycleData] = useState(null);
+  const [ratingData, setRatingData] = useState(null);
+  const { push } = useRouter();
+  useEffect(() => {
+    async function getData() {
+      try {
+        const cycles = await getOnecycle(id);
+        const ratings = await getOneRating({
+          data: { ratingFor: "cycle", issueId: id },
+        });
+        setcycleData(cycles?.data);
+        setRatingData(ratings?.data);
+        console.log(ratings);
+      } catch (error) {
+        console.log(error.message);
+        toast({
+          variant: "destructive",
+          title: "Something went wrong",
+          description:
+            error.response?.data?.message || "Couldn't connect to the server",
+        });
+      }
+    }
+    getData();
+  }, []);
   return (
     <div className="py-28 ">
       <div className="layout ">
@@ -21,20 +53,17 @@ const SingleCyclePage = () => {
         </Link>
         <div>
           <div className="flex items-center justify-between">
-            <h1 className="title font-[200] py-2">Cycles Name</h1>
+            <h1 className="title font-[200] py-2">{cycleData?.title}</h1>
             <div className="flex gap-2">
-              <Ratings count={5} />
-              (45)
+              <Ratings count={ratingData?.rating || 1} />
+              {ratingData?.totalRating || 0} 
             </div>
           </div>
-          <p className="paragraph py-10">
-            Embark on adventures with hassle-free Cycle rentals for a memorable
-            journey on the lakeside
-          </p>
+          <p className="paragraph py-10">{cycleData?.description}</p>
         </div>
 
         <div className="flex flex-col min-[1100px]:flex-row items-start w-full justify-between gap-[3rem]">
-          <div className="  grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
+          <div className=" sticky top-[10vh] grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
             <div className="px-[1.5rem] grid gap-[1rem]  w-full py-[1rem] rounded-xl border-[1px]">
               <div className="">
                 <div className="group paragraph flex items-center gap-3 text-neutral-600">
@@ -42,16 +71,7 @@ const SingleCyclePage = () => {
                   <span> Cost Per Person</span>
                   <IoPricetagsOutline className="group-hover:translate-x-[7px] duration-300" />
                 </div>
-                <p className="small"> Rs230</p>
-              </div>
-
-              <div className="">
-                <div className="group paragraph flex items-center gap-3 text-neutral-600">
-                  {" "}
-                  <span>Location</span>
-                  <MdOutlineLocationOn className="group-hover:translate-x-[7px] duration-300" />
-                </div>
-                <p className="small"> Street no 2</p>
+                <p className="small"> {cycleData?.priceInRs}</p>
               </div>
 
               <div className="">
@@ -60,7 +80,7 @@ const SingleCyclePage = () => {
                   <span>Store</span>
                   <IoStorefront className="group-hover:translate-x-[7px] duration-300" />
                 </div>
-                <p className="small"> Sastoo pasal</p>
+                <p className="small"> {cycleData?.store?.name}</p>
               </div>
             </div>
             <div className="bg-primary  btn text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3">
@@ -74,7 +94,7 @@ const SingleCyclePage = () => {
           </div>
           <div className="w-[90%] min-[1100px]:w-[75%] ">
             <MainListing
-              imageList={["/lakeSideCycle.jpg", "/lakeSideCycle.jpg"]}
+              imageList={[cycleData?.thumbnail, cycleData?.secondaryImage]}
             />
             <ServiceBenefits
               title="Some of the highlights are: "
@@ -85,6 +105,20 @@ const SingleCyclePage = () => {
                 "Safety equipment provided",
               ]}
             />
+            <div className="google-map-code w-[90%] float-right pb-10">
+              <p className=" font-[300] secondary-title pt-4 pb-6 text-text">
+                Location of the boat
+              </p>
+              <div className="rounded-md overflow-hidden">
+                <iframe
+                  src={`https://maps.google.com/maps?${cycleData?.store?.location?.coordinates[0]},${cycleData?.store?.location?.coordinates[1]}&hl=en&z=14&output=embed`}
+                  width="600"
+                  height="450"
+                  className="w-full border-[2px] shadow-md"
+                  aria-hidden="false"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

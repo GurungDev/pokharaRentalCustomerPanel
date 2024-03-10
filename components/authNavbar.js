@@ -51,6 +51,7 @@ export default function NavbarAuth() {
       toast({
         title: "Sucessfully logged out",
       });
+      window.location.reload();
     } catch (error) {
       console.log(error.message);
     }

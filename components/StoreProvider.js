@@ -1,15 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Toaster } from "./ui/toaster";
-import { Provider } from "react-redux";
 import { store } from "@/redux/store";
-import Navbar from "./navbar";
-import ScrollToTopButton from "./goToTop";
+import { useEffect, useState } from "react";
+import { Provider } from "react-redux";
 import Footer from "./footer";
-import ConnectCompany from "./connectBanner";
+import ScrollToTopButton from "./goToTop";
+import Navbar from "./navbar";
+import { Toaster } from "./ui/toaster";
 
 import NavbarAuth from "./authNavbar";
-import Navprovider from "./navprovider";
 import AuthProvider from "./authProvider";
 
 const StoreProvider = ({ children }) => {

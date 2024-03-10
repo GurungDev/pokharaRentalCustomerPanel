@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { useRouter } from "next/navigation";
+import Ratings from "./ratings";
 
 export default function CycleSlider({ slides }) {
   const { push } = useRouter();
@@ -69,7 +70,7 @@ export default function CycleSlider({ slides }) {
                 onClick={() => {
                   push(`/cycles/${data?.id}`);
                 }}
-                className="!flex !flex-col group !items-center shadow-md !justify-center max-w-[300px] bg-red-200 relative min-h-[350px] rounded-md overflow-hidden "
+                className="!flex !flex-col group !items-center shadow-md !justify-center max-w-[300px] bg-red-200 relative min-h-[350px] rounded-md overflow-hidden  "
               >
                 <Image
                   src={data.image || "/lakesideBoat.jpg"}
@@ -83,13 +84,20 @@ export default function CycleSlider({ slides }) {
                     backgroundImage:
                       "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.4))",
                   }}
-                  className="absolute inset-0 o"
+                  className="absolute inset-0 "
                 ></div>
                 <div className="absolute w-full group h-full flex flex-col justify-end   p-8   ">
                   <div className={`w-[30px] h-[5px] ${data.bg}  `}></div>
-                  <h6 className="text-[1.2] md:text-[1.4] lg:text-[1.7rem] min-[1900px]:text-[1.9rem] font-[400] text-white">
-                    {data?.title}
-                  </h6>
+                  <div className=" ">
+                    <h6 className="text-[1.2] md:text-[1.4] lg:text-[1.7rem] min-[1900px]:text-[1.9rem] font-[400] text-white">
+                      {data?.title}
+                    </h6>
+                    <div className="flex gap-2 text-white">
+                      <Ratings count={5} />
+                      (45)
+                    </div>
+                  </div>
+
                   <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 group-hover:h-[55%] group-hover:opacity-[100%] duration-300 text-white text-[.8rem] md:text-[.9rem] lg:text-[1rem] min-[1900px]:text-[1.3rem] ">
                     {data?.description}
                   </p>

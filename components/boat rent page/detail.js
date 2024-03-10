@@ -6,7 +6,7 @@ import { MdOutlineLocationOn } from "react-icons/md";
 
 const Details = () => {
   return (
-    <div className="w-[40%]" >
+    <div className="w-full" >
       <div className="w-full !flex mb-8 !flex-col gap-5 group !items-center !justify-center relative min-h-[450px] rounded-xl overflow-hidden ">
         <Image
           src={"/lakesideBoat.jpg"}
@@ -65,7 +65,10 @@ const Details = () => {
           </div>
           <p className="small"> Sastoo pasal</p>
         </div>
+
+
       </div>
+      
     </div>
   );
 };

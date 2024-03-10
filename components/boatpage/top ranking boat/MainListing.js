@@ -9,6 +9,7 @@ import { EffectCreative, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { toast } from "../../ui/use-toast";
 import { useRouter } from "next/navigation";
+import Ratings from "@/components/ratings";
 
 const MainListing = () => {
   const [boatData, setBoatData] = useState(null);
@@ -18,6 +19,7 @@ const MainListing = () => {
       try {
         const boats = await getTopRated({ ratingFor: RatingForEnum.BOAT });
         setBoatData(boats?.data);
+        console.log(boats?.data)
       } catch (error) {
         console.log(error.message);
         toast({
@@ -108,7 +110,7 @@ const MainListing = () => {
               <div className="flex flex-col group items-center justify-center h-full w-full bg-red-200 relative    ">
                 <Image
                   priority
-                  src={data.image || "/lakesideBoat.jpg"}
+                  src={data.boat_thumbnail || "/lakesideBoat.jpg"}
                   alt="Server"
                   width={400}
                   height={400}
@@ -123,12 +125,21 @@ const MainListing = () => {
                 ></div>
                 <div className="absolute w-full group h-full flex flex-col justify-end   p-8   ">
                   <div className={`w-[30px] h-[5px] ${data.bg} `}></div>
-                  <h6 className="text-[1.9rem] font-[400] text-white">
-                    {data.boat_title}
-                  </h6>
-                  <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 group-hover:h-[25%] group-hover:opacity-[100%] duration-300 text-white  text-[1rem] min-[1900px]:text-[1.3rem] ">
-                    {data.boat_description}
+                  <div className="flex items-center justify-between">
+                    <h6 className="text-[1.9rem] font-[400] text-white">
+                      {data.boat_title}
+                    </h6>
+                    <div className="flex gap-2 text-white">
+                      <Ratings count={data.averagestar} />
+                      {data.count}
+                    </div>
+                  </div>
+
+                  <p className=" h-[0%] opacity-[0%] group-hover:mt-7 group-hover:mb-3 group-hover:h-[25%] group-hover:opacity-[100%] grid duration-300 text-white  text-[1rem] min-[1900px]:text-[1.3rem] ">
+                    <span> {data.boat_description}</span>
+                    <span className="text-[1.4rem] mt-5"> Rs {data.boat_priceInRs}</span>
                   </p>
+                  
                 </div>
               </div>
             </div>

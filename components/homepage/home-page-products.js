@@ -15,8 +15,8 @@ const HomePageProducts = () => {
         const boats = await getAllBoatList({limit: 8});
         const cyles = await getAllcycleList();
         setBoatData(boats.data[0]);
-        setCycleData(cyles.data);
-        console.log(boats.data)
+        setCycleData(cyles.data[0]);
+        
       } catch (error) {
         toast({
           variant: "destructive",
