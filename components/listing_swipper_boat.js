@@ -93,8 +93,8 @@ export default function BoatSlider({ slides }) {
                       {data?.title}
                     </h6>
                     <div className="flex gap-2 text-white">
-                      <Ratings count={5} />
-                      (45)
+                      <Ratings count={data?.totalstar} />
+                     { data.ratingcount ? `(${data?.ratingcount})`: null}
                     </div>
                   </div>
 

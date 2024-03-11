@@ -29,13 +29,19 @@ import { useRouter } from "next/navigation";
 const BoatListing = () => {
   const { push } = useRouter();
   const [boatData, setBoatData] = useState(null);
+  const[pageNo, setPageNo]= useState(1);
+  const[sortBy, setSortBy]= useState(null);
+  const[orderBy, setOrderBy]= useState(null);
+  const[search, setSearch]= useState(null);
   const [paginationData, setPaginationData] = useState(null);
   useEffect(() => {
     async function getData() {
       try {
-        const boats = await getAllBoatList({});
+
+        const boats = await getAllBoatList({data:{page: pageNo,search: search || null, order:orderBy, sortBy}});
         setBoatData(boats?.data[0]);
         setPaginationData(boats?.data[1]);
+        setPageNo(boats?.data[1]?.page)
       } catch (error) {
         toast({
           variant: "destructive",
@@ -46,36 +52,36 @@ const BoatListing = () => {
       }
     }
     getData();
-    console.log(boatData);
-  }, []);
+   
+  }, [pageNo, sortBy, orderBy, search]);
   return (
     <div>
       <div>
         <div className=" w-full mt-20 flex gap-5 items-center">
           <div>
-            <Select>
+            <Select onValueChange = {(value)=> {setSortBy(value) }}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
+                <SelectGroup   >
                   <SelectItem value="price">Price</SelectItem>
                   <SelectItem value="date">Date</SelectItem>
-                  <SelectItem value="ratings">Ratings</SelectItem>
+                  <SelectItem value="name">Name</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Select>
+            <Select  onValueChange = {(value)=> {setOrderBy(value) }}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Order By" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="price">Desc</SelectItem>
-                  <SelectItem value="date">Asc</SelectItem>
+                  <SelectItem value="desc">Desc</SelectItem>
+                  <SelectItem value="asc">Asc</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -109,6 +115,7 @@ const BoatListing = () => {
           <Input
             type="text"
             className="w-[300px]"
+            onChange={(e)=>{setSearch(e.target.value)}}
             placeholder="Search by Name"
           />
           <div className="small flex gap-2 text-red-400 items-center ">
@@ -128,6 +135,8 @@ const BoatListing = () => {
                 image={data?.thumbnail}
                 title={data?.title}
                 description={data?.description}
+                rating={data?.totalstar}
+                ratingCount={data?.ratingcount}
               />
             </div>
           ))}

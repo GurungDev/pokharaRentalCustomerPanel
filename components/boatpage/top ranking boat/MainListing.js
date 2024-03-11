@@ -129,9 +129,10 @@ const MainListing = () => {
                     <h6 className="text-[1.9rem] font-[400] text-white">
                       {data.boat_title}
                     </h6>
+                   
                     <div className="flex gap-2 text-white">
-                      <Ratings count={data.averagestar} />
-                      {data.count}
+                      <Ratings count={data?.averagestar} />
+                     { data.count ? `(${data?.count})`: null}
                     </div>
                   </div>
 

@@ -129,8 +129,8 @@ const MainListing = () => {
                     {data?.cycle_title}
                     </h6>
                     <div className="flex gap-2 text-white">
-                      <Ratings count={5} />
-                      {data?.count}
+                      <Ratings count={data?.averagestar} />
+                     { data.count ? `(${data?.count})`: null}
                     </div>
                   </div>
                   

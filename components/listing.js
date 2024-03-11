@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import Ratings from "./ratings";
 
-const Listing = ({ title, image, description }) => {
+const Listing = ({ title, image, description, rating, ratingCount }) => {
   return (
     <div className="!flex !flex-col group !items-center shadow-md !justify-center  relative min-h-[350px] rounded-md overflow-hidden ">
       <Image
@@ -27,10 +27,10 @@ const Listing = ({ title, image, description }) => {
           <h6 className="text-[1.2] md:text-[1.4] lg:text-[1.7rem] min-[1900px]:text-[1.9rem] font-[400] text-white">
             {title ?? "Boat Name"}
           </h6>
-          
+
           <div className="flex gap-2 text-white">
-            <Ratings count={5} />
-            (45)
+            <Ratings count={rating} />
+            {ratingCount ? `(${ratingCount})` : null}
           </div>
         </div>
 
