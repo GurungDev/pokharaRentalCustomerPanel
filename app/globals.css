@@ -156,11 +156,8 @@ html {
 
 
 .btn{
-  
   transition: ease-in-out .3s;
   position: relative;
-
-  
   z-index: 0;
   overflow: hidden;
 }
@@ -169,7 +166,6 @@ html {
   content: "";
   position: absolute;
   background-color: rgb(254, 42, 42);
-
   width: 100%;
   top: 0;
   left: 0;
@@ -186,13 +182,11 @@ html {
 
 .card:hover .title{
   display: none;
-  
 }
 
 
 .card:hover .details{
-   bottom: 0px;
-   
+   bottom: 0px;  
 }
 
 

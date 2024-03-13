@@ -25,23 +25,31 @@ import { getAllBoatList } from "@/services/boat.service";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const BoatListing = () => {
   const { push } = useRouter();
   const [boatData, setBoatData] = useState(null);
-  const[pageNo, setPageNo]= useState(1);
-  const[sortBy, setSortBy]= useState(null);
-  const[orderBy, setOrderBy]= useState(null);
-  const[search, setSearch]= useState(null);
+  const [pageNo, setPageNo] = useState(1);
+  const [sortBy, setSortBy] = useState(null);
+  const [orderBy, setOrderBy] = useState(null);
+  const [search, setSearch] = useState(null);
   const [paginationData, setPaginationData] = useState(null);
   useEffect(() => {
     async function getData() {
       try {
+        const boats = await getAllBoatList({
+          data: {
+            page: pageNo,
 
-        const boats = await getAllBoatList({data:{page: pageNo,search: search || null, order:orderBy, sortBy}});
+            search: search || null,
+            order: orderBy,
+            sortBy,
+          },
+        });
         setBoatData(boats?.data[0]);
         setPaginationData(boats?.data[1]);
-        setPageNo(boats?.data[1]?.page)
+        setPageNo(boats?.data[1]?.currentPage);
       } catch (error) {
         toast({
           variant: "destructive",
@@ -52,19 +60,22 @@ const BoatListing = () => {
       }
     }
     getData();
-   
   }, [pageNo, sortBy, orderBy, search]);
   return (
     <div>
       <div>
         <div className=" w-full mt-20 flex gap-5 items-center">
           <div>
-            <Select onValueChange = {(value)=> {setSortBy(value) }}>
+            <Select
+              onValueChange={(value) => {
+                setSortBy(value);
+              }}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectGroup   >
+              <SelectContent className="">
+                <SelectGroup>
                   <SelectItem value="price">Price</SelectItem>
                   <SelectItem value="date">Date</SelectItem>
                   <SelectItem value="name">Name</SelectItem>
@@ -74,7 +85,12 @@ const BoatListing = () => {
           </div>
 
           <div>
-            <Select  onValueChange = {(value)=> {setOrderBy(value) }}>
+            <Select
+              onValueChange={(value) => {
+                setOrderBy(value);
+              }}
+               
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Order By" />
               </SelectTrigger>
@@ -86,39 +102,23 @@ const BoatListing = () => {
               </SelectContent>
             </Select>
           </div>
-          <div>
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Ratings" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="1">
-                    <Ratings count={1} />
-                  </SelectItem>
-                  <SelectItem value="2">
-                    <Ratings count={2} />
-                  </SelectItem>
-                  <SelectItem value="3">
-                    <Ratings count={3} />
-                  </SelectItem>
-                  <SelectItem value="4">
-                    <Ratings count={4} />
-                  </SelectItem>
-                  <SelectItem value="5">
-                    <Ratings count={5} />
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+
           <Input
             type="text"
             className="w-[300px]"
-            onChange={(e)=>{setSearch(e.target.value)}}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
             placeholder="Search by Name"
           />
-          <div className="small flex gap-2 text-red-400 items-center ">
+          <div
+            className="small flex cursor-pointer bg-red-100 py-2 px-3 rounded-xl gap-2 text-red-400 items-center "
+            onClick={() => {
+              setSortBy(null);
+              setOrderBy(null);
+              setSearch(null);
+            }}
+          >
             <RxCross2 className="text-[20px]" />
             <p>Clear Filters</p>
           </div>
@@ -141,27 +141,43 @@ const BoatListing = () => {
             </div>
           ))}
         </div>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center  ">
+            {" "}
+            <button
+              aria-label="Go to previous page"
+              size="default"
+              disabled={!paginationData?.hasPrevious}
+              onClick={() => setPageNo(pageNo - 1)}
+              className={"gap-1 pl-2.5 flex items-center  group p-3 "}
+            >
+              <ChevronLeft className="h-4 w-4 group-hover:translate-x-[-10px] duration-300" />
+              <span></span>
+            </button>
+            {Array.from({ length: paginationData?.pages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => setPageNo(index + 1)}
+                className={` border px-2 py-1 mx-1 ${
+                  pageNo == index + 1 ? "bg-neutral-700 text-white" : ""
+                }`}
+              >
+                <span>{index + 1}</span>
+              </button>
+            ))}
+            <button
+              aria-label="Next"
+              size="default"
+              disabled={!paginationData?.hasNext}
+              onClick={() => setPageNo(pageNo + 1)}
+              className={"gap-1 pl-2.5 flex items-center  group"}
+            >
+              <span></span>
+              <ChevronRight className="h-4 w-4 group-hover:translate-x-[10px] duration-300" />
+            </button>
+          </div>
+          <div>Total Items: {paginationData?.totalItems}</div>
+        </div>
       </div>
     </div>
   );

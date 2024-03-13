@@ -4,7 +4,7 @@ import Ratings from "@/components/ratings";
 import MainListing from "@/components/single boat page/imageSlider";
 import MoreListings from "@/components/swipper_more_listing";
 import { toast } from "@/components/ui/use-toast";
-import { getOneBoat } from "@/services/boat.service";
+import { getAllBoatList, getOneBoat } from "@/services/boat.service";
 import { getOneRating } from "@/services/rating.service";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -17,18 +17,21 @@ import { MdOutlineLocationOn } from "react-icons/md";
 const SingleBoatPage = () => {
   const {id} = useParams();
   const [boatData, setBoatData] = useState(null);
+  const [storeBoatData, setstoreBoatData] = useState(null);
   const { push } = useRouter();
   const [ratingData, setRatingData] = useState(null);
   useEffect(() => {
     async function getData() {
       try {
         const boats = await getOneBoat(id);
+        const storeBoats = await getAllBoatList({data: {storeId: boats?.data?.store?.id}});
         const ratings = await getOneRating({
           data: { ratingFor: "boat", issueId: id },
         });
-     
+        setstoreBoatData(storeBoats?.data[0])
         setRatingData(ratings?.data);
         setBoatData(boats?.data);
+        console.log(storeBoats?.data[0])
       } catch (error) {
         console.log(error.message);
         toast({
@@ -95,9 +98,10 @@ const SingleBoatPage = () => {
                 <p className="small">{boatData?.store?.name}</p>
               </div>
             </div>
+            <div>
             <Link
               href={"/boats/id/rent"}
-              className="bg-primary  btn text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3"
+              className="bg-primary border-[2px] border-[#3586ff] hover:border-[#FE2A2A] btn text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3"
             >
               {" "}
               <span>Book Now</span>
@@ -106,6 +110,18 @@ const SingleBoatPage = () => {
                 className="group-hover:translate-x-[7px] duration-300"
               />
             </Link>
+            <Link
+              href={"/boats/id/rent"}
+              className="bg-white  mt-[1rem] btn text-[#FE2A2A] border-[2px] border-[#FE2A2A]  hover:text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3"
+            >
+              {" "}
+              <span>Visit Store</span>
+              <GiConfirmed
+                size={25}
+                className="group-hover:translate-x-[7px] duration-300"
+              />
+            </Link>
+            </div>
           </div>
           <div className="w-[90%] min-[1100px]:w-[75%] ">
             <MainListing
@@ -137,43 +153,45 @@ const SingleBoatPage = () => {
         </div>
       </div>
       <MoreListings
-        slides={[
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
-            bg: "bg-red-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
-            bg: "bg-blue-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
-            bg: "bg-purple-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
-            bg: "bg-pink-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideBoat.jpg",
-            title: "Boat Name",
-            bg: "bg-purple-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-        ]}
+
+      slides = {storeBoatData}
+        // slides={[
+        //   {
+        //     image: "/lakesideBoat.jpg",
+        //     title: "Boat Name",
+        //     bg: "bg-red-400",
+        //     description:
+        //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+        //   },
+        //   {
+        //     image: "/lakesideBoat.jpg",
+        //     title: "Boat Name",
+        //     bg: "bg-blue-400",
+        //     description:
+        //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+        //   },
+        //   {
+        //     image: "/lakesideBoat.jpg",
+        //     title: "Boat Name",
+        //     bg: "bg-purple-400",
+        //     description:
+        //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+        //   },
+        //   {
+        //     image: "/lakesideBoat.jpg",
+        //     title: "Boat Name",
+        //     bg: "bg-pink-400",
+        //     description:
+        //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+        //   },
+        //   {
+        //     image: "/lakesideBoat.jpg",
+        //     title: "Boat Name",
+        //     bg: "bg-purple-400",
+        //     description:
+        //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
+        //   },
+        // ]}
       />
     </div>
   );

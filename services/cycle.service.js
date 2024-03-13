@@ -1,7 +1,7 @@
 import http from "@/lib/https.utils";
 
-export const getAllcycleList = async ()=> {
-    const res = await http.get("/customer/cycle/")
+export const getAllcycleList = async ({data})=> {
+    const res = await http.get("/customer/cycle/", {params: data})
     return res?.data;
 }
 

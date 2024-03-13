@@ -3,7 +3,7 @@ import ServiceBenefits from "@/components/benefit";
 import Ratings from "@/components/ratings";
 import MainListing from "@/components/single cycle page/imageSlider";
 import MoreListings from "@/components/swipper_more_listing";
-import { getOnecycle } from "@/services/cycle.service";
+import { getAllcycleList, getOnecycle } from "@/services/cycle.service";
 import { getOneRating } from "@/services/rating.service";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -17,16 +17,19 @@ import { MdOutlineLocationOn } from "react-icons/md";
 const SingleCyclePage = () => {
   const { id } = useParams();
   const [cycleData, setcycleData] = useState(null);
+  const [storeCycleData, setstoreCycleData] = useState(null);
   const [ratingData, setRatingData] = useState(null);
   const { push } = useRouter();
   useEffect(() => {
     async function getData() {
       try {
         const cycles = await getOnecycle(id);
+        const storeBoats = await getAllcycleList({data: {storeId: cycles?.data?.store?.id}});
         const ratings = await getOneRating({
           data: { ratingFor: "cycle", issueId: id },
         });
         setcycleData(cycles?.data);
+        setstoreCycleData(storeBoats?.data[0])
         setRatingData(ratings?.data);
         console.log(ratings);
       } catch (error) {
@@ -123,43 +126,7 @@ const SingleCyclePage = () => {
         </div>
       </div>
       <MoreListings
-        slides={[
-          {
-            image: "/lakesideCycle.jpg",
-            title: "Cycle Name",
-            bg: "bg-red-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideCycle.jpg",
-            title: "Cycle Name",
-            bg: "bg-blue-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideCycle.jpg",
-            title: "Cycle Name",
-            bg: "bg-purple-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideCycle.jpg",
-            title: "Cycle Name",
-            bg: "bg-pink-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-          {
-            image: "/lakesideCycle.jpg",
-            title: "Cycle Name",
-            bg: "bg-purple-400",
-            description:
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quod, tenetur aut ipsa ea sit laboriosam sint optio amet delectus eligendi distinctio tempore ratione isteat quas  ",
-          },
-        ]}
+        slides={storeCycleData}
       />
     </div>
   );

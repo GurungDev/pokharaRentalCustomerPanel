@@ -12,8 +12,8 @@ const HomePageProducts = () => {
   useEffect(()=>{
     async function getData() {
       try {
-        const boats = await getAllBoatList({limit: 8});
-        const cyles = await getAllcycleList();
+        const boats = await getAllBoatList({data: {limit: 8}});
+        const cyles = await getAllcycleList({data: {limit: 8}});
         setBoatData(boats.data[0]);
         setCycleData(cyles.data[0]);
         

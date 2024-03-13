@@ -10,8 +10,8 @@ import Ratings from "./ratings";
 export default function MoreListings({ slides }) {
   const [loop, setLoop] = useState(false);
   useEffect(() => {
-    slides.length <= 6 ? setLoop(false) : setLoop(true);
-  }, [slides.length]);
+    slides?.length <= 6 ? setLoop(false) : setLoop(true);
+  }, [slides?.length]);
   return (
     <section id="approach" className="pt-14  bg-[#fbfbfd] ">
       <div className="flex justify-between items-center  secondary-title lg:text-[1.5rem]  py-10 text-neutral-800 layout">
@@ -103,9 +103,9 @@ export default function MoreListings({ slides }) {
                   {data.description}
                   </p>
                   <div className="flex gap-2 text-white">
-                    <Ratings count={5} />
-                    (45)
-                  </div>
+                      <Ratings count={data?.totalstar} />
+                     { data.ratingcount ? `(${data?.ratingcount})`: null}
+                    </div>
                 </div>
               </div>
 
