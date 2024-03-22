@@ -1,6 +1,6 @@
 "use client";
 import { store } from "@/redux/store";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import Footer from "./footer";
 import ScrollToTopButton from "./goToTop";
@@ -9,7 +9,7 @@ import { Toaster } from "./ui/toaster";
 
 import NavbarAuth from "./authNavbar";
 import AuthProvider from "./authProvider";
-
+ 
 const StoreProvider = ({ children }) => {
   const state = store.getState();
   const [auth, setAuth] = useState(false);
@@ -26,7 +26,7 @@ const StoreProvider = ({ children }) => {
       <AuthProvider>
         <div className="mt-8">{children}</div>
       </AuthProvider>
-      
+
       <Footer />
       <Toaster />
       <ScrollToTopButton />

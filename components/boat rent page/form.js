@@ -1,223 +1,180 @@
 "use client";
-import { useState } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+
+import Image from "next/image";
+import { Fragment, useState } from "react";
+import { AiFillCaretDown } from "react-icons/ai";
+import { BsCash } from "react-icons/bs";
+import { DatePicker } from "../date picker";
 
 const FormSectionConsultancy = () => {
-  const [isResidental, setisResidental] = useState(true);
-  const [isCommercial, setIsCommercial] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+  const duration_list = [
+    { name: "Select the duration for rent", value: 0 },
+    { name: "1 Hour", value: 1 },
+    { name: "3 Hour", value: 3 },
+    { name: "5 Hour", value: 5 },
+    { name: "10 Hour", value: 10 },
+  ];
+  const currentDate = new Date();
+  const today = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate.getDate()
+  );
+  const [selected_pick_up_date, set_selected_pick_up_date] = useState(today);
 
-  const [oneStorey, setIsOneStorey] = useState(true);
-  const [twoStorey, settwoStorey] = useState(false);
-  const [threeStorey, setthreeStorey] = useState(false);
-  const [fourStorey, setfourStorey] = useState(false);
+  const [duration, setDuration] = useState(duration_list[0]);
 
   return (
-    <div className=" bg-white w-full h-full m-auto shadow-md p-[1.5rem] min-[1100px]:p-[3rem] shadow-2xl">
-      
+    <div className="   w-full h-full m-auto p-[1.5rem] min-[1100px]:px-[3rem] ">
       <div className="grid gap-[1rem] pb-[3rem]">
         <div className="">
-          <p className="font-[600] caption mb-[0.25rem]">
-          About your Home <span className="text-[#FD4349]">*</span>
+          <h1 className="secondary-title font-[300]  ">Boats</h1>
+          <p className="paragraph py-4">
+            Provide details to book now !
           </p>
+        </div>
+        <div className="grid grid-cols-2 gap-10">
           <div className="">
-            <div className="grid w-full min-[1100px]:grid-cols-2 gap-3">
-              <div
-                onClick={() => {
-                  setisResidental(!isResidental), setIsCommercial(false);
-                }}
+            <p className="font-[600] caption mb-[0.25rem]">
+              Pick up Date<span className="text-[#FD4349]">*</span>
+            </p>
+
+            <DatePicker
+              value={selected_pick_up_date}
+              onChange={set_selected_pick_up_date}
+            />
+          </div>
+          <div className="">
+            <p className="font-[600] caption mb-[0.25rem]">
+              Quantity of Boat <span className="text-[#FD4349]">*</span>
+            </p>
+            <div className="flex gap-3 mt-3">
+              <button
+                onClick={() => setQuantity(1)}
                 className={
-                  isResidental
-                    ? "flex gap-[1rem] items-center p-[1rem] bg-[#FD434914] border-[#FD4349] border-[1px]"
-                    : "flex gap-[1rem] items-center p-[1rem] border-[#CACDD8] border-[1px]"
+                  quantity === 1
+                    ? "bg-gray-600 text-white px-3 py-2 rounded"
+                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
                 }
               >
-                <div
-                  className={`${
-                    isResidental ? "border-[#FD4349]" : "border-[#CACDD8]"
-                  } border-[2px]  flex items-center justify-center rounded-full p-[4px]`}
-                >
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      id="Ellipse 760"
-                      cx="7"
-                      cy="7"
-                      r="7"
-                      fill={isResidental ? "#FD4349" : ""}
-                    />
-                  </svg>
-                </div>
-
-                <label
-                  className={`${
-                    isResidental ? "text-[#FD4349]" : "text-[#4B5671]"
-                  } w-full  caption leading-[2rem]`}
-                >
-                  Residental
-                </label>
-              </div>
-              <div
-                onClick={() => {
-                  setIsCommercial(!isCommercial), setisResidental(false);
-                }}
+                1
+              </button>
+              <button
+                onClick={() => setQuantity(2)}
                 className={
-                  isCommercial
-                    ? "flex gap-[1rem]   items-center p-[1rem] bg-[#FD434914] border-[#FD4349] border-[1px]"
-                    : "flex gap-[1rem] items-center p-[1rem] border-[#CACDD8] border-[1px]"
+                  quantity === 2
+                    ? "bg-gray-600 text-white px-3 py-2 rounded"
+                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
                 }
               >
-                <div
-                  className={`${
-                    isCommercial ? "border-[#FD4349]" : "border-[#CACDD8]"
-                  } border-[2px]  flex items-center justify-center rounded-full p-[4px]`}
-                >
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      id="Ellipse 760"
-                      cx="7"
-                      cy="7"
-                      r="7"
-                      fill={isCommercial ? "#FD4349" : ""}
-                    />
-                  </svg>
-                </div>
-
-                <label
-                  className={`${
-                    isCommercial ? "text-[#FD4349]" : "text-[#4B5671]"
-                  } w-full  caption leading-[2rem]`}
-                >
-                 Commercial
-                </label>
-              </div>
+                2
+              </button>
+              <button
+                onClick={() => setQuantity(3)}
+                className={
+                  quantity === 3
+                    ? "bg-gray-600 text-white px-3 py-2 rounded"
+                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
+                }
+              >
+                3
+              </button>
+              <button
+                onClick={() => setQuantity(4)}
+                className={
+                  quantity === 4
+                    ? "bg-gray-600 text-white px-3 py-2 rounded"
+                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
+                }
+              >
+                4
+              </button>
+              <button
+                onClick={() => setQuantity(5)}
+                className={
+                  quantity === 5
+                    ? "bg-gray-600 text-white px-3 py-2 rounded"
+                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
+                }
+              >
+                5
+              </button>
             </div>
           </div>
         </div>
 
         <div className="">
           <p className="font-[600] caption mb-[0.25rem]">
-            Home Location <span className="text-[#FD4349]">*</span>
+            Duration <span className="text-[#FD4349]">*</span>
           </p>
 
-          <input className="outline-none border-[2px] border-[#F4F4F6] py-[0.875rem] px-[1rem] w-full"></input>
-        </div>
-
-        <div className="">
-          <p className="font-[600] caption mb-[0.25rem]">
-            Number of Storey <span className="text-[#FD4349]">*</span>
-          </p>
-          <div className="">
-            <div className="grid  grid-cols-2   min-[1200px]:grid-cols-4  min-[1350px]:grid-cols-5 gap-3">
-              <div
-                onClick={() => {
-                  setIsOneStorey(!oneStorey), settwoStorey(false),setthreeStorey(false),setfourStorey(false);
-                }}
-                className={
-                  oneStorey
-                    ? "flex gap-[1rem] items-center py-[.5rem] px-[1rem] bg-[#FD434914] border-[#FD4349] border-[1px]"
-                    : "flex gap-[1rem] items-center py-[.5rem] px-[1rem] border-[#CACDD8] border-[1px]"
-                }
+          <Listbox value={duration} onChange={setDuration}>
+            <div className="relative  ">
+              <Listbox.Button className="relative w-full  text-black cursor-default    text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm   border-[2px] border-[#F4F4F6] py-[0.875rem] px-[1rem] w-full">
+                <span className="block truncate">{duration.name}</span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <AiFillCaretDown className="h-5 w-5 " aria-hidden="true" />
+                </span>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
               >
-                <label
-                  className={`${
-                    oneStorey ? "text-[#FD4349]" : "text-[#4B5671]"
-                  } w-full  caption leading-[2rem]`}
-                >
-                  1 Storey
-                </label>
-              </div>
-           
-              <div
-                onClick={() => {
-                  settwoStorey(!twoStorey), setIsOneStorey(false),setthreeStorey(false),setfourStorey(false);
-                }}
-                className={
-                  twoStorey
-                  ? "flex gap-[1rem] items-center py-[.5rem] px-[1rem] bg-[#FD434914] border-[#FD4349] border-[1px]"
-                  : "flex gap-[1rem] items-center py-[.5rem] px-[1rem] border-[#CACDD8] border-[1px]"
-                }
-              >
-                <label
-                  className={`${
-                    twoStorey ? "text-[#FD4349]" : "text-[#4B5671]"
-                  } w-full  caption leading-[2rem]`}
-                >
-                  2 Storey
-                </label>
-              </div>
-              <div
-                onClick={() => {
-                  setthreeStorey(!threeStorey), settwoStorey(false),setIsOneStorey(false),setfourStorey(false);
-                }}
-                className={
-                  threeStorey
-                  ? "flex gap-[1rem] items-center py-[.5rem] px-[1rem] bg-[#FD434914] border-[#FD4349] border-[1px]"
-                  : "flex gap-[1rem] items-center py-[.5rem] px-[1rem] border-[#CACDD8] border-[1px]"
-                }
-              >
-                <label
-                  className={`${
-                    threeStorey ? "text-[#FD4349]" : "text-[#4B5671]"
-                  } w-full  caption leading-[2rem]`}
-                >
-                  3 Storey
-                </label>
-              </div>
-              <div
-                onClick={() => {
-                  setfourStorey(!fourStorey), settwoStorey(false),setthreeStorey(false),setIsOneStorey(false);
-                }}
-                className={
-                  fourStorey
-                  ? "flex gap-[1rem] items-center py-[.5rem] px-[1rem] bg-[#FD434914] border-[#FD4349] border-[1px]"
-                  : "flex gap-[1rem] items-center py-[.5rem] px-[1rem] border-[#CACDD8] border-[1px]"
-                }
-              >
-                <label
-                  className={`${
-                    fourStorey ? "text-[#FD4349]" : "text-[#4B5671]"
-                  } w-full  caption leading-[2rem]`}
-                >
-                  4 & above
-                </label>
-              </div>
+                <Listbox.Options className="absolute z-[100] mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {duration_list.map((d, index) => (
+                    <Listbox.Option
+                      key={index}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active ? "bg-blue-100 text-blue-900" : "text-gray-900"
+                        }`
+                      }
+                      value={d}
+                    >
+                      {d.name}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
             </div>
-          </div>
+          </Listbox>
         </div>
 
-        <div className="">
-          <p className="font-[600] caption mb-[0.25rem]">
-            Your Name <span className="text-[#FD4349]">*</span>
-          </p>
-
-          <input className="outline-none border-[2px] border-[#F4F4F6] py-[0.875rem] px-[1rem] w-full"></input>
-        </div>
-
-        <div className="">
-          <p className="font-[600] caption mb-[0.25rem]">
-            Contact Number <span className="text-[#FD4349]">*</span>
-          </p>
-
-          <input className="outline-none border-[2px] border-[#F4F4F6] py-[0.875rem] px-[1rem] w-full"></input>
-        </div>
-
-        <div  className="font-[400] caption mb-[0.25rem]">
-        By submitting this form, you agree to the <span className="text-[#FD4349]">Privacy Policy</span> &  <span className="text-[#FD4349]">Terms of Services</span>
+        <div className="font-[400] caption mb-[0.25rem]">
+          By submitting this form, you agree to the
+          <span className="text-primary">Privacy Policy</span> &{" "}
+          <span className="text-primary">Terms of Services</span>
         </div>
       </div>
-      <button className="bg-[#FD4349] py-[1rem] px-[2rem] w-full text-white font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]">
-      Book a Consultation
-      </button>
+      <div className="grid gap-3">
+        <button
+          disabled={duration?.value == 0 || quantity === 0}
+          className={`${
+            duration?.value == 0 || quantity === 0 ? "hidden" : ""
+          } bg-primary flex items-center justify-center gap-3 btn  py-[1rem] px-[2rem] w-full text-white font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
+        >
+          <BsCash size={25} />
+          Cash on delivery
+        </button>
+        <button
+          disabled={duration?.value == 0 || quantity === 0}
+          className={`${
+            duration?.value == 0 || quantity === 0 ? "hidden" : ""
+          } bg-[#60bb46] flex items-center justify-center gap-3 btn  py-[1rem] px-[2rem] w-full text-white font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
+        >
+          <Image
+            src="/esewa.png"
+            width="25"
+            height="25"
+            alt="esewa logo"
+          ></Image>
+          Esewa
+        </button>
+      </div>
     </div>
   );
 };

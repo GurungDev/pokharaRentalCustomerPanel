@@ -4,6 +4,10 @@ import StoreProvider from "@/components/StoreProvider";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import 'leaflet/dist/leaflet.css';
+
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {

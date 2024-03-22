@@ -127,6 +127,7 @@ const SingleCyclePage = () => {
       </div>
       <MoreListings
         slides={storeCycleData}
+        listing={"cycles"}
       />
     </div>
   );

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Ratings from "./ratings";
 import { useRouter } from "next/navigation";
 
-export default function MoreListings({ slides , listing}) {
+export default function MoreListingCycles({ slides }) {
   const [loop, setLoop] = useState(false);
   const {push} = useRouter();
   useEffect(() => {
@@ -81,7 +81,7 @@ export default function MoreListings({ slides , listing}) {
             <SwiperSlide key={index}>
               <div
                 onClick={() => {
-                  push(`/${listing}/${data?.id}`);
+                  push(`/boats/${data?.id}`);
                 }}
                 className="w-full !flex mb-8 !flex-col gap-5 group !items-center !justify-center relative min-h-[450px] rounded-xl overflow-hidden "
               >
