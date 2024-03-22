@@ -22,12 +22,7 @@ const MainListing = () => {
         console.log(boats?.data)
       } catch (error) {
         console.log(error.message);
-        toast({
-          variant: "destructive",
-          title: "Something went wrong",
-          description:
-            error.response?.data?.message || "Couldn't connect to the server",
-        });
+        push("/serverError")
       }
     }
     getData();

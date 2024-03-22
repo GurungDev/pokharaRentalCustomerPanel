@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import BoatSlider from "../listing_swipper_boat";
 import CycleSlider from "../listing_swipper_cycle";
 import { toast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const HomePageProducts = () => {
   const [boatData, setBoatData] = useState();
   const [cycleData, setCycleData] = useState();
+  const {push} = useRouter();
   useEffect(()=>{
     async function getData() {
       try {
@@ -18,11 +20,7 @@ const HomePageProducts = () => {
         setCycleData(cyles.data[0]);
         
       } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Something went wrong",
-          description: error.response?.data?.message || "Couldn't connect to the server",
-        });
+        push("/serverError")
       }
     }
     getData();
