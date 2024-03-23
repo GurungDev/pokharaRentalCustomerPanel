@@ -14,6 +14,7 @@ import { loginUser } from "../../services/auth/login.service";
 import { Registeruser } from "../../services/auth/register.service";
 import { store } from "@/redux/store";
 import { loginFormSchema, registerFormAlongWithOtpSchema, registerFormSchema } from "@/lib/schemas";
+import { setLogin } from "@/redux/slices/userSlice";
 export const StateContext = createContext();
 
 const AuthPage = () => {

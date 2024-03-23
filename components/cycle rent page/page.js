@@ -3,29 +3,30 @@
 import React, { useEffect, useState } from "react";
 import Details from "./detail";
 import FormSectionConsultancy from "./form";
-import { getAllBoatList, getOneBoat } from "@/services/boat.service";
+ 
 import { getOneRating } from "@/services/rating.service";
 import MoreListings from "../swipper_more_listing";
+import { getAllcycleList, getOnecycle } from "@/services/cycle.service";
 
 const MainSection = ({ id }) => {
-  const [boatData, setBoatData] = useState(null);
-  const [storeBoatData, setstoreBoatData] = useState(null);
+  const [cycleData, setcycleData] = useState(null);
+  const [storecycleData, setstorecycleData] = useState(null);
 
   const [ratingData, setRatingData] = useState(null);
   useEffect(() => {
     async function getData() {
       try {
-        const boats = await getOneBoat(id);
-        const storeBoats = await getAllBoatList({
-          data: { storeId: boats?.data?.store?.id },
+        const cycles = await getOnecycle(id);
+        const storecycles = await getAllcycleList({
+          data: { storeId: cycles?.data?.store?.id },
         });
         const ratings = await getOneRating({
-          data: { ratingFor: "boat", issueId: id },
+          data: { ratingFor: "cycle", issueId: id },
         });
-        setstoreBoatData(storeBoats?.data[0]);
+        setstorecycleData(storecycles?.data[0]);
         setRatingData(ratings?.data);
-        setBoatData(boats?.data);
-        console.log(storeBoats?.data[0]);
+        setcycleData(cycles?.data);
+        console.log(storecycles?.data[0]);
       } catch (error) {
         console.log(error.message);
       }
@@ -38,14 +39,14 @@ const MainSection = ({ id }) => {
       <div className="layout">
         <div className=" flex flex-col min-[1100px]:flex-row  w-full items-start justify-between my-5">
           <div className="flex-col   w-full min-[1100px]:sticky flex-col min-[1100px]:w-[40%]   top-[10vh] ">
-            <Details boatData={boatData} ratingData={ratingData} />
+            <Details cycleData={cycleData} ratingData={ratingData} />
           </div>
           <div className=" w-full h-full flex-col min-[1100px]:w-[60%]  min-[1100px]:w-[55%]">
-            <FormSectionConsultancy id={id} price={boatData?.priceInRs}/>
+            <FormSectionConsultancy id={id}/>
           </div>
         </div>
       </div>
-      <MoreListings slides={storeBoatData} listing={"boats"}/>
+      <MoreListings slides={storecycleData} listing={"cycles"}/>
     </div>
   );
 };

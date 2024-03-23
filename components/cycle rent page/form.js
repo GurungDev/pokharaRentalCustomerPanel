@@ -6,14 +6,14 @@ import { Fragment, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { BsCash } from "react-icons/bs";
 import { DatePicker } from "../date picker";
-import { getEsewaToken, makeOrder } from "@/services/order.service";
+import { makeOrder } from "@/services/order.service";
 import { toast } from "../ui/use-toast";
 import Error from "next/error";
 import { useRouter } from "next/navigation";
 
-const FormSectionConsultancy = ({ id, price }) => {
+const FormSectionConsultancy = ({ id }) => {
   const [quantity, setQuantity] = useState(0);
-  const { push } = useRouter();
+  const {push} = useRouter();
   const duration_list = [
     { name: "Select the duration for rent", value: 0 },
     { name: "1 Hour", value: 1 },
@@ -33,14 +33,16 @@ const FormSectionConsultancy = ({ id, price }) => {
 
   async function orderInCash() {
     try {
-      console.log(id);
+      console.log(id)
       const res = await makeOrder({
-        quantity: quantity,
-        bookingDate: selected_pick_up_date,
-        durationInHour: duration.value,
-        issuedFor: "boat",
-        issueId: id,
-        paymentMethod: "cash",
+        
+          quantity: quantity,
+          bookingDate: selected_pick_up_date,
+          durationInHour: duration.value,
+          issuedFor: "cycle",
+          issueId: id,
+          paymentMethod: "cash",
+     
       });
       if (!res.success) {
         throw new Error("Order Failed.");
@@ -49,7 +51,7 @@ const FormSectionConsultancy = ({ id, price }) => {
         title: "Success",
         description: "Order has been placed",
       });
-      push("/orderSuccess");
+      push("/orderSuccess")
     } catch (error) {
       toast({
         variant: "destructive",
@@ -59,78 +61,13 @@ const FormSectionConsultancy = ({ id, price }) => {
       });
     }
   }
-
-  async function orderInEsewa() {
-    try {
-      const transaction_uuid = crypto.randomUUID();
-      const token = await getEsewaToken({
-        transaction_uuid: transaction_uuid,
-        product_code: "EPAYTEST",
-        productId: id,
-        issuedFor: "boat",
-        quantity: quantity,
-        duration: duration?.value,
-      });
-      console.log(token?.data?.signature);
-      esewaCall({
-        amount: token?.data?.totalPrice,
-        failure_url: "http://www.google.com",
-        product_delivery_charge: "0",
-        product_service_charge: "0",
-        product_code: "EPAYTEST",
-        signature: token?.data?.signature,
-        signed_field_names: "total_amount,transaction_uuid,product_code",
-        success_url: "http://localhost:5005/api/esewa/success",
-        tax_amount: "0",
-        total_amount: token?.data?.totalPrice,
-        transaction_uuid: transaction_uuid,
-      });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Order failed",
-        description:
-          error.response?.data?.message || "Couldn't connect to the server",
-      });
-    }
-  }
-
-  const esewaCall = (formData) => {
-    console.log(formData);
-    var path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
-
-    var form = document.createElement("form");
-    form.setAttribute("method", "POST");
-    form.setAttribute("action", path);
-
-    for (var key in formData) {
-      var hiddenField = document.createElement("input");
-      hiddenField.setAttribute("type", "hidden");
-      hiddenField.setAttribute("name", key);
-      hiddenField.setAttribute("value", formData[key]);
-      form.appendChild(hiddenField);
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-  };
 
   return (
     <div className="   w-full h-full m-auto p-[1.5rem] min-[1100px]:px-[3rem] ">
       <div className="grid gap-[1rem] pb-[3rem]">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="secondary-title font-[300]">Boats</h1>
-            <p className="paragraph py-4">Provide details to book now !</p>
-          </div>
-          <div
-            className={`${
-              duration?.value == 0 || quantity === 0 ? "hidden" : ""
-            }   text-neutral-700 animate-bounce   secondary-title   leading-[1.5rem] font-[400]`}
-          >
-          
-            Rs {price * duration.value * quantity || price}
-          </div>
+        <div className="">
+          <h1 className="secondary-title font-[300]  ">Cycles</h1>
+          <p className="paragraph py-4">Provide details to book now !</p>
         </div>
         <div className="grid grid-cols-2 gap-10">
           <div className="">
@@ -145,7 +82,7 @@ const FormSectionConsultancy = ({ id, price }) => {
           </div>
           <div className="">
             <p className="font-[600] caption mb-[0.25rem]">
-              Quantity of Boat <span className="text-[#FD4349]">*</span>
+              Quantity of Cycles <span className="text-[#FD4349]">*</span>
             </p>
             <div className="flex gap-3 mt-3">
               <button
@@ -241,7 +178,7 @@ const FormSectionConsultancy = ({ id, price }) => {
           </Listbox>
         </div>
 
-        <div className="font-[400] caption mb-[0.2rem]">
+        <div className="font-[400] caption mb-[0.25rem]">
           By submitting this form, you agree to the
           <span className="text-primary">Privacy Policy</span> &{" "}
           <span className="text-primary">Terms of Services</span>
@@ -259,7 +196,6 @@ const FormSectionConsultancy = ({ id, price }) => {
           Cash on delivery
         </button>
         <button
-          onClick={orderInEsewa}
           disabled={duration?.value == 0 || quantity === 0}
           className={`${
             duration?.value == 0 || quantity === 0 ? "hidden" : ""

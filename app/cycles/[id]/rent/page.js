@@ -1,7 +1,7 @@
 "use client";
 import withAuth from "@/components/authMiddleware";
-import MainSection from "../../../../components/boat rent page/page";
-import Link from "next/link";
+import MainSection from "@/components/cycle rent page/page";
+ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -11,7 +11,7 @@ const RentingPage = () => {
   return (
     <div className="  py-[7.5rem]">
       <div className="layout">
-        <Link href={`/boats/${id}`} className=" flex gap-2 items-center group">
+        <Link href={`/cycles/${id}`} className=" flex gap-2 items-center group">
           <IoMdArrowBack
             size={15}
             className="group-hover:translate-x-[-9px] duration-300"

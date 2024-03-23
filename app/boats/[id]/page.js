@@ -69,7 +69,7 @@ const SingleBoatPage = () => {
         </div>
 
         <div className="flex flex-col min-[1100px]:flex-row items-start w-full justify-between gap-[3rem]">
-          <div className=" sticky top-[10vh]  grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
+          <div className=" min-[1100px]:sticky top-[10vh]  grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
             <div className="px-[1.5rem] grid gap-[1rem]  w-full py-[1rem] rounded-xl border-[1px]">
               <div className="">
                 <div className="group paragraph flex items-center gap-3 text-neutral-600">

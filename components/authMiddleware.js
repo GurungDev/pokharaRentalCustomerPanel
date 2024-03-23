@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 const withAuth = (WrappedComponent) => {
+  const state = store.getState()
   // eslint-disable-next-line react/display-name
   return (props) => {
     if (typeof window !== "undefined") {
