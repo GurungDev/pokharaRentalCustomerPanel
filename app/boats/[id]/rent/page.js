@@ -1,5 +1,5 @@
 "use client";
-import MainSection from "@/components/boat rent page/page";
+import MainSection from "../../../../components/boat rent page/page";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { IoMdArrowBack } from "react-icons/io";

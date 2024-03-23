@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Ratings from "./ratings";
 import { useRouter } from "next/navigation";
 
-export default function MoreListingCycles({ slides }) {
+export default function MoreListing({ slides }) {
   const [loop, setLoop] = useState(false);
   const {push} = useRouter();
   useEffect(() => {

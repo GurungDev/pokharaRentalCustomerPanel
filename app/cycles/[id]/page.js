@@ -1,18 +1,16 @@
 "use client";
-import ServiceBenefits from "@/components/benefit";
-import Ratings from "@/components/ratings";
-import MainListing from "@/components/single cycle page/imageSlider";
-import MoreListings from "@/components/swipper_more_listing";
-import { getAllcycleList, getOnecycle } from "@/services/cycle.service";
-import { getOneRating } from "@/services/rating.service";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiConfirmed } from "react-icons/gi";
 import { IoMdArrowBack } from "react-icons/io";
 import { IoPricetagsOutline, IoStorefront } from "react-icons/io5";
-import { MdOutlineLocationOn } from "react-icons/md";
+import ServiceBenefits from "../../../components/benefit";
+import Ratings from "../../../components/ratings";
+import MainListing from "../../../components/single cycle page/imageSlider";
+import MoreListings from "../../../components/swipper_more_listing";
+import { getAllcycleList, getOnecycle } from "../../../services/cycle.service";
+import { getOneRating } from "../../../services/rating.service";
 
 const SingleCyclePage = () => {
   const { id } = useParams();

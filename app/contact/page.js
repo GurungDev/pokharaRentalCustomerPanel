@@ -1,11 +1,7 @@
 "use client"
-import ContactForm from "@/components/contact/contactForm";
+import contactAnimation from "../../animation/contact.json";
+import ContactForm from "../../components/contact/contactForm";
 import Lottie from "lottie-react";
-import Link from "next/link";
-import { BsArrowRightShort } from "react-icons/bs";
-import { MdOutlineArticle } from "react-icons/md";
-import { RiCodeBoxLine } from "react-icons/ri";
-import contactAnimation from "@/animation/contact.json";
 
 export default function FormPage() {
   return (

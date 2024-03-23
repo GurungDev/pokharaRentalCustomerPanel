@@ -1,11 +1,11 @@
 "use client";
-import ServiceBenefits from "@/components/benefit";
-import Ratings from "@/components/ratings";
-import MainListing from "@/components/single boat page/imageSlider";
-import MoreListings from "@/components/swipper_more_listing";
-import { toast } from "@/components/ui/use-toast";
-import { getAllBoatList, getOneBoat } from "@/services/boat.service";
-import { getOneRating } from "@/services/rating.service";
+import ServiceBenefits from "../../../components/benefit";
+import Ratings from "../../../components/ratings";
+import MainListing from "../../../components/single boat page/imageSlider";
+import MoreListings from "../../../components/swipper_more_listing";
+import { toast } from "../../../components/ui/use-toast";
+import { getAllBoatList, getOneBoat } from "../../../services/boat.service";
+import { getOneRating } from "../../../services/rating.service";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

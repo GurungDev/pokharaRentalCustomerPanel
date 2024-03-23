@@ -1,8 +1,7 @@
-import Image from "next/image";
-import React from "react";
-import LoginForm from "./loginForm";
 import Lottie from "lottie-react";
-import login from "@/animation/login.json";
+import React from "react";
+import login from "../../animation/login.json";
+import LoginForm from "./loginForm";
 
 const LoginComponent = () => {
   return (

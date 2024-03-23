@@ -1,8 +1,8 @@
 "use client";
-import ConnectCompany from "@/components/connectBanner";
-import MapComponent from "@/components/stores/mapComponent";
-import StoreList from "@/components/stores/storeList";
-import { Slider } from "@/components/ui/slider";
+import ConnectCompany from "../../components/connectBanner";
+import MapComponent from "../../components/stores/mapComponent";
+import StoreList from "../../components/stores/storeList";
+ 
 import React, { useState } from "react";
 
 const StoreNearMePage = () => {

@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// import required modules
+ 
 import {
   Keyboard,
   Pagination,
@@ -13,7 +12,7 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import LoginComponent from "./login";
 import RegisterComponent from "./register";
 
-export default function Slider() {
+export default function SliderAuth() {
   return (
     <div className="w-full min-h-[100vh]">
       <Swiper

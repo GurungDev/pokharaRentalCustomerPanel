@@ -1,7 +1,7 @@
 "use client";
 import Lottie from "lottie-react";
 import React from "react";
-import server from "@/animation/server.json";
+import server from "../../animation/server.json";
 import { useRouter } from "next/navigation";
 
 const ServerError = () => {

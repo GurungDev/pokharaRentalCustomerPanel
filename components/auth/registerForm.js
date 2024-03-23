@@ -1,6 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { Button } from "../../components/ui/button";
 import {
   Form,
   FormControl,
@@ -8,16 +9,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
+} from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
+import { useToast } from "../../components/ui/use-toast";
 
-import { StateContext } from "@/app/auth/page";
-import { Dialog, Transition } from "@headlessui/react";
-import Link from "next/link";
 import { Fragment, useContext } from "react";
-
+import { StateContext } from "../../app/auth/page";
+import { Dialog, Transition } from "@headlessui/react";
+ 
 export default function RegisterForm() {
   const { toast } = useToast();
   const { push } = useRouter();
