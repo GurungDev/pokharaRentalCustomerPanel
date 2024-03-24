@@ -73,7 +73,7 @@ export default function CycleSlider({ slides }) {
                 className="!flex !flex-col group !items-center shadow-md !justify-center max-w-[300px] bg-red-200 relative min-h-[350px] rounded-md overflow-hidden  "
               >
                 <Image
-                  src={data.image || "/lakesideBoat.jpg"}
+                  src={data.thumbnail || "/lakesideBoat.jpg"}
                   alt="Server"
                   width={400}
                   height={400}

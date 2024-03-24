@@ -4,7 +4,11 @@ import Ratings from "../../../components/ratings";
 import MainListing from "../../../components/single boat page/imageSlider";
 import MoreListings from "../../../components/swipper_more_listing";
 import { toast } from "../../../components/ui/use-toast";
-import { getAllBoatList, getOneBoat } from "../../../services/boat.service";
+import {
+  getAllBoatList,
+  getHighLight,
+  getOneBoat,
+} from "../../../services/boat.service";
 import { getOneRating } from "../../../services/rating.service";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -17,6 +21,7 @@ import { MdOutlineLocationOn } from "react-icons/md";
 const SingleBoatPage = () => {
   const { id } = useParams();
   const [boatData, setBoatData] = useState(null);
+  const [highlightData, sethighlightData] = useState(null);
   const [storeBoatData, setstoreBoatData] = useState(null);
   const { push } = useRouter();
   const [ratingData, setRatingData] = useState(null);
@@ -30,6 +35,11 @@ const SingleBoatPage = () => {
         const ratings = await getOneRating({
           data: { ratingFor: "boat", issueId: id },
         });
+        const highlight = await getHighLight({
+          issueId: id,
+          highlightFor: "boat",
+        });
+        sethighlightData(highlight?.data);
         setstoreBoatData(storeBoats?.data[0]);
         setRatingData(ratings?.data);
         setBoatData(boats?.data);
@@ -69,7 +79,7 @@ const SingleBoatPage = () => {
         </div>
 
         <div className="flex flex-col min-[1100px]:flex-row items-start w-full justify-between gap-[3rem]">
-          <div className=" min-[1100px]:sticky top-[10vh]  grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
+          <div className=" min-[1100px]:sticky min-[1100px]:top-[10vh]  grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
             <div className="px-[1.5rem] grid gap-[1rem]  w-full py-[1rem] rounded-xl border-[1px]">
               <div className="">
                 <div className="group paragraph flex items-center gap-3 text-neutral-600">
@@ -129,12 +139,7 @@ const SingleBoatPage = () => {
             />
             <ServiceBenefits
               title="Some of the highlights are: "
-              benefits={[
-                "Durable and fun",
-                "Highly available and reliable ",
-                "Cost optimisation and saving costs",
-                "Safety equipment provided",
-              ]}
+              benefits={highlightData}
             />
 
             <div className="google-map-code w-[90%] float-right pb-10">
@@ -154,7 +159,7 @@ const SingleBoatPage = () => {
           </div>
         </div>
       </div>
-      <MoreListings slides={storeBoatData} listing={"boats"}/>
+      <MoreListings slides={storeBoatData} listing={"boats"} />
     </div>
   );
 };

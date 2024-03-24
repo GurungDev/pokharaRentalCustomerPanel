@@ -10,4 +10,8 @@ export const getOneBoat= async (data)=> {
     return res?.data;
 }
 
+export const getHighLight= async (data)=> {
+    const res = await http.get(`/highlight`, {params: data})
+    return res?.data;
+}
 

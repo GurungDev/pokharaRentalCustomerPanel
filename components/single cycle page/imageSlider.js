@@ -6,7 +6,7 @@ import "swiper/css/effect-creative";
 import { EffectCreative, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const MainListing = ({imageList}) => {
+const MainListing = ({ imageList }) => {
   const [isEnd, setIsEnd] = useState(false);
   const [isStart, setIsStart] = useState(true);
 
@@ -73,22 +73,23 @@ const MainListing = ({imageList}) => {
         modules={[EffectCreative, Navigation]}
         className="h-full w-full "
       >
-        {
-        
-        imageList?.map((data, i) => (
-          <SwiperSlide key={i} className="h-full w-full ">
-            <div className="w-full h-[60vh] relative rounded-xl overflow-hidden group">
-              <Image
-                src="/lakeSideBoat.jpg"
-                alt="Boat image"
-                layout="fill"
-                quality={40}
-                objectFit="cover"
-                className="w-full fill h-full group-hover:scale-[1.041] duration-300"
-              ></Image>
-            </div>
-          </SwiperSlide>
-        ))}
+        {imageList?.map(
+          (data, i) =>
+            data !== "null" && (
+              <SwiperSlide key={i} className="h-full w-full ">
+                <div className="w-full h-[60vh] relative rounded-xl overflow-hidden group">
+                  <Image
+                    src={data !== "null" && data}
+                    alt="Boat image"
+                    layout="fill"
+                    quality={40}
+                    objectFit="cover"
+                    className="w-full fill h-full group-hover:scale-[1.041] duration-300"
+                  ></Image>
+                </div>
+              </SwiperSlide>
+            )
+        )}
       </Swiper>
     </div>
   );

@@ -11,11 +11,13 @@ import MainListing from "../../../components/single cycle page/imageSlider";
 import MoreListings from "../../../components/swipper_more_listing";
 import { getAllcycleList, getOnecycle } from "../../../services/cycle.service";
 import { getOneRating } from "../../../services/rating.service";
+import { getHighLight } from "@/services/boat.service";
 
 const SingleCyclePage = () => {
   const { id } = useParams();
   const [cycleData, setcycleData] = useState(null);
   const [storeCycleData, setstoreCycleData] = useState(null);
+  const [highlightData, sethighlightData] = useState(null);
   const [ratingData, setRatingData] = useState(null);
   const { push } = useRouter();
   useEffect(() => {
@@ -26,6 +28,11 @@ const SingleCyclePage = () => {
         const ratings = await getOneRating({
           data: { ratingFor: "cycle", issueId: id },
         });
+        const highlight = await getHighLight({
+          issueId: id,
+          highlightFor: "cycle",
+        });
+        sethighlightData(highlight?.data);
         setcycleData(cycles?.data);
         setstoreCycleData(storeBoats?.data[0])
         setRatingData(ratings?.data);
@@ -64,7 +71,7 @@ const SingleCyclePage = () => {
         </div>
 
         <div className="flex flex-col min-[1100px]:flex-row items-start w-full justify-between gap-[3rem]">
-          <div className=" sticky top-[10vh] grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
+          <div className=" min-[1100px]:sticky min-[1100px]:top-[10vh] grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
             <div className="px-[1.5rem] grid gap-[1rem]  w-full py-[1rem] rounded-xl border-[1px]">
               <div className="">
                 <div className="group paragraph flex items-center gap-3 text-neutral-600">
@@ -115,12 +122,7 @@ const SingleCyclePage = () => {
             />
             <ServiceBenefits
               title="Some of the highlights are: "
-              benefits={[
-                "Durable and fun",
-                "Highly available and reliable ",
-                "Cost optimisation and saving costs",
-                "Safety equipment provided",
-              ]}
+              benefits={highlightData}
             />
             <div className="google-map-code w-[90%] float-right pb-10">
               <p className=" font-[300] secondary-title pt-4 pb-6 text-text">
