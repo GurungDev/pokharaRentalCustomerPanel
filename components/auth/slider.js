@@ -41,8 +41,8 @@ export default function SliderAuth() {
           id={`next_slide88`}
           className="p-2 absolute group flex hover:text-secondary text-[#5f6368] items-center right-[20%] z-50 bottom-[3%] transform -translate-y-1/2  backdrop-blur-sm"
         >
-          <h1 className="small hidden md:flex">Register your account. Join us !!</h1>
-          <h1 className="small  md:hidden">Register !!</h1>
+          <h1 className="small hidden min-[1100px]:flex">Register your account. Join us !!</h1>
+          <h1 className="small  min-[1100px]:hidden">Register !!</h1>
           <RxCaretRight size={25} className="group-hover:translate-x-[10px] duration-300" />
         </button>
         <button
@@ -51,8 +51,8 @@ export default function SliderAuth() {
         >
           {" "}
           <RxCaretLeft size={25} className="group-hover:translate-x-[-10px] duration-300" />
-          <h1 className="small hidden md:flex">Already have an account. Sign up !!</h1>
-          <h1 className="small  md:hidden">Sign up !!</h1>
+          <h1 className="small hidden min-[1100px]:flex">Already have an account. Sign up !!</h1>
+          <h1 className="small  min-[1100px]:hidden">Sign up !!</h1>
         </button>
       </Swiper>
     </div>

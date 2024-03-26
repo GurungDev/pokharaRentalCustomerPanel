@@ -13,13 +13,20 @@ import {
 import { Input } from "../../components/ui/input";
 import { useToast } from "../../components/ui/use-toast";
 
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import { StateContext } from "../../app/auth/page";
 import { Dialog, Transition } from "@headlessui/react";
- 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Timer from "../timer";
+
 export default function RegisterForm() {
   const { toast } = useToast();
   const { push } = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const {
     isOtpModelOpen,
     setIsOtpModelOpen,
@@ -32,14 +39,14 @@ export default function RegisterForm() {
   return (
     <div>
       <Form {...registerForm}>
-        <form className="grid gap-7   my-5 py-10 px-20  ">
+        <form className="grid gap-7   my-5 py-10 px-14  ">
           <div className="">
             <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
               Pokhara Rental
             </h1>
             <small className="">Register your account</small>
           </div>
-          <div className="flex justify-between gap-10">
+          <div className="grid grid-cols-2 justify-between gap-10">
             <div className="grow grid gap-7">
               <FormField
                 control={registerForm.control}
@@ -61,7 +68,23 @@ export default function RegisterForm() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder="password" {...field} />
+                      <div className="flex items-center   ">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="password"
+                          {...field}
+                        />
+                        <div
+                          className="border-[1px] bg-neutral-800 text-white py-2 px-4 rounded-md"
+                          onClick={togglePasswordVisibility}
+                        >
+                          {showPassword ? (
+                            <FaEyeSlash size={25} />
+                          ) : (
+                            <FaEye size={25} />
+                          )}
+                        </div>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -100,16 +123,6 @@ export default function RegisterForm() {
             </div>
           </div>
 
-          {/* <Button className="btn" onClick={()=>setIsOtpModelOpen(true)}>
-            {" "}
-            Send Otp
-          </Button> */}
-
-          {/* <Button className="btn" onClick={() => form.handleSubmit(onSubmit)}>
-            {" "}
-            Register
-          </Button> */}
-
           <Button
             className="btn"
             onClick={registerForm.handleSubmit(onRegisterFormSubmit)}
@@ -119,11 +132,7 @@ export default function RegisterForm() {
           </Button>
 
           <Transition appear show={isOtpModelOpen} as={Fragment}>
-            <Dialog
-              as="div"
-              className="relative z-10"
-              onClose={() => setIsOtpModelOpen(false)}
-            >
+            <Dialog as="div" className="relative z-10" onClose={() => {}}>
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -167,13 +176,21 @@ export default function RegisterForm() {
                             render={({ field }) => (
                               <FormItem>
                                 <FormControl>
-                                  <Input placeholder="OTP" {...field} />
+                                  <Input placeholder="Your Otp" {...field} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
-                          <div className="mt-4">
+
+                          <div className="my-3">
+                            <Timer
+                              onSendOTPFormSubmit={registerForm.handleSubmit(
+                                onRegisterFormSubmit
+                              )}
+                            />
+                          </div>
+                          <div className="mt-4 flex items-center justify-between">
                             <button
                               type="submit"
                               className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -181,7 +198,14 @@ export default function RegisterForm() {
                                 onRegisterFormAlongWithOtpSubmit
                               )}
                             >
-                              Got it, thanks!
+                              Submit
+                            </button>
+                            <button
+                              type="submit"
+                              className="  justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                              onClick={() => setIsOtpModelOpen(false)}
+                            >
+                              Cancel
                             </button>
                           </div>
                         </form>

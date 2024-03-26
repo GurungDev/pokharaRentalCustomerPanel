@@ -16,7 +16,7 @@ const HomepageComponent2 = () => {
           <h1 className="text-box text-[1.6rem] min-[400px]:text-[1.8rem] md:text-[2rem] lg:text-[2.5rem] mb-20 font-bold">
           Unlock Your Next Adventure: Seamlessly Explore, Book, and Thrive with Pokhara Rentals!
           </h1>
-          <Link href="/contact">
+          <Link href="/store">
             <button className="btn hover:px-[3em] hover:text-text rounded border-[1px] border-white py-2 px-10 hover:bg-white duration-300">
               Start the journey
             </button>

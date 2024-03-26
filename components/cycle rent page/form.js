@@ -6,14 +6,14 @@ import { Fragment, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { BsCash } from "react-icons/bs";
 import { DatePicker } from "../date picker";
-import { makeOrder } from "@/services/order.service";
+import { getEsewaToken, makeOrder } from "@/services/order.service";
 import { toast } from "../ui/use-toast";
 import Error from "next/error";
 import { useRouter } from "next/navigation";
 
-const FormSectionConsultancy = ({ id }) => {
+const FormSectionConsultancy = ({ id , price}) => {
   const [quantity, setQuantity] = useState(0);
-  const {push} = useRouter();
+  const { push } = useRouter();
   const duration_list = [
     { name: "Select the duration for rent", value: 0 },
     { name: "1 Hour", value: 1 },
@@ -33,16 +33,14 @@ const FormSectionConsultancy = ({ id }) => {
 
   async function orderInCash() {
     try {
-      console.log(id)
+      
       const res = await makeOrder({
-        
-          quantity: quantity,
-          bookingDate: selected_pick_up_date,
-          durationInHour: duration.value,
-          issuedFor: "cycle",
-          issueId: id,
-          paymentMethod: "cash",
-     
+        quantity: quantity,
+        bookingDate: selected_pick_up_date,
+        durationInHour: duration.value,
+        issuedFor: "cycle",
+        issueId: id,
+        paymentMethod: "cash",
       });
       if (!res.success) {
         throw new Error("Order Failed.");
@@ -51,7 +49,7 @@ const FormSectionConsultancy = ({ id }) => {
         title: "Success",
         description: "Order has been placed",
       });
-      push("/orderSuccess")
+      push("/orderSuccess");
     } catch (error) {
       toast({
         variant: "destructive",
@@ -62,12 +60,77 @@ const FormSectionConsultancy = ({ id }) => {
     }
   }
 
+  async function orderInEsewa() {
+    try {
+      const transaction_uuid = crypto.randomUUID();
+      const token = await getEsewaToken({
+        transaction_uuid: transaction_uuid,
+        product_code: "EPAYTEST",
+        productId: id,
+        issuedFor: "cycle",
+        quantity: quantity,
+        duration: duration?.value,
+        bookingDate: selected_pick_up_date,
+      });
+
+      esewaCall({
+        amount: token?.data?.totalPrice,
+        failure_url: "http://localhost:3000/orderFailure",
+        product_delivery_charge: "0",
+        product_service_charge: "0",
+        product_code: "EPAYTEST",
+        signature: token?.data?.signature,
+        signed_field_names: "total_amount,transaction_uuid,product_code",
+        success_url: "http://localhost:3000/orderSuccess/esewa",
+        tax_amount: "0",
+        total_amount: token?.data?.totalPrice,
+        transaction_uuid: transaction_uuid,
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Order failed",
+        description:
+          error.response?.data?.message || "Couldn't connect to the server",
+      });
+    }
+  }
+
+  const esewaCall = (formData) => {
+  
+    var path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+
+    var form = document.createElement("form");
+    form.setAttribute("method", "POST");
+    form.setAttribute("action", path);
+
+    for (var key in formData) {
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("type", "hidden");
+      hiddenField.setAttribute("name", key);
+      hiddenField.setAttribute("value", formData[key]);
+      form.appendChild(hiddenField);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+  };
+
   return (
     <div className="   w-full h-full m-auto p-[1.5rem] min-[1100px]:px-[3rem] ">
       <div className="grid gap-[1rem] pb-[3rem]">
-        <div className="">
-          <h1 className="secondary-title font-[300]  ">Cycles</h1>
-          <p className="paragraph py-4">Provide details to book now !</p>
+        <div className="flex justify-between items-center">
+          <div className="">
+            <h1 className="secondary-title font-[300]  ">Cycles</h1>
+            <p className="paragraph py-4">Provide details to book now !</p>
+          </div>
+          <div
+            className={`${
+              duration?.value == 0 || quantity === 0 ? "hidden" : ""
+            }   text-neutral-700 animate-bounce   secondary-title   leading-[1.5rem] font-[400]`}
+          >
+            Rs {price * duration.value * quantity || price}
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-10">
           <div className="">
@@ -196,10 +259,11 @@ const FormSectionConsultancy = ({ id }) => {
           Cash on delivery
         </button>
         <button
+          onClick={orderInEsewa}
           disabled={duration?.value == 0 || quantity === 0}
           className={`${
             duration?.value == 0 || quantity === 0 ? "hidden" : ""
-          } bg-[#60bb46] flex items-center justify-center gap-3 btn  py-[1rem] px-[2rem] w-full text-white font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
+          } hover:bg-[#60bb46] border-[2px] border-[#60bb46]  flex items-center justify-center gap-3 duration-500 py-[1rem] px-[2rem] w-full text-[#60bb46] hover:text-white font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
         >
           <Image
             src="/esewa.png"

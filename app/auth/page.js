@@ -1,6 +1,5 @@
 "use client";
-  
-  
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
@@ -13,13 +12,19 @@ import { SendOtp } from "../../services/auth/sendOtp.service";
 import { loginUser } from "../../services/auth/login.service";
 import { Registeruser } from "../../services/auth/register.service";
 import { store } from "@/redux/store";
-import { loginFormSchema, registerFormAlongWithOtpSchema, registerFormSchema } from "@/lib/schemas";
-import { setLogin } from "@/redux/slices/userSlice";
+import {
+  loginFormSchema,
+  registerFormAlongWithOtpSchema,
+  registerFormSchema,
+} from "@/lib/schemas";
+import { setDetails, setLogin } from "@/redux/slices/userSlice";
+import { OtpPurpose } from "@/lib/data";
+import { getDetails } from "@/services/user.service";
 export const StateContext = createContext();
 
 const AuthPage = () => {
   const { push } = useRouter();
- 
+
   const [isOtpModelOpen, setIsOtpModelOpen] = useState(false);
   const dispatch = useDispatch();
   const [rememberMe, setRememberMe] = useState(false);
@@ -58,7 +63,7 @@ const AuthPage = () => {
         validateFor: "customer",
         ...registerForm.getValues(),
       };
-     
+
       const res = await Registeruser(data);
       setIsOtpModelOpen(false);
       if (!res) {
@@ -109,13 +114,21 @@ const AuthPage = () => {
       if (!res) {
         throw new Error(400, res.data?.messsage || "Something went wrong");
       }
-     
+      const userDetails = await getDetails(res?.data?.id);
+
       dispatch(setLogin({ token: res?.data?.token, isRememberMe: rememberMe }));
+      dispatch(
+        setDetails({
+          name: userDetails?.data?.name,
+          email: userDetails?.data?.email,
+          number: userDetails?.data?.phoneNumber,
+          isRememberMe: rememberMe,
+        })
+      );
       push("/");
       toast({
         title: "Login sucess",
       });
-      window.location.reload();
     } catch (error) {
       toast({
         variant: "destructive",

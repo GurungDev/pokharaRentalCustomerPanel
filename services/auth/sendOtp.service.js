@@ -6,3 +6,10 @@ export const SendOtp = async (data)=> {
     
     return res?.data;
 }
+
+export const ChangePassword = async (data)=> {
+ 
+    const res = await http.post("/auth/change-password", data)
+    
+    return res?.data;
+}

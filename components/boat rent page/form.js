@@ -33,7 +33,7 @@ const FormSectionConsultancy = ({ id, price }) => {
 
   async function orderInCash() {
     try {
-      console.log(id);
+    
       const res = await makeOrder({
         quantity: quantity,
         bookingDate: selected_pick_up_date,
@@ -70,17 +70,18 @@ const FormSectionConsultancy = ({ id, price }) => {
         issuedFor: "boat",
         quantity: quantity,
         duration: duration?.value,
+        bookingDate: selected_pick_up_date
       });
-      console.log(token?.data?.signature);
+   
       esewaCall({
         amount: token?.data?.totalPrice,
-        failure_url: "http://www.google.com",
+        failure_url: "http://localhost:3000/orderFailure",
         product_delivery_charge: "0",
         product_service_charge: "0",
         product_code: "EPAYTEST",
         signature: token?.data?.signature,
         signed_field_names: "total_amount,transaction_uuid,product_code",
-        success_url: "http://localhost:5005/api/esewa/success",
+        success_url: "http://localhost:3000/orderSuccess/esewa",
         tax_amount: "0",
         total_amount: token?.data?.totalPrice,
         transaction_uuid: transaction_uuid,
@@ -263,8 +264,8 @@ const FormSectionConsultancy = ({ id, price }) => {
           disabled={duration?.value == 0 || quantity === 0}
           className={`${
             duration?.value == 0 || quantity === 0 ? "hidden" : ""
-          } bg-[#60bb46] flex items-center justify-center gap-3 btn  py-[1rem] px-[2rem] w-full text-white font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
-        >
+          } hover:bg-[#60bb46] border-[2px] border-[#60bb46]  flex items-center justify-center gap-3 duration-500 py-[1rem] px-[2rem] w-full text-[#60bb46] hover:text-white font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
+          >
           <Image
             src="/esewa.png"
             width="25"

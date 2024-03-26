@@ -1,11 +1,12 @@
 "use client"
 import Lottie from 'lottie-react';
-import { useRouter } from 'next/navigation';
-import React from 'react'
+import { useParams, useRouter } from 'next/navigation';
+import React, { useState } from 'react'
 import success from '@/animation/success.json'
 
 const SuccessOrder = () => {
     const { push } = useRouter();
+    
     return (
       <div className="pb-20 my-[20vh]">
         <div className="flex flex-col justify-center items-center">

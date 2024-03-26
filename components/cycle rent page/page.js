@@ -42,7 +42,7 @@ const MainSection = ({ id }) => {
             <Details cycleData={cycleData} ratingData={ratingData} />
           </div>
           <div className=" w-full h-full flex-col min-[1100px]:w-[60%]  min-[1100px]:w-[55%]">
-            <FormSectionConsultancy id={id}/>
+            <FormSectionConsultancy id={id} price={cycleData?.priceInRs}/>
           </div>
         </div>
       </div>

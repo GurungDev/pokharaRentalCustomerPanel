@@ -5,6 +5,11 @@ export const makeOrder= async (data)=> {
     return res?.data;
 }
 
+export const makeEsewaOrder= async (data)=> {
+    const res = await http.post(`/customer/order/esewa`, data)
+    return res?.data;
+}
+
 export const getEsewaToken= async (data)=> {
     const res = await http.post(`/customer/order/esewa/init`, data)
     return res?.data;

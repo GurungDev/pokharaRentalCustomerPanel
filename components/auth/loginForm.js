@@ -14,14 +14,18 @@ import { Input } from "../../components/ui/input";
 import { StateContext } from "../../app/auth/page";
 import { Switch } from "../../components/ui/switch";
 import { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function LoginForm() {
-  const {
-    rememberMe,
-    setRememberMe,
-    loginForm,
-    onLoginFormSubmit
-  } = useContext(StateContext);
+  const { rememberMe, setRememberMe, loginForm, onLoginFormSubmit } =
+    useContext(StateContext);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const { push } = useRouter();
   return (
     <main className="w-full pt-10 m-auto h-full ">
       <Form {...loginForm}>
@@ -57,7 +61,23 @@ export default function LoginForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="password" {...field} />
+                  <div className="flex items-center   ">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="password"
+                      {...field}
+                    />
+                    <div
+                      className="border-[1px] bg-neutral-800 text-white py-2 px-4 rounded-md"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? (
+                        <FaEyeSlash size={25} />
+                      ) : (
+                        <FaEye size={25} />
+                      )}
+                    </div>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -68,6 +88,13 @@ export default function LoginForm() {
               <Switch onClick={() => setRememberMe(!rememberMe)} />
               <small> Remember me </small>
             </div>
+
+            <div
+              onClick={() => push("/forgotPassword")}
+              className="flex hover:translate-x-[-10px] duration-300 cursor-pointer gap-2 text-red-600 items-center"
+            >
+              <small> Forgot Password </small>
+            </div>
           </div>
 
           <Button type="submit" className="btn">
@@ -77,5 +104,4 @@ export default function LoginForm() {
       </Form>
     </main>
   );
-
 }

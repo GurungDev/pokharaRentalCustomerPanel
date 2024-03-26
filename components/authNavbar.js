@@ -19,6 +19,7 @@ import "react-modern-drawer/dist/index.css";
 import { useDispatch } from "react-redux";
 import { useAuth } from "./authProvider";
 import { toast } from "./ui/use-toast";
+import { store } from "@/redux/store";
  
 
 export default function NavbarAuth() {
@@ -33,6 +34,7 @@ export default function NavbarAuth() {
     setIsOpen((prevState) => !prevState);
   };
   const[notificationSeen, setNotificationSeen] = useState(false)
+  const state = store.getState();
   async function seenANotification(id) {
     try {
       const notifications = await seenNotification({ data: { notificationId: id } });
@@ -303,7 +305,7 @@ export default function NavbarAuth() {
                         className={`${
                           active ? "bg-primary text-white" : "text-gray-900"
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                        href="/account-settings"
+                        href="/profile"
                       >
                         Profile
                       </a>
@@ -327,7 +329,7 @@ export default function NavbarAuth() {
                     className={`text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm`}
 
                   >
-                    <span className="opacity-75">Hello Nishan</span>
+                    <span className="opacity-75">Hello {state?.account?.name}</span>
                   </Menu.Item>
                 </Menu.Items>
               </Transition>

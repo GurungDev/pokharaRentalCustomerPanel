@@ -86,7 +86,7 @@ export default function MoreListings({ slides , listing}) {
                 className="w-full !flex mb-8 !flex-col gap-5 group !items-center !justify-center relative min-h-[450px] rounded-xl overflow-hidden "
               >
                 <Image
-                  src={data?.image || "/lakesideBoat.jpg"}
+                  src={data?.thumbnail || "/lakesideBoat.jpg"}
                   alt="Server"
                   width={400}
                   height={400}
