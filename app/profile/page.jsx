@@ -2,38 +2,92 @@
 import { store } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { IoPhonePortraitOutline } from "react-icons/io5";
-import { MdOutlineMail, MdStore } from "react-icons/md";
-
+import { MdOutlineMail } from "react-icons/md";
+import noOrder from "@/animation/order.json";
+import withAuth from "@/components/authMiddleware";
 import Details from "@/components/profile page/detail";
-import { GoPlus } from "react-icons/go";
-import { usePDF } from "react-to-pdf";
-import { IoMdNotifications, IoMdNotificationsOff } from "react-icons/io";
 import StoreCard from "@/components/profile page/store";
- 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { RatingForEnum } from "@/lib/data";
+import { getOrders } from "@/services/order.service";
+import { getFollowedStore } from "@/services/store.service";
+import { GoPlus } from "react-icons/go";
+import Lottie from "lottie-react";
+
 const Profile = () => {
   const state = store.getState();
-  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
-
+  const [storeData, setStoreData] = useState(null);
+  const [orderData, setorderData] = useState(null);
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [number, setNumber] = useState();
   const [followingShown, setfollowingShown] = useState(false);
+  const [orderBy, setOrderBy] = useState("desc");
+
+  async function getFollowedStoreList() {
+    try {
+      const res = await getFollowedStore();
+      setStoreData(res?.data);
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }
+
+  async function getFollowedOrderList() {
+    try {
+      const res = await getOrders({ orderBy });
+      setorderData(res?.data);
+    } catch (error) {
+      console.log(error?.message);
+    }
+  }
   useEffect(() => {
     if (typeof window !== "undefined") {
       setName(state?.account?.name);
       setEmail(state?.account?.email);
       setNumber(state?.account?.number);
     }
+    getFollowedStoreList();
   }, [state]);
+
+  useEffect(() => {
+    getFollowedOrderList();
+  }, [orderBy]);
   return (
     <div className=" py-20 layout ">
-      <div>
-        <h1 className="title font-[200] py-2">Hello {name}, </h1>
-        <p className="paragraph ">
-          {" "}
-          The page encompasses all user details, including followed stores,
-          along with a comprehensive history of past orders.{" "}
-        </p>
+      <div className="flex  items-end justify-between">
+        <div>
+          <h1 className="title font-[200] py-2">Hello {name}, </h1>
+          <p className="paragraph ">
+            {" "}
+            The page encompasses all user details, including followed stores,
+            along with a comprehensive history of past orders.{" "}
+          </p>
+        </div>
+        <div className="min-[1100px]:block hidden">
+          <Select
+            onValueChange={(value) => {
+              setOrderBy(value);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Order By" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="desc">Newest</SelectItem>
+                <SelectItem value="asc">Oldest</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <div className="flex my-10 flex-col min-[1100px]:flex-row items-start w-full justify-between gap-[3rem]">
         <div className=" min-[1100px]:sticky min-[1100px]:top-[10vh]  grid gap-[2rem] w-[90%] min-[1100px]:w-[30%] ">
@@ -89,21 +143,75 @@ const Profile = () => {
                 followingShown ? "py-2  " : "py-0 h-0 "
               } duration-500 overflow-hidden grid gap-[1rem]`}
             >
-              <StoreCard />
-              <StoreCard />
+              {storeData?.map((data, index) => {
+                return (
+                  <StoreCard
+                    key={index}
+                    name={data.store.name}
+                    phoneNumber={data.store.phoneNumber}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
-        <div className="w-[90%] min-[1100px]:w-[75%] grid gap-7">
-          <Details />
-
-          <Details />
-          <Details />
-          <Details />
+        <div className="w-[90%s] min-[1100px]:hidden">
+          <Select
+            onValueChange={(value) => {
+              setOrderBy(value);
+            }}
+            className={"w-full"}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Order By" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="desc">Newest</SelectItem>
+                <SelectItem value="asc">Oldest</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-[90%] min-[1100px]:w-[75%] grid gap-10">
+          {orderData && orderData.length > 0 ? (
+            orderData?.map((data, index) => {
+              return (
+                <Details
+                  key={index}
+                  quantity={data?.quantity}
+                  totalPriceInRs={data?.totalPriceInRs}
+                  priceOfSingleProduct={data?.priceOfSingleProduct}
+                  bookingDate={data?.bookingDate}
+                  durationInHour={data?.durationInHour}
+                  paymentType={data?.paymentType}
+                  transaction_uuid={data?.transaction_uuid}
+                  listingName={data?.boat?.title || data?.cycle?.title}
+                  listingDescription={
+                    data?.boat?.description || data?.cycle?.description
+                  }
+                  thumbnail={
+                    data?.boat?.thumbnail || data?.cycle?.thumbnail || ""
+                  }
+                  ratingFor={
+                    data?.boat ? RatingForEnum.BOAT : RatingForEnum.CYCLE
+                  }
+                  listingId={data?.boat?.id || data?.cycle?.id}
+                />
+              );
+            })
+          ) : (
+            <div>
+              <div className="w-[40%] m-auto text-center ">
+                <Lottie animationData={noOrder} loop={true} />
+                <h2 className="secondary-title ">No Orders yet!</h2>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Profile;
+export default withAuth(Profile);

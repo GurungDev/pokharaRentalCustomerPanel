@@ -33,7 +33,7 @@ const FormSectionConsultancy = ({ id , price}) => {
 
   async function orderInCash() {
     try {
-      
+      const transaction_uuid = crypto.randomUUID();
       const res = await makeOrder({
         quantity: quantity,
         bookingDate: selected_pick_up_date,
@@ -41,6 +41,7 @@ const FormSectionConsultancy = ({ id , price}) => {
         issuedFor: "cycle",
         issueId: id,
         paymentMethod: "cash",
+        transaction_uuid: transaction_uuid
       });
       if (!res.success) {
         throw new Error("Order Failed.");

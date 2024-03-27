@@ -125,6 +125,7 @@ const AuthPage = () => {
           isRememberMe: rememberMe,
         })
       );
+   
       push("/");
       toast({
         title: "Login sucess",

@@ -1,16 +1,34 @@
+"use client";
 import Image from "next/image";
-import { IoPricetags, IoPricetagsOutline, IoStorefront } from "react-icons/io5";
-import Ratings from "../ratings";
+import { BsCalendarDate } from "react-icons/bs";
 import { FaRankingStar } from "react-icons/fa6";
+import { GiDuration } from "react-icons/gi";
+import { IoPricetags, IoPricetagsOutline } from "react-icons/io5";
 import {
   MdOutlinePayments,
   MdOutlineProductionQuantityLimits,
 } from "react-icons/md";
-import { BsCalendarDate } from "react-icons/bs";
-import { GiDuration } from "react-icons/gi";
-import generatePDF, { usePDF } from "react-to-pdf";
+import generatePDF from "react-to-pdf";
+import { toast } from "../ui/use-toast";
+import Ratings from "../ratings";
+import { giveRate } from "@/services/rating.service";
+import Rate from "../giveRating";
+import { useState } from "react";
 
-const Details = ({ boatData, ratingData }) => {
+const Details = ({
+  quantity,
+  totalPriceInRs,
+  priceOfSingleProduct,
+  bookingDate,
+  durationInHour,
+  paymentType,
+  listingName,
+  listingDescription,
+  thumbnail,
+  listingId,
+  ratingFor,
+  transaction_uuid,
+}) => {
   const options = {
     method: "open",
 
@@ -23,21 +41,40 @@ const Details = ({ boatData, ratingData }) => {
       orientation: "landscape",
     },
   };
-
-   const getTargetElement = () => document.getElementById("content-id");
+  const [rating, setRating] = useState(false);
+  const getTargetElement = () => document.getElementById("content-id");
 
   return (
     <div className="">
-      <button className="px-4 py-2 small hover:translate-x-[10px] duration-300 bg-neutral-700 text-white bg border-[1px] rounded-t-xl" onClick={() => generatePDF(getTargetElement, options)}>
-        Download PDF
-      </button>
-
-      <div id="content-id" className="min-[1100px]:flex  items-stretch shadow-md">
+      <div className="flex gap-3 items-center justify-between">
+        <button
+          className="px-4 py-2 small hover:translate-x-[10px] duration-300  bg-blue-600 text-white bg border-[1px] rounded-t-xl"
+          onClick={() => generatePDF(getTargetElement, options)}
+        >
+          Download PDF
+        </button>
+        <div>
+          {rating ? (
+            <Rate listingId={listingId} ratingFor={ratingFor} />
+          ) : (
+            <button
+              className="px-4 py-2 small hover:translate-x-[-10px] duration-300  bg-blue-600 text-white bg border-[1px] rounded-t-xl"
+              onClick={() => setRating(true)}
+            >
+              Give Rating
+            </button>
+          )}
+        </div>
+      </div>
+      <div
+        id="content-id"
+        className="min-[1100px]:flex  items-stretch shadow-md"
+      >
         <div className="min-[1100px]:w-[60%]  ">
           <div className="w-full">
-            <div className="w-full !flex  !flex-col gap-5 group !items-center !justify-center relative min-h-[270px] rounded-bl-xl overflow-hidden ">
+            <div className="w-full !flex  !flex-col gap-5 group !items-center !justify-center relative min-h-[300px] rounded-bl-xl overflow-hidden ">
               <Image
-                src={boatData?.thumbnail || "/lakesideBoat.jpg"}
+                src={thumbnail || "/lakesideBoat.jpg"}
                 alt="Server"
                 width={400}
                 height={400}
@@ -54,82 +91,78 @@ const Details = ({ boatData, ratingData }) => {
                 <div className={`w-[30px] h-[5px] bg-red-600`}></div>
                 <div className="flex items-center justify-between">
                   <h1 className="text-2xl font-[600] text-white py-2">
-                    {boatData?.title || "Boat Name"}
+                    {listingName}
                   </h1>
                 </div>
-                <p className="mb-2 mt-5 duration-300 text-neutral-200 text-[.9rem]  small lg:text-[1rem]  min-[1900px]:text-[1.1rem] ">
-                  {boatData?.description || "Descrfiption"}
+                <p className="mb-2 mt-5 duration-300 text-neutral-200 text-[.9rem] font-[300] small lg:text-[1rem]  min-[1900px]:text-[1.1rem] ">
+                  {listingDescription}
                 </p>
-                <div className="flex gap-2 text-white">
-                  <Ratings count={ratingData?.rating || 1} />
-                  {ratingData?.totalRating || 0}
-                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="min-[1100px]:w-[40%] bg-neutral-100 grid  p-5 rounded-r-xl border-[1px]">
-          <div className="flex items-center justify-between">
-            <div className="group paragraph flex items-center gap-3 text-neutral-600">
+        <div className="min-[1100px]:w-[40%] bg-neutral-100 grid  px-6 py-3 rounded-r-xl border-[1px]">
+          <div className="flex flex-col gap-3 border-b-[1px]  ">
+            <div className="group small flex items-center gap-3 text-neutral-600">
               {" "}
               <span>Order ID</span>
               <FaRankingStar className="group-hover:translate-x-[7px] duration-300" />
             </div>
-            <p className="small">2</p>
+            <p className="small">{transaction_uuid}</p>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="group paragraph flex items-center gap-3 text-neutral-600">
+            <div className="group small flex items-center gap-3 text-neutral-600">
               {" "}
               <span>Quantity</span>
               <MdOutlineProductionQuantityLimits className="group-hover:translate-x-[7px] duration-300" />
             </div>
-            <p className="small">2</p>
+            <p className="small">{quantity}</p>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="group paragraph flex items-center gap-3 text-neutral-600">
+            <div className="group small flex items-center gap-3 text-neutral-600">
               {" "}
               <span>Total Cost</span>
               <IoPricetags className="group-hover:translate-x-[7px] duration-300" />
             </div>
-            <p className="small">2</p>
+            <p className="small">Rs {totalPriceInRs}</p>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="group paragraph flex items-center gap-3 text-neutral-600">
+            <div className="group small flex items-center gap-3 text-neutral-600">
               {" "}
-              <span>Price</span>
+              <span>Unit price</span>
               <IoPricetagsOutline className="group-hover:translate-x-[7px] duration-300" />
             </div>
-            <p className="small">Rs 100</p>
+            <p className="small">Rs {priceOfSingleProduct}</p>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="group paragraph flex items-center gap-3 text-neutral-600">
+            <div className="group small flex items-center gap-3 text-neutral-600">
               {" "}
               <span>Date</span>
               <BsCalendarDate className="group-hover:translate-x-[7px] duration-300" />
             </div>
-            <p className="small">2023-12-2</p>
+            <p className="small">{bookingDate}</p>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="group paragraph flex items-center gap-3 text-neutral-600">
+            <div className="group small flex items-center gap-3 text-neutral-600">
               {" "}
               <span>Duration</span>
               <GiDuration className="group-hover:translate-x-[7px] duration-300" />
             </div>
-            <p className="small">2 hour</p>
+            <p className="small">{durationInHour} hour</p>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="group paragraph flex items-center gap-3 text-neutral-600">
+            <div className="group small flex items-center gap-3 text-neutral-600">
               {" "}
               <span>Payment Type</span>
               <MdOutlinePayments className="group-hover:translate-x-[7px] duration-300" />
             </div>
-            <p className="small">Esewa</p>
+            <p className="small">{paymentType}</p>
           </div>
         </div>
       </div>

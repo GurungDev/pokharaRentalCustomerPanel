@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { IoMdNotifications, IoMdNotificationsOff } from "react-icons/io";
 import { MdStore } from "react-icons/md";
 
-const StoreCard = () => {
+const StoreCard = ({ name, phoneNumber }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
@@ -11,10 +11,10 @@ const StoreCard = () => {
       <div>
         <div className="group paragraph flex items-center gap-3 text-neutral-600">
           {" "}
-          <span>Store no 1</span>
+          <span>{name}</span>
           <MdStore className="group-hover:translate-x-[7px] duration-300" />
         </div>
-        <p className="small"> Parsyang 5, pokhara</p>
+        <p className="small"> {phoneNumber}</p>
       </div>
       <div
         onMouseEnter={() => setIsHovering(true)}

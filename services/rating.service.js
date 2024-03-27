@@ -10,3 +10,8 @@ export const getOneRating = async ({data})=> {
     return res?.data;
 }
  
+export const giveRate = async (data)=> {
+    const res = await http.post(`/rate`, data)
+    return res?.data;
+}
+ 

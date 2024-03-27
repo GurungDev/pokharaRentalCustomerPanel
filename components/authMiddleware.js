@@ -4,26 +4,26 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 const withAuth = (WrappedComponent) => {
-  const state = store.getState()
+  const state = store.getState();
   // eslint-disable-next-line react/display-name
   return (props) => {
     if (typeof window !== "undefined") {
       const Router = useRouter();
-      
-      if(state.account.loginStatus == false || state.account.token == null){
-        Router.push("/");
+
+      if (state.account.loginStatus == false || state.account.token == null) {
+        Router.push("/auth");
         toast({
-            variant: "destructive",
-            title: "Unauthorized",
-            description: "You are not authorized to access this page. Please login!!"})
-        }
+          variant: "destructive",
+          title: "Unauthorized",
+          description:
+            "You are not authorized to access this page. Please login!!",
+        });
       }
-
-
-      return React.createElement(WrappedComponent, props);
     }
- 
+
+    return React.createElement(WrappedComponent, props);
   };
- 
+};
+
 withAuth.displayName = "withAuth";
 export default withAuth;

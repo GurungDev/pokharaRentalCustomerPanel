@@ -14,3 +14,8 @@ export const getEsewaToken= async (data)=> {
     const res = await http.post(`/customer/order/esewa/init`, data)
     return res?.data;
 }
+
+export const getOrders = async(data)=>{
+    const res = await http.get(`/customer/order`, {params: data})
+    return res?.data;
+}

@@ -20,7 +20,8 @@ import { useDispatch } from "react-redux";
 import { useAuth } from "./authProvider";
 import { toast } from "./ui/use-toast";
 import { store } from "@/redux/store";
- 
+import { CgProfile } from "react-icons/cg";
+import { BiLogOut } from "react-icons/bi";
 
 export default function NavbarAuth() {
   const { push } = useRouter();
@@ -33,13 +34,15 @@ export default function NavbarAuth() {
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
-  const[notificationSeen, setNotificationSeen] = useState(false)
+  const [notificationSeen, setNotificationSeen] = useState(false);
   const state = store.getState();
   async function seenANotification(id) {
     try {
-      const notifications = await seenNotification({ data: { notificationId: id } });
+      const notifications = await seenNotification({
+        data: { notificationId: id },
+      });
       setnotificationData(notifications?.data);
-      setNotificationSeen(!notificationSeen)
+      setNotificationSeen(!notificationSeen);
     } catch (error) {
       console.log(error.message);
     }
@@ -47,7 +50,7 @@ export default function NavbarAuth() {
 
   async function logout() {
     try {
-      setAuth(true)
+      setAuth(true);
       dispatch(resetLogin());
       push("/");
       toast({
@@ -299,37 +302,41 @@ export default function NavbarAuth() {
                     "py-2 px-3 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
                   }
                 >
-                  <Menu.Item className="p-4">
-                    {({ active }) => (
-                      <a
-                        className={`${
-                          active ? "bg-primary text-white" : "text-gray-900"
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                        href="/profile"
-                      >
-                        Profile
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item className="p-4">
-                    {({ active }) => (
-                      <button
-                        onClick={()=>{logout()}}
-                        className={`${
-                          active ? "bg-primary text-white" : "text-gray-900"
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                       
-                      >
-                        Logout
-                      </button>
-                    )}
-                  </Menu.Item>
+                  <div className="border-[1px] rounded-xl gap-2 flex">
+                    <Menu.Item className="p-4">
+                      {({ active }) => (
+                        <a
+                          className={`${
+                            active ? "bg-primary text-white" : "text-gray-900"
+                          } group flex gap-2 duration-300 w-full items-center rounded-md px-2 py-2 text-sm`}
+                          href="/profile"
+                        >
+                          <CgProfile size={20} /> Profile
+                        </a>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item className="p-4">
+                      {({ active }) => (
+                        <button
+                          onClick={() => {
+                            logout();
+                          }}
+                          className={`${
+                            active ? "bg-primary text-white" : "text-gray-900"
+                          } group flex  gap-2 duration-300 w-full items-center rounded-md px-2 py-2 text-sm`}
+                        >
+                          <BiLogOut size={20} /> Logout
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
                   <Menu.Item
                     disabled
-                    className={`text-gray-900 group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-
+                    className={`text-gray-900 text-center justify-center group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
-                    <span className="opacity-75">Hello {state?.account?.name}</span>
+                    <span className="opacity-75">
+                      Hello {state?.account?.name}
+                    </span>
                   </Menu.Item>
                 </Menu.Items>
               </Transition>
@@ -339,13 +346,11 @@ export default function NavbarAuth() {
               <Menu.Button>
                 {" "}
                 <div className="relative">
-                <IoIosNotifications className="text-[2em] text-[#FFBF00]" />
-                <div className=" leading-0 absolute   p-0 right-0  top-0 text-[.9rem]">
-                        {notificationData?.notification.length || 0}
+                  <IoIosNotifications className="text-[2em] text-[#FFBF00]" />
+                  <div className=" leading-0 absolute   p-0 right-0  top-0 text-[.9rem]">
+                    {notificationData?.notification.length || 0}
+                  </div>
                 </div>
-                </div>
-               
-
               </Menu.Button>
               <Transition
                 as={Fragment}
@@ -367,7 +372,9 @@ export default function NavbarAuth() {
                         <Menu.Item key={i} className="" as={Fragment}>
                           {({ active }) => (
                             <div
-                              onClick={()=>{seenANotification(item.id)}}
+                              onClick={() => {
+                                seenANotification(item.id);
+                              }}
                               className={`${
                                 active
                                   ? "bg-primary text-white"
@@ -391,7 +398,10 @@ export default function NavbarAuth() {
                       );
                     })
                   ) : (
-                    <Menu.Item className="flex items-center justify-center" as={Fragment}>
+                    <Menu.Item
+                      className="flex items-center justify-center"
+                      as={Fragment}
+                    >
                       <div className="grid items-center justify-between p-[3rem]">
                         <Image
                           src="/notification.jpg"
