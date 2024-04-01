@@ -20,6 +20,10 @@ import { getOrders } from "@/services/order.service";
 import { getFollowedStore } from "@/services/store.service";
 import { GoPlus } from "react-icons/go";
 import Lottie from "lottie-react";
+import { Link } from "lucide-react";
+import { GiConfirmed } from "react-icons/gi";
+import { FaUserEdit } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
   const state = store.getState();
@@ -30,7 +34,7 @@ const Profile = () => {
   const [number, setNumber] = useState();
   const [followingShown, setfollowingShown] = useState(false);
   const [orderBy, setOrderBy] = useState("desc");
-
+  const { push } = useRouter();
   async function getFollowedStoreList() {
     try {
       const res = await getFollowedStore();
@@ -110,20 +114,18 @@ const Profile = () => {
               <p className="small">{number}</p>
             </div>
           </div>
-
-          {/* <div>
-            <Link
-              href={`/boats/$}/rent`}
-              className="bg-primary border-[2px] border-[#3586ff] hover:border-[#FE2A2A] btn text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3"
+          <div>
+            <div
+              onClick={() => {
+                push(`/profile/edit`);
+              }}
+              className="  border-[2px] hover:border-blue-600  duration-300 hover:bg-primary hover:text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3"
             >
               {" "}
-              <span>Edit Profile</span>
-              <GiConfirmed
-                size={25}
-                className="group-hover:rotate-180 duration-300"
-              />
-            </Link>
-          </div> */}
+              <p>Edit Profile</p>
+              <FaUserEdit size={25} className=" duration-300" />
+            </div>
+          </div>
           <div className="px-[1.5rem] grid gap-[1rem]  w-full py-[1rem] rounded-xl border-[1px]">
             <div
               onClick={() => {

@@ -16,3 +16,8 @@ export const seenNotification = async ({ data }) => {
   );
   return res?.data;
 };
+
+export const updateProfile = async (data) => {
+  const res = await http.patch(`/customer`, data);
+  return res?.data;
+};

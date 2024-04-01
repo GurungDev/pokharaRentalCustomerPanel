@@ -8,6 +8,7 @@ import {
   resetlogin,
   setLoginInfo,
   setUserDetails,
+  updateDetails,
 } from "@/lib/storage.utils";
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -35,7 +36,11 @@ export const accountSlice = createSlice({
       state.number = action.payload?.number;
       setUserDetails({ ...action.payload });
     },
-
+    updateDetail: (state, action) => {
+      state.name = action.payload?.name;
+      state.number = action.payload?.number;
+      updateDetails({ ...action.payload });
+    },
     resetLogin: (state) => {
       state.loginStatus = false;
       state.token = "";
@@ -44,5 +49,6 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { setLogin, resetLogin, setDetails } = accountSlice.actions;
+export const { setLogin, resetLogin, setDetails, updateDetail } =
+  accountSlice.actions;
 export default accountSlice.reducer;

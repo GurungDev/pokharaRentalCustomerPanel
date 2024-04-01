@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 
- 
 import {
   BsArrowDownShort,
   BsFillMouseFill,
@@ -10,10 +9,8 @@ import {
 } from "react-icons/bs";
 import Link from "next/link";
 import Landing_Section from "./homepage-heroSection";
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation } from "swiper/modules";
-
-
 
 const Slider_landing_page = () => {
   const [autoplayEnabled, setAutoplayEnabled] = useState(true);
@@ -42,7 +39,7 @@ const Slider_landing_page = () => {
       link: "/insight/hybridCloud",
       video: "/h2.mp4",
       title: "Your Gateway to Unforgettable Adventures!",
-    }
+    },
   ];
   return (
     <div className="relative h-[100vh]">
@@ -58,12 +55,11 @@ const Slider_landing_page = () => {
           prevEl: `#prev_slide`,
           nextEl: `#next_slide`,
         }}
-       
         modules={[Autoplay, EffectFade, Navigation]}
       >
         {sliderContent.map((e, index) => {
           return (
-            <SwiperSlide  key={e.title} className="">
+            <SwiperSlide key={e.title} className="">
               <Landing_Section
                 title={e.title}
                 description={e.paragraph}
@@ -85,15 +81,14 @@ const Slider_landing_page = () => {
             href="#bottom-home-section"
             className="hidden md:block group opacity-50 animate-bounce-slow hover:opacity-[100]  transition-all text-[1.5em]  text-white "
           >
-           
             <div className="animate-bounce">
-            {<BsFillMouseFill className="group animate-bounce-slow" />}
-            <BsArrowDownShort className="group-hover:translate-y-2 animate-bounce-slow transform transition duration-300 ease-in-out" />
+              {<BsFillMouseFill className="group animate-bounce-slow" />}
+              <BsArrowDownShort className="group-hover:translate-y-2 animate-bounce-slow transform transition duration-300 ease-in-out" />
             </div>
-
           </Link>
         </div>
       </Swiper>
+
     </div>
   );
 };

@@ -1,6 +1,7 @@
 "use client";
 import { nav_data_auth } from "@/lib/data";
 import { resetLogin } from "@/redux/slices/userSlice";
+import { store } from "@/redux/store";
 import { getNotification, seenNotification } from "@/services/user.service";
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
@@ -8,6 +9,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import Collapsible from "react-collapsible";
+import { BiLogOut } from "react-icons/bi";
+import { CgProfile } from "react-icons/cg";
 import { FaBars } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { PiCaretDownBold } from "react-icons/pi";
@@ -17,15 +20,10 @@ import { TbSailboat2 } from "react-icons/tb";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import { useDispatch } from "react-redux";
-import { useAuth } from "./authProvider";
 import { toast } from "./ui/use-toast";
-import { store } from "@/redux/store";
-import { CgProfile } from "react-icons/cg";
-import { BiLogOut } from "react-icons/bi";
 
 export default function NavbarAuth() {
   const { push } = useRouter();
-  const { setAuth } = useAuth();
   const [hoveringWhich, setHoveringWhich] = useState();
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
@@ -50,13 +48,11 @@ export default function NavbarAuth() {
 
   async function logout() {
     try {
-      setAuth(true);
       dispatch(resetLogin());
       push("/");
       toast({
         title: "Sucessfully logged out",
       });
-      window.location.reload();
     } catch (error) {
       console.log(error.message);
     }

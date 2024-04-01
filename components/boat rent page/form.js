@@ -98,7 +98,7 @@ const FormSectionConsultancy = ({ id, price }) => {
   }
 
   const esewaCall = (formData) => {
-    console.log(formData);
+  
     var path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
 
     var form = document.createElement("form");

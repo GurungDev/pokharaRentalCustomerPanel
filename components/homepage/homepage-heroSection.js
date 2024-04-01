@@ -1,12 +1,8 @@
- 
-
 import Link from "next/link";
- 
-import {  BsArrowRightShort } from "react-icons/bs";
 
- 
+import { BsArrowRightShort } from "react-icons/bs";
 
-const Landing_Section = ({ title, description, page,button, link, video }) => {
+const Landing_Section = ({ title, description, page, button, link, video }) => {
   return (
     <div className="relative h-[100vh] min-h-[600px] w-full m-auto   overflow-hidden">
       <video
@@ -25,7 +21,19 @@ const Landing_Section = ({ title, description, page,button, link, video }) => {
         />
         Your browser does not support the video tag.
       </video>
-
+      <div className="custom-shape-divider-bottom-1711987105">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z"
+            className="shape-fill"
+          ></path>
+        </svg>
+      </div>
       <div className="layout py-[7em] absolute inset-0 m-auto">
         <div className=" pb-2 border-b-[1px]">
           <p className="small text-neutral-100 ">{page}</p>
@@ -49,7 +57,6 @@ const Landing_Section = ({ title, description, page,button, link, video }) => {
             )}
           </div>
         </div>
-  
       </div>
     </div>
   );

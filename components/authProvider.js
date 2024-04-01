@@ -1,33 +1,25 @@
-import { store } from "@/redux/store";
-import { getDetails } from "@/services/auth/login.service";
-import { createContext, useContext, useEffect, useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Navbar from "./navbar";
 
-const AuthContext = createContext({
-  auth: null,
-  setAuth: () => {},
-  user: null,
-  setUser: () => {},
-});
+import NavbarAuth from "./authNavbar";
 
-export const useAuth = () => useContext(AuthContext);
-
-const AuthProvider = ({ children }) => {
-  const state = store.getState();
+const NavbarComponent = ({ children }) => {
+  const { loginStatus, token } = useSelector((state) => state.account);
   const [auth, setAuth] = useState(false);
-
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setAuth(state.account.loginStatus == true && state.account.token != null);
+      if (loginStatus && token !== null) {
+        setAuth(true);
+      } else {
+        setAuth(false);
+      }
     }
-  }, [state]);
+  }, [loginStatus, token]);
 
-  return (
-    <AuthContext.Provider value={{ auth, setAuth, setUser, user }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <>{auth ? <NavbarAuth /> : <Navbar />}</>;
 };
 
-export default AuthProvider;
+export default NavbarComponent;
