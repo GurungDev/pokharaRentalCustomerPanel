@@ -104,13 +104,13 @@ const FormSectionConsultancy = ({ id, price, seats }) => {
    
       esewaCall({
         amount: token?.data?.totalPrice,
-        failure_url: "http://localhost:3000/orderFailure",
+        failure_url: "http://pokhara-rental-customer-panel.vercel.app/orderFailure",
         product_delivery_charge: "0",
         product_service_charge: "0",
         product_code: "EPAYTEST",
         signature: token?.data?.signature,
         signed_field_names: "total_amount,transaction_uuid,product_code",
-        success_url: "http://localhost:3000/orderSuccess/esewa",
+        success_url: "http://pokhara-rental-customer-panel.vercel.app/orderSuccess/esewa",
         tax_amount: "0",
         total_amount: token?.data?.totalPrice,
         transaction_uuid: transaction_uuid,
