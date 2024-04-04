@@ -12,7 +12,7 @@ export const makeEsewaOrder= async (data)=> {
 
 
 export const makeKhaltiOrder= async (data)=> {
-    const res = await http.post(`/customer/order/khalti`, data)
+     const res = await http.post(`/customer/order/khalti`, data)
     return res?.data;
 }
 

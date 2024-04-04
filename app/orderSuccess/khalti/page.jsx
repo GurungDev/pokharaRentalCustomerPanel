@@ -9,13 +9,15 @@ const SuccessOrder = () => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get("pidx");
-
-
-  useState(() => {
-    async () =>
+  async function orderInKhalti() {
+    try {
       await makeKhaltiOrder({
         pidx: search,
       });
+    } catch (error) {}
+  }
+  useState(() => {
+    orderInKhalti();
   }, []);
   return (
     <div className="pb-20 my-[20vh]">
