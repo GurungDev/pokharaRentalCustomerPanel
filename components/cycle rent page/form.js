@@ -6,12 +6,16 @@ import { Fragment, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { BsCash } from "react-icons/bs";
 import { DatePicker } from "../date picker";
-import { getEsewaToken, makeOrder } from "@/services/order.service";
+import {
+  getEsewaToken,
+  getKhaltiToken,
+  makeOrder,
+} from "@/services/order.service";
 import { toast } from "../ui/use-toast";
 import Error from "next/error";
 import { useRouter } from "next/navigation";
 
-const FormSectionConsultancy = ({ id , price}) => {
+const FormSectionConsultancy = ({ id, price }) => {
   const [quantity, setQuantity] = useState(0);
   const { push } = useRouter();
   const duration_list = [
@@ -41,7 +45,7 @@ const FormSectionConsultancy = ({ id , price}) => {
         issuedFor: "cycle",
         issueId: id,
         paymentMethod: "cash",
-        transaction_uuid: transaction_uuid
+        transaction_uuid: transaction_uuid,
       });
       if (!res.success) {
         throw new Error("Order Failed.");
@@ -60,7 +64,31 @@ const FormSectionConsultancy = ({ id , price}) => {
       });
     }
   }
-
+  async function orderInKhalti() {
+    try {
+      const transaction_uuid = crypto.randomUUID();
+      const token = await getKhaltiToken({
+        transaction_uuid: transaction_uuid,
+        return_url:
+          "https://pokhara-rental-customer-panel.vercel.app/orderSuccess/khalti",
+        website_url: "https://pokhara-rental-customer-panel.vercel.app/",
+        productId: id,
+        issuedFor: "cycle",
+        quantity: quantity,
+        duration: duration?.value,
+        bookingDate: selected_pick_up_date,
+      });
+      console.log(token?.data?.payment_url);
+      push(token?.data?.Data.payment_url);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Order failed",
+        description:
+          error.response?.data?.message || "Couldn't connect to the server",
+      });
+    }
+  }
   async function orderInEsewa() {
     try {
       const transaction_uuid = crypto.randomUUID();
@@ -98,7 +126,6 @@ const FormSectionConsultancy = ({ id , price}) => {
   }
 
   const esewaCall = (formData) => {
-  
     var path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
 
     var form = document.createElement("form");
@@ -273,6 +300,22 @@ const FormSectionConsultancy = ({ id , price}) => {
             alt="esewa logo"
           ></Image>
           Esewa
+        </button>
+        <button
+          onClick={orderInKhalti}
+          disabled={duration?.value == 0 || quantity === 0}
+          className={`${
+            duration?.value == 0 || quantity === 0 ? "hidden" : ""
+          } hover:translate-x-[10px]  bg-white border-[2px] border-[#5d2e8e]  flex items-center justify-center gap-3 duration-500 py-[1rem] px-[2rem] w-full text-[#5d2e8e]  font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
+        >
+          <Image
+            src="/khalti.png"
+            width="25"
+            height="25"
+            className=" "
+            alt="khalti logo"
+          ></Image>
+          Khalti
         </button>
       </div>
     </div>

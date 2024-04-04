@@ -1,8 +1,4 @@
 "use client";
-import { store } from "@/redux/store";
-import { useEffect, useState } from "react";
-import { IoPhonePortraitOutline } from "react-icons/io5";
-import { MdOutlineMail } from "react-icons/md";
 import noOrder from "@/animation/order.json";
 import withAuth from "@/components/authMiddleware";
 import Details from "@/components/profile page/detail";
@@ -16,14 +12,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RatingForEnum } from "@/lib/data";
+import { store } from "@/redux/store";
 import { getOrders } from "@/services/order.service";
-import { getFollowedStore } from "@/services/store.service";
-import { GoPlus } from "react-icons/go";
+import {
+  followStore,
+  getFollowedStore,
+  unfollowStore,
+} from "@/services/store.service";
 import Lottie from "lottie-react";
-import { Link } from "lucide-react";
-import { GiConfirmed } from "react-icons/gi";
-import { FaUserEdit } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaUserEdit } from "react-icons/fa";
+import { GoPlus } from "react-icons/go";
+import { IoPhonePortraitOutline } from "react-icons/io5";
+import { MdOutlineMail } from "react-icons/md";
 
 const Profile = () => {
   const state = store.getState();
@@ -147,11 +149,12 @@ const Profile = () => {
             >
               {storeData?.map((data, index) => {
                 return (
-                  <StoreCard
-                    key={index}
-                    name={data.store.name}
-                    phoneNumber={data.store.phoneNumber}
-                  />
+                  <div key={index} onClick={() => push("/store/" + data?.store?.id)}>
+                    <StoreCard
+                      name={data.store.name}
+                      phoneNumber={data.store.phoneNumber}
+                    />
+                  </div>
                 );
               })}
             </div>

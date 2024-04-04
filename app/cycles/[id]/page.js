@@ -104,7 +104,7 @@ const SingleCyclePage = () => {
                 />
               </Link>
               <Link
-                href={"/boats/id/rent"}
+                 href={"/store/"+ cycleData?.store?.id}
                 className="bg-white  mt-[1rem] btn text-[#FE2A2A] border-[2px] border-[#FE2A2A]  hover:text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3"
               >
                 {" "}

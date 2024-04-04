@@ -1,17 +1,16 @@
-import { store } from "@/redux/store";
-import { toast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "./ui/use-toast";
 
 const withAuth = (WrappedComponent) => {
-  const state = store.getState();
-  // eslint-disable-next-line react/display-name
-  return (props) => {
-    if (typeof window !== "undefined") {
-      const Router = useRouter();
+  const AuthenticatedComponent = (props) => {
+    const { loginStatus, token } = useSelector((state) => state.account);
+    const router = useRouter();
 
-      if (state.account.loginStatus == false || state.account.token == null) {
-        Router.push("/auth");
+    useEffect(() => {
+      if (typeof window !== "undefined" && (!loginStatus || !token)) {
+        router.push("/auth");
         toast({
           variant: "destructive",
           title: "Unauthorized",
@@ -19,11 +18,12 @@ const withAuth = (WrappedComponent) => {
             "You are not authorized to access this page. Please login!!",
         });
       }
-    }
+    }, [loginStatus, token, router]);
 
-    return React.createElement(WrappedComponent, props);
+    return <WrappedComponent {...props} />;
   };
+
+  return AuthenticatedComponent;
 };
 
-withAuth.displayName = "withAuth";
 export default withAuth;

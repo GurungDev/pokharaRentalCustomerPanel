@@ -144,7 +144,13 @@ const Details = ({
               <span>Date</span>
               <BsCalendarDate className="group-hover:translate-x-[7px] duration-300" />
             </div>
-            <p className="small">{bookingDate}</p>
+            <p className="small">
+              {new Date(bookingDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
           </div>
 
           <div className="flex items-center justify-between">

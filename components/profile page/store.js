@@ -1,13 +1,10 @@
 "use client";
-import React, { useState } from "react";
-import { IoMdNotifications, IoMdNotificationsOff } from "react-icons/io";
+import { IoMdNotifications } from "react-icons/io";
 import { MdStore } from "react-icons/md";
 
 const StoreCard = ({ name, phoneNumber }) => {
-  const [isHovering, setIsHovering] = useState(false);
-
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex group hover:translate-x-[3px] duration-300 items-center justify-between">
       <div>
         <div className="group paragraph flex items-center gap-3 text-neutral-600">
           {" "}
@@ -16,15 +13,8 @@ const StoreCard = ({ name, phoneNumber }) => {
         </div>
         <p className="small"> {phoneNumber}</p>
       </div>
-      <div
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        {isHovering ? (
-          <IoMdNotificationsOff size={25} />
-        ) : (
-          <IoMdNotifications size={25} />
-        )}
+      <div>
+        <IoMdNotifications size={25} />
       </div>
     </div>
   );

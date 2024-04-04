@@ -6,12 +6,16 @@ import { Fragment, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { BsCash } from "react-icons/bs";
 import { DatePicker } from "../date picker";
-import { getEsewaToken, makeOrder } from "@/services/order.service";
+import {
+  getEsewaToken,
+  getKhaltiToken,
+  makeOrder,
+} from "@/services/order.service";
 import { toast } from "../ui/use-toast";
 import Error from "next/error";
 import { useRouter } from "next/navigation";
 
-const FormSectionConsultancy = ({ id, price }) => {
+const FormSectionConsultancy = ({ id, price, seats }) => {
   const [quantity, setQuantity] = useState(0);
   const { push } = useRouter();
   const duration_list = [
@@ -41,7 +45,7 @@ const FormSectionConsultancy = ({ id, price }) => {
         issuedFor: "boat",
         issueId: id,
         paymentMethod: "cash",
-        transaction_uuid: transaction_uuid
+        transaction_uuid: transaction_uuid,
       });
       if (!res.success) {
         throw new Error("Order Failed.");
@@ -51,6 +55,30 @@ const FormSectionConsultancy = ({ id, price }) => {
         description: "Order has been placed",
       });
       push("/orderSuccess");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Order failed",
+        description:
+          error.response?.data?.message || "Couldn't connect to the server",
+      });
+    }
+  }
+  async function orderInKhalti() {
+    try {
+      const transaction_uuid = crypto.randomUUID();
+      const token = await getKhaltiToken({
+        transaction_uuid: transaction_uuid,
+        return_url: "https://pokhara-rental-customer-panel.vercel.app/orderSuccess/khalti",
+        website_url: "https://pokhara-rental-customer-panel.vercel.app/",
+        productId: id,
+        issuedFor: "boat",
+        quantity: quantity,
+        duration: duration?.value,
+        bookingDate: selected_pick_up_date,
+      });
+      
+      push(token?.data?.Data?.payment_url)
     } catch (error) {
       toast({
         variant: "destructive",
@@ -71,7 +99,7 @@ const FormSectionConsultancy = ({ id, price }) => {
         issuedFor: "boat",
         quantity: quantity,
         duration: duration?.value,
-        bookingDate: selected_pick_up_date
+        bookingDate: selected_pick_up_date,
       });
    
       esewaCall({
@@ -98,7 +126,6 @@ const FormSectionConsultancy = ({ id, price }) => {
   }
 
   const esewaCall = (formData) => {
-  
     var path = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
 
     var form = document.createElement("form");
@@ -116,7 +143,17 @@ const FormSectionConsultancy = ({ id, price }) => {
     document.body.appendChild(form);
     form.submit();
   };
+  const handleSelect = (value) => {
+    setQuantity(value);
+  };
 
+  const handleSelectAll = () => {
+    setQuantity(seats); 
+  };
+
+  const handleSelectDouble = () => {
+    setQuantity(quantity * 2);  
+  };
   return (
     <div className="   w-full h-full m-auto p-[1.5rem] min-[1100px]:px-[3rem] ">
       <div className="grid gap-[1rem] pb-[3rem]">
@@ -130,7 +167,6 @@ const FormSectionConsultancy = ({ id, price }) => {
               duration?.value == 0 || quantity === 0 ? "hidden" : ""
             }   text-neutral-700 animate-bounce   secondary-title   leading-[1.5rem] font-[400]`}
           >
-          
             Rs {price * duration.value * quantity || price}
           </div>
         </div>
@@ -147,59 +183,56 @@ const FormSectionConsultancy = ({ id, price }) => {
           </div>
           <div className="">
             <p className="font-[600] caption mb-[0.25rem]">
-              Quantity of Boat <span className="text-[#FD4349]">*</span>
+              Number of seats <span className="text-[#FD4349]">*</span>
             </p>
-            <div className="flex gap-3 mt-3">
-              <button
-                onClick={() => setQuantity(1)}
-                className={
-                  quantity === 1
-                    ? "bg-gray-600 text-white px-3 py-2 rounded"
-                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
-                }
-              >
-                1
-              </button>
-              <button
-                onClick={() => setQuantity(2)}
-                className={
-                  quantity === 2
-                    ? "bg-gray-600 text-white px-3 py-2 rounded"
-                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
-                }
-              >
-                2
-              </button>
-              <button
-                onClick={() => setQuantity(3)}
-                className={
-                  quantity === 3
-                    ? "bg-gray-600 text-white px-3 py-2 rounded"
-                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
-                }
-              >
-                3
-              </button>
-              <button
-                onClick={() => setQuantity(4)}
-                className={
-                  quantity === 4
-                    ? "bg-gray-600 text-white px-3 py-2 rounded"
-                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
-                }
-              >
-                4
-              </button>
-              <button
-                onClick={() => setQuantity(5)}
-                className={
-                  quantity === 5
-                    ? "bg-gray-600 text-white px-3 py-2 rounded"
-                    : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
-                }
-              >
-                5
-              </button>
+            <div>
+              <div className="grid grid-cols-6 gap-3 mt-3">
+                {Array.from({ length: seats * 2 }, (_, index) => index + 1).map(
+                  (index) => {
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => handleSelect(index)}
+                        className={
+                          quantity === index
+                            ? "bg-gray-600 text-white px-3 py-2 rounded"
+                            : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
+                        }
+                      >
+                        {index}
+                      </button>
+                    );
+                  }
+                )}
+                
+              </div>
+              <div className="mt-3">
+                <p className="font-[600] caption mb-[0.25rem]">
+                  Number of Boat <span className="text-[#FD4349]">*</span>
+                </p>
+                <div className="grid grid-cols-6 gap-3 mt-3">
+                  <button
+                    onClick={handleSelectAll}
+                    className={
+                      quantity === seats
+                        ? "bg-gray-600 text-white px-3 py-2 rounded"
+                        : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
+                    }
+                  >
+                    1
+                  </button>
+                  <button
+                    onClick={handleSelectDouble}
+                    className={
+                      quantity === seats * 2
+                        ? "bg-gray-600 text-white px-3 py-2 rounded"
+                        : "bg-gray-200 text-gray-600 px-3 py-2 rounded"
+                    }
+                  >
+                    2
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -265,8 +298,8 @@ const FormSectionConsultancy = ({ id, price }) => {
           disabled={duration?.value == 0 || quantity === 0}
           className={`${
             duration?.value == 0 || quantity === 0 ? "hidden" : ""
-          } hover:bg-[#60bb46] border-[2px] border-[#60bb46]  flex items-center justify-center gap-3 duration-500 py-[1rem] px-[2rem] w-full text-[#60bb46] hover:text-white font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
-          >
+          }  hover:translate-x-[10px] border-[2px] border-[#60bb46]  flex items-center justify-center gap-3 duration-500 py-[1rem] px-[2rem] w-full text-[#60bb46]  font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
+        >
           <Image
             src="/esewa.png"
             width="25"
@@ -274,6 +307,22 @@ const FormSectionConsultancy = ({ id, price }) => {
             alt="esewa logo"
           ></Image>
           Esewa
+        </button>
+        <button
+          onClick={orderInKhalti}
+          disabled={duration?.value == 0 || quantity === 0}
+          className={`${
+            duration?.value == 0 || quantity === 0 ? "hidden" : ""
+          } hover:translate-x-[10px]  bg-white border-[2px] border-[#5d2e8e]  flex items-center justify-center gap-3 duration-500 py-[1rem] px-[2rem] w-full text-[#5d2e8e]  font-[1.125rem] staatliches-regular leading-[1.5rem] font-[400]`}
+        >
+          <Image
+            src="/khalti.png"
+            width="25"
+            height="25"
+            className=" "
+            alt="khalti logo"
+          ></Image>
+          Khalti
         </button>
       </div>
     </div>

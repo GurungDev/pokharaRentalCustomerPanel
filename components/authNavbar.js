@@ -375,7 +375,7 @@ export default function NavbarAuth() {
                                 active
                                   ? "bg-primary text-white"
                                   : " text-accent"
-                              } group flex w-full gap-3 group border-y-[1px] items-center justify-between rounded-md px-5 py-2 text-accent`}
+                              } group flex w-full gap-3 group border-y-[1px] items-center  rounded-md px-5 py-2 text-accent`}
                             >
                               <TbSailboat2 className="text-[2rem]" />
                               <div className="grid group items-center">
