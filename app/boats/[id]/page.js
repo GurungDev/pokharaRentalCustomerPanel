@@ -1,4 +1,5 @@
 "use client";
+import Map from "@/components/map";
 import ServiceBenefits from "../../../components/benefit";
 import Ratings from "../../../components/ratings";
 import MainListing from "../../../components/single boat page/imageSlider";
@@ -12,17 +13,21 @@ import {
 import { getOneRating } from "../../../services/rating.service";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { GiConfirmed } from "react-icons/gi";
 import { IoMdArrowBack } from "react-icons/io";
 import { IoPricetagsOutline, IoStorefront } from "react-icons/io5";
 import { MdOutlineLocationOn } from "react-icons/md";
-
+import MapComponent from "@/components/mapComponent";
+ export const MapContext = createContext();
 const SingleBoatPage = () => {
   const { id } = useParams();
   const [boatData, setBoatData] = useState(null);
   const [highlightData, sethighlightData] = useState(null);
   const [storeBoatData, setstoreBoatData] = useState(null);
+
+  const [long, setLong] = useState(null);
+  const [ltd, setLtd] = useState(null);
   const { push } = useRouter();
   const [ratingData, setRatingData] = useState(null);
   useEffect(() => {
@@ -44,6 +49,8 @@ const SingleBoatPage = () => {
         setRatingData(ratings?.data);
         setBoatData(boats?.data);
         console.log(storeBoats?.data[0]);
+        setLong(boatData?.store?.location?.coordinates[0]);
+        setLtd(boatData?.store?.location?.coordinates[1]);
       } catch (error) {
         console.log(error.message);
         toast({
@@ -121,7 +128,7 @@ const SingleBoatPage = () => {
                 />
               </Link>
               <Link
-                href={"/store/"+ boatData?.store?.id}
+                href={"/store/" + boatData?.store?.id}
                 className="bg-white  mt-[1rem] btn text-[#FE2A2A] border-[2px] border-[#FE2A2A]  hover:text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3"
               >
                 {" "}
@@ -147,13 +154,16 @@ const SingleBoatPage = () => {
                 Location of the boat
               </p>
               <div className="rounded-md overflow-hidden">
-                <iframe
-                  src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=St.%20Paul's%20Cathedral+(ackresponse)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                  width="600"
-                  height="450"
-                  className="w-full border-[2px] shadow-md"
-                  aria-hidden="false"
-                />
+                <MapContext.Provider
+                  value={{
+                    ltd,
+                    long,
+                    setLtd,
+                    setLong
+                  }}
+                >
+                  <MapComponent />
+                </MapContext.Provider>
               </div>
             </div>
           </div>

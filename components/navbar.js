@@ -10,6 +10,7 @@ import Image from "next/image";
 import { FaBars } from "react-icons/fa";
 import { PiCaretDownBold } from "react-icons/pi";
 import { RxCross2 } from "react-icons/rx";
+ 
 
 export default function Navbar() {
   const [isHover, setIsHover] = useState(false);

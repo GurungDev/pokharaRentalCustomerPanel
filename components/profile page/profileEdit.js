@@ -69,7 +69,7 @@ export default function EditProfile() {
       <Form {...updateForm}>
         <form
           onSubmit={updateForm.handleSubmit(onSubmitUpdateDetails)}
-          className="customer-border bg-primary p-20 px-24"
+          className="customer-border  bg-primary p-20 px-24"
         >
           <div className="my-3 text-neutral-200">
             <h2 className="secondary-title">Edit Profile</h2>
