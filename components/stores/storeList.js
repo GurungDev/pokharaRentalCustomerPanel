@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Slider } from "../ui/slider";
 import StoreCard from "./storeCard";
 import StoreCardList from "./storeCardList";
+import { StoreListMapContext } from "@/app/store/page";
 
 const StoreList = () => {
-  const [km, setKm] = useState(1);
+  const { km, setKm, storeList } = useContext(StoreListMapContext);
   return (
     <div>
       <div className="w-full py-5">
@@ -18,10 +19,11 @@ const StoreList = () => {
           step={1}
           onValueChange={(value) => {
             setKm(value);
+            console.log(value)
           }}
         />
       </div>
-        <StoreCardList />
+      <StoreCardList />
     </div>
   );
 };

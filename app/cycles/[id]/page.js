@@ -12,6 +12,8 @@ import MoreListings from "../../../components/swipper_more_listing";
 import { getAllcycleList, getOnecycle } from "../../../services/cycle.service";
 import { getOneRating } from "../../../services/rating.service";
 import { getHighLight } from "@/services/boat.service";
+import { MapContext } from "@/app/boats/[id]/page";
+import MapComponent from "@/components/mapComponent";
 
 const SingleCyclePage = () => {
   const { id } = useParams();
@@ -19,12 +21,19 @@ const SingleCyclePage = () => {
   const [storeCycleData, setstoreCycleData] = useState(null);
   const [highlightData, sethighlightData] = useState(null);
   const [ratingData, setRatingData] = useState(null);
+  const [distance, setdistance] = useState(null);
+  const [userLat, setuserLat] = useState();
+  const [userLong, setuserLong] = useState();
+  const [long, setLong] = useState(null);
+  const [ltd, setLtd] = useState(null);
   const { push } = useRouter();
   useEffect(() => {
     async function getData() {
       try {
         const cycles = await getOnecycle(id);
-        const storeBoats = await getAllcycleList({data: {storeId: cycles?.data?.store?.id}});
+        const storeBoats = await getAllcycleList({
+          data: { storeId: cycles?.data?.store?.id },
+        });
         const ratings = await getOneRating({
           data: { ratingFor: "cycle", issueId: id },
         });
@@ -34,9 +43,11 @@ const SingleCyclePage = () => {
         });
         sethighlightData(highlight?.data);
         setcycleData(cycles?.data);
-        setstoreCycleData(storeBoats?.data[0])
+        setstoreCycleData(storeBoats?.data[0]);
         setRatingData(ratings?.data);
-        console.log(ratings);
+        
+        setLong(cycles?.data?.store?.location?.coordinates[1]);
+        setLtd(cycles?.data?.store?.location?.coordinates[0]);
       } catch (error) {
         console.log(error.message);
         toast({
@@ -64,7 +75,7 @@ const SingleCyclePage = () => {
             <h1 className="title font-[200] py-2">{cycleData?.title}</h1>
             <div className="flex gap-2">
               <Ratings count={ratingData?.rating || 1} />
-              {ratingData?.totalRating || 0} 
+              {ratingData?.totalRating || 0}
             </div>
           </div>
           <p className="paragraph py-10">{cycleData?.description}</p>
@@ -104,7 +115,7 @@ const SingleCyclePage = () => {
                 />
               </Link>
               <Link
-                 href={"/store/"+ cycleData?.store?.id}
+                href={"/store/" + cycleData?.store?.id}
                 className="bg-white  mt-[1rem] btn text-[#FE2A2A] border-[2px] border-[#FE2A2A]  hover:text-white rounded-xl px-[1.5rem] py-[1rem] group paragraph flex items-center justify-between gap-3"
               >
                 {" "}
@@ -128,23 +139,27 @@ const SingleCyclePage = () => {
               <p className=" font-[300] secondary-title pt-4 pb-6 text-text">
                 Location of the boat
               </p>
-              <div className="rounded-md overflow-hidden">
-                <iframe
-                  src={`https://maps.google.com/maps?${cycleData?.store?.location?.coordinates[0]},${cycleData?.store?.location?.coordinates[1]}&hl=en&z=14&output=embed`}
-                  width="600"
-                  height="450"
-                  className="w-full border-[2px] shadow-md"
-                  aria-hidden="false"
-                />
-              </div>
+              <MapContext.Provider
+                value={{
+                  ltd,
+                  long,
+                  setLtd,
+                  setLong,
+                  userLong,
+                  setuserLong,
+                  userLat,
+                  setuserLat,
+                  distance,
+                  setdistance,
+                }}
+              >
+                <MapComponent />
+              </MapContext.Provider>
             </div>
           </div>
         </div>
       </div>
-      <MoreListings
-        slides={storeCycleData}
-        listing={"cycles"}
-      />
+      <MoreListings slides={storeCycleData} listing={"cycles"} />
     </div>
   );
 };

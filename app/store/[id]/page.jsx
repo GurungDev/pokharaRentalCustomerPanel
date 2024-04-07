@@ -1,5 +1,5 @@
 "use client";
-import withAuth from "@/components/authMiddleware";
+import { MapContext } from "@/app/boats/[id]/page";
 import MoreListingsStore from "@/components/store profile/MoreListings";
 import MapComponent from "@/components/stores/mapComponent";
 import { toast } from "@/components/ui/use-toast";
@@ -17,7 +17,6 @@ import { IoMdNotifications, IoMdNotificationsOff } from "react-icons/io";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { MdOutlineMail } from "react-icons/md";
 import { useSelector } from "react-redux";
-
 const StoreProfile = () => {
   const { loginStatus, token } = useSelector((state) => state.account);
   const { id } = useParams();
@@ -25,7 +24,11 @@ const StoreProfile = () => {
   const [storeCycleData, setstoreCycleData] = useState(null);
   const [storeBoatData, setstoreBoatData] = useState(null);
   const [isFollowedData, setisFollowedData] = useState(null);
-
+  const [distance, setdistance] = useState(null);
+  const [long, setLong] = useState(null);
+  const [ltd, setLtd] = useState(null);
+  const [userLat, setuserLat] = useState();
+  const [userLong, setuserLong] = useState();
   const { push } = useRouter();
   useEffect(() => {
     async function getData() {
@@ -43,6 +46,10 @@ const StoreProfile = () => {
           const followingData = await getIsFollowed(id);
           setisFollowedData(followingData?.data);
         }
+
+        setLong(store?.data?.location?.coordinates[1]);
+        setLtd(store?.data?.location?.coordinates[0]);
+        console.log(store);
       } catch (error) {
         toast({
           variant: "destructive",
@@ -107,6 +114,14 @@ const StoreProfile = () => {
                 </div>
                 <p className="small">{storeData?.phoneNumber}</p>
               </div>
+              <div className="">
+                <div className="group paragraph flex items-center gap-3 text-neutral-600">
+                  {" "}
+                  <span>Store Distance</span>
+                  <IoPhonePortraitOutline className="group-hover:translate-x-[7px] duration-300" />
+                </div>
+                {distance? <p className="small">{distance} Km</p>: <p className="small">calculate</p>}
+              </div>
             </div>
             <div>
               {loginStatus == true && token != null ? (
@@ -137,7 +152,22 @@ const StoreProfile = () => {
 
           <div className="w-[90%] min-[1100px]:w-[75%] grid gap-10">
             <div className="h-[80vh] ">
-              <MapComponent className="h-[80vh] " />
+              <MapContext.Provider
+                value={{
+                  ltd,
+                  long,
+                  setLtd,
+                  setLong,
+                  userLong,
+                  setuserLong,
+                  userLat,
+                  setuserLat,
+                  distance,
+                  setdistance,
+                }}
+              >
+                <MapComponent />
+              </MapContext.Provider>
             </div>
           </div>
         </div>

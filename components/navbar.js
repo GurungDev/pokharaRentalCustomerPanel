@@ -23,7 +23,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="fixed   top-0 left-0 w-full py-[.5rem] bg-white     z-[993]">
+    <div className="fixed   top-0 left-0 w-full py-[.5rem] bg-white     z-[9999]">
       <div className=" lg:hidden py-2 text-text flex justify-between items-center m-auto w-[90%]">
         <div className=" secondary-title">
           <Image src={"/logo-black.png"} width={50} height={50} alt="black logo"/>

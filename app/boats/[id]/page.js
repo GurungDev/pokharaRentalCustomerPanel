@@ -19,12 +19,16 @@ import { IoMdArrowBack } from "react-icons/io";
 import { IoPricetagsOutline, IoStorefront } from "react-icons/io5";
 import { MdOutlineLocationOn } from "react-icons/md";
 import MapComponent from "@/components/mapComponent";
- export const MapContext = createContext();
+
+export const MapContext = createContext();
 const SingleBoatPage = () => {
   const { id } = useParams();
   const [boatData, setBoatData] = useState(null);
   const [highlightData, sethighlightData] = useState(null);
   const [storeBoatData, setstoreBoatData] = useState(null);
+  const [userLat, setuserLat] = useState();
+  const [userLong, setuserLong] = useState();
+  const [distance, setdistance] = useState(null);
 
   const [long, setLong] = useState(null);
   const [ltd, setLtd] = useState(null);
@@ -48,9 +52,9 @@ const SingleBoatPage = () => {
         setstoreBoatData(storeBoats?.data[0]);
         setRatingData(ratings?.data);
         setBoatData(boats?.data);
-        console.log(storeBoats?.data[0]);
-        setLong(boatData?.store?.location?.coordinates[0]);
-        setLtd(boatData?.store?.location?.coordinates[1]);
+        console.log(boats)
+        setLong(boats?.data?.store?.location?.coordinates[1]);
+        setLtd(boats?.data?.store?.location?.coordinates[0]);
       } catch (error) {
         console.log(error.message);
         toast({
@@ -159,7 +163,13 @@ const SingleBoatPage = () => {
                     ltd,
                     long,
                     setLtd,
-                    setLong
+                    setLong,
+                    userLong,
+                    setuserLong,
+                    userLat,
+                    setuserLat,
+                    distance,
+                    setdistance,
                   }}
                 >
                   <MapComponent />
