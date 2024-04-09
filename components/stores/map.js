@@ -22,8 +22,18 @@ L.Icon.Default.mergeOptions({
 
 const LocateUserButton = () => {
   const map = useMap();
-  const { long, ltd, userLong, distance, setdistance, setuserLong, userLat, setuserLat } =
-    useContext(MapContext);
+  const {
+    long,
+    ltd,
+    userLong,
+    distance,
+    setdistance,
+    setuserLong,
+    userLat,
+    setuserLat,
+    locationPermisson,
+    setLocationPermission,
+  } = useContext(MapContext);
   const locateUser = () => {
     map.locate().on("locationfound", function (e) {
       setuserLong(e.latlng.lng);
@@ -32,13 +42,7 @@ const LocateUserButton = () => {
       const storeLocation = L.latLng(ltd, long);
       const distance = userLocation.distanceTo(storeLocation);
 
-      // Adjust the zoom level based on the distance
-      let zoomLevel = 13; // Default zoom level
-      if (distance > 1000) zoomLevel = 12; // If distance is greater than 1km, zoom out
-      if (distance > 5000) zoomLevel = 10; 
-      if (distance > 8000) zoomLevel = 8;  
-      setdistance((distance / 1000).toFixed(2))
-      map.flyTo(e.latlng, zoomLevel);
+      setdistance((distance / 1000).toFixed(2));
 
       L.marker(e.latlng).addTo(map).bindPopup("You are here").openPopup();
     });
@@ -65,6 +69,7 @@ const Map = () => {
     setuserLong,
     userLat,
     setuserLat,
+    locationPermisson,
   } = useContext(MapContext);
 
   const LocationMarker = () => {
@@ -74,7 +79,22 @@ const Map = () => {
       </Marker>
     );
   };
-
+  const ChangeView = () => {
+    const map = useMap();
+    if (!isNaN(userLat) && !isNaN(userLong)) {
+      map.flyToBounds(
+        [
+          [long, ltd],
+          [userLat, userLong],
+        ],
+        {
+          padding: [50, 50],
+        }
+      );
+    } else {
+      // Handle the case where userLat or userLong are not valid numbers
+    }
+  };
   const UserMarker = () => {
     return userLat && userLong ? (
       <Marker position={[userLat, userLong]}>
@@ -91,13 +111,14 @@ const Map = () => {
         zoom={13}
         scrollWheelZoom={true}
       >
-        <LocateUserButton />
+        {locationPermisson && <LocateUserButton />}
+        <ChangeView />
         <TileLayer
           attribution=""
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <LocationMarker />
-        <UserMarker />
+        {locationPermisson && <UserMarker />}
       </MapContainer>
     </div>
   );

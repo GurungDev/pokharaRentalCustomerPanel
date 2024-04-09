@@ -29,6 +29,7 @@ const SingleBoatPage = () => {
   const [userLat, setuserLat] = useState();
   const [userLong, setuserLong] = useState();
   const [distance, setdistance] = useState(null);
+  const [locationPermisson, setLocationPermission] = useState(false);
 
   const [long, setLong] = useState(null);
   const [ltd, setLtd] = useState(null);
@@ -52,7 +53,7 @@ const SingleBoatPage = () => {
         setstoreBoatData(storeBoats?.data[0]);
         setRatingData(ratings?.data);
         setBoatData(boats?.data);
-        console.log(boats)
+        console.log(boats);
         setLong(boats?.data?.store?.location?.coordinates[1]);
         setLtd(boats?.data?.store?.location?.coordinates[0]);
       } catch (error) {
@@ -66,6 +67,16 @@ const SingleBoatPage = () => {
       }
     }
     getData();
+    if (navigator.geolocation) {+
+      navigator.permissions
+        .query({ name: "geolocation" })
+        .then((permissionStatus) => {
+          if (permissionStatus.state === "denied") {
+          } else {
+            setLocationPermission(true);
+          }
+        });
+    }
   }, []);
 
   return (
@@ -170,6 +181,8 @@ const SingleBoatPage = () => {
                     setuserLat,
                     distance,
                     setdistance,
+                    locationPermisson,
+                    setLocationPermission,
                   }}
                 >
                   <MapComponent />

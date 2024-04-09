@@ -29,6 +29,8 @@ const StoreProfile = () => {
   const [ltd, setLtd] = useState(null);
   const [userLat, setuserLat] = useState();
   const [userLong, setuserLong] = useState();
+  const [locationPermisson, setLocationPermission] = useState(false);
+
   const { push } = useRouter();
   useEffect(() => {
     async function getData() {
@@ -60,6 +62,16 @@ const StoreProfile = () => {
       }
     }
     getData();
+    if (navigator.geolocation) {
+      navigator.permissions
+        .query({ name: "geolocation" })
+        .then((permissionStatus) => {
+          if (permissionStatus.state === "denied") {
+          } else {
+            setLocationPermission(true);
+          }
+        });
+    }
   }, []);
 
   async function followTheStore() {
@@ -120,7 +132,11 @@ const StoreProfile = () => {
                   <span>Store Distance</span>
                   <IoPhonePortraitOutline className="group-hover:translate-x-[7px] duration-300" />
                 </div>
-                {distance? <p className="small">{distance} Km</p>: <p className="small">calculate</p>}
+                {distance ? (
+                  <p className="small">{distance} Km</p>
+                ) : (
+                  <p className="small">calculate</p>
+                )}
               </div>
             </div>
             <div>
@@ -164,6 +180,8 @@ const StoreProfile = () => {
                   setuserLat,
                   distance,
                   setdistance,
+                  locationPermisson,
+                  setLocationPermission,
                 }}
               >
                 <MapComponent />

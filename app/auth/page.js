@@ -72,6 +72,27 @@ const AuthPage = () => {
       toast({
         title: "Registered successfully",
       });
+
+      const loginres = await loginUser({
+        email: data.email,
+        password: data.password,
+        validateFor: "customer",
+      });
+
+      const userDetails = await getDetails(loginres?.data?.id);
+      dispatch(
+        setLogin({ token: loginres?.data?.token, isRememberMe: rememberMe })
+      );
+      dispatch(
+        setDetails({
+          name: userDetails?.data?.name,
+          email: userDetails?.data?.email,
+          number: userDetails?.data?.phoneNumber,
+          isRememberMe: rememberMe,
+        })
+      );
+
+      push("/");
     } catch (error) {
       toast({
         variant: "destructive",
@@ -125,7 +146,7 @@ const AuthPage = () => {
           isRememberMe: rememberMe,
         })
       );
-   
+
       push("/");
       toast({
         title: "Login sucess",

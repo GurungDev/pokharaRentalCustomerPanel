@@ -26,6 +26,8 @@ const SingleCyclePage = () => {
   const [userLong, setuserLong] = useState();
   const [long, setLong] = useState(null);
   const [ltd, setLtd] = useState(null);
+  const [locationPermisson, setLocationPermission] = useState(false);
+
   const { push } = useRouter();
   useEffect(() => {
     async function getData() {
@@ -45,7 +47,7 @@ const SingleCyclePage = () => {
         setcycleData(cycles?.data);
         setstoreCycleData(storeBoats?.data[0]);
         setRatingData(ratings?.data);
-        
+
         setLong(cycles?.data?.store?.location?.coordinates[1]);
         setLtd(cycles?.data?.store?.location?.coordinates[0]);
       } catch (error) {
@@ -59,6 +61,16 @@ const SingleCyclePage = () => {
       }
     }
     getData();
+    if (navigator.geolocation) {
+      navigator.permissions
+        .query({ name: "geolocation" })
+        .then((permissionStatus) => {
+          if (permissionStatus.state === "denied") {
+          } else {
+            setLocationPermission(true);
+          }
+        });
+    }
   }, []);
   return (
     <div className="py-28 ">
@@ -151,6 +163,8 @@ const SingleCyclePage = () => {
                   setuserLat,
                   distance,
                   setdistance,
+                  locationPermisson,
+                  setLocationPermission,
                 }}
               >
                 <MapComponent />

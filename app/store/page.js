@@ -2,7 +2,8 @@
 import MapComponent from "@/components/store list/mapComponent";
 import ConnectCompany from "../../components/connectBanner";
 import StoreList from "../../components/stores/storeList";
-
+import location from "@/animation/location.json";
+import Lottie from "lottie-react";
 import React, { createContext, useEffect, useState } from "react";
 import { getAllStoreList } from "@/services/store.service";
 import { toast } from "@/components/ui/use-toast";
@@ -10,6 +11,7 @@ import { title } from "process";
 export const StoreListMapContext = createContext();
 const StoreNearMePage = () => {
   const [distance, setdistance] = useState(null);
+  const [locationPermisson, setLocationPermission] = useState(false);
   const [long, setLong] = useState(null);
   const [ltd, setLtd] = useState(null);
   const [userLat, setuserLat] = useState();
@@ -26,14 +28,22 @@ const StoreNearMePage = () => {
               fetchData(position.coords.longitude, position.coords.latitude);
               setLtd(position.coords.latitude);
               setLong(position.coords.longitude);
+              setLocationPermission(true);
               resolve();
             },
             (error) => {
-              reject(error);
+              toast({
+                variant: "destructive",
+                title:
+                  "Location permissions not granted. Please enable location services.",
+              });
             }
           );
         } else {
-          reject(new Error("Geolocation is not supported by this browser."));
+          toast({
+            variant: "destructive",
+            title: "Geolocation is not supported by this browser.",
+          });
         }
       });
     };
@@ -51,7 +61,7 @@ const StoreNearMePage = () => {
     getLocation();
   }, []);
 
-  return (
+  return locationPermisson ? (
     <div>
       <div className="py-14 layout">
         {" "}
@@ -78,6 +88,7 @@ const StoreNearMePage = () => {
             storeList,
             km,
             setKm,
+            locationPermisson,
           }}
         >
           <div className=" flex flex-col min-[1100px]:flex-row justify-between gap-7">
@@ -91,6 +102,28 @@ const StoreNearMePage = () => {
         </StoreListMapContext.Provider>
       </div>
       <ConnectCompany />
+    </div>
+  ) : (
+    <div>
+      <div>
+        <div className="py-14 layout">
+          {" "}
+          <div className="w-[70%]">
+            <h1 className="secondary-title  my-5 mt-[2rem]">
+              Location Permission Required
+            </h1>
+            <p className="paragraph mb-2  text-[#5f6368]">
+              To discover nearby stores, please enable location permissions on
+              your device. This will allow us to provide you with tailored
+              shopping experiences and convenient access to nearby retailers.
+            </p>
+          </div>
+          <div className="w-[30%] m-auto">
+            <Lottie animationData={location} loop={true} />{" "}
+          </div>
+        </div>
+        <ConnectCompany />
+      </div>
     </div>
   );
 };
