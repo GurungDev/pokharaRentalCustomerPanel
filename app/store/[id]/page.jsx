@@ -193,11 +193,13 @@ const StoreProfile = () => {
       <MoreListingsStore
         slides={storeBoatData}
         listing={"Boats from the store."}
+        listingName={"boats"}
       />
 
       <MoreListingsStore
         slides={storeCycleData}
         listing={"Cycles from the store."}
+        listingName={"cycles"}
       />
     </div>
   );

@@ -362,6 +362,9 @@ export default function NavbarAuth() {
                     "py-2 px-3 h-[50vh] overflow-scroll absolute w-[20vw] right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
                   }
                 >
+                <h3 className="paragraph py-2">
+                  Notification
+                </h3 >
                   {notificationData?.notification.length > 0 ? (
                     notificationData?.notification?.map((item, i) => {
                       return (

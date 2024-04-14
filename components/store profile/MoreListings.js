@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import Ratings from "../ratings";
 import Lottie from "lottie-react";
 
-export default function MoreListingsStore({ slides, listing }) {
+export default function MoreListingsStore({ slides, listing , listingName}) {
   const [loop, setLoop] = useState(false);
   const { push } = useRouter();
   useEffect(() => {
@@ -81,7 +81,7 @@ export default function MoreListingsStore({ slides, listing }) {
               <SwiperSlide key={index}>
                 <div
                   onClick={() => {
-                    push(`/${listing}/${data?.id}`);
+                    push(`/${listingName}/${data?.id}`);
                   }}
                   className="w-full !flex mb-8 !flex-col gap-5 group !items-center !justify-center relative min-h-[450px] rounded-xl overflow-hidden "
                 >

@@ -39,9 +39,8 @@ const LocateUserButton = () => {
       setuserLong(e.latlng.lng);
       setuserLat(e.latlng.lat);
       const userLocation = L.latLng(e.latlng.lat, e.latlng.lng);
-      const storeLocation = L.latLng(ltd, long);
+      const storeLocation = L.latLng(long, ltd);
       const distance = userLocation.distanceTo(storeLocation);
-
       setdistance((distance / 1000).toFixed(2));
 
       L.marker(e.latlng).addTo(map).bindPopup("You are here").openPopup();
