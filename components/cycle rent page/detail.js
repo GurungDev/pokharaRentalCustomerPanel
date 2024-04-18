@@ -9,7 +9,7 @@ const Details = ({ cycleData, ratingData }) => {
     <div className="w-full">
       <div className="w-full !flex mb-8 !flex-col gap-5 group !items-center !justify-center relative min-h-[450px] rounded-xl overflow-hidden ">
         <Image
-          src={"/lakesideboat.jpg"}
+          src={cycleData?.thumbnail}
           alt="Server"
           width={400}
           height={400}

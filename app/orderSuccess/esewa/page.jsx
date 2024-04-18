@@ -42,7 +42,7 @@ const SuccessOrder = () => {
           {" "}
           <button
             onClick={() => {
-              push("/");
+              push("/profile");
             }}
             className="flex shadow-md items-center gap-2 rounded-md mt-3 text-[.9rem] font-semibold text-green-600 hover:bg-green-600 duration-300 border-2 border-green-600 hover:text-white py-2 px-10 "
           >

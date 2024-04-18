@@ -21,3 +21,8 @@ export const updateProfile = async (data) => {
   const res = await http.patch(`/customer`, data);
   return res?.data;
 };
+
+export const contactAdmin = async (data) => {
+  const res = await http.post(`/customer/contact`, data);
+  return res?.data;
+};

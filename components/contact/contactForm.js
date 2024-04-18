@@ -14,6 +14,8 @@ import { Input } from "../ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Switch } from "../ui/switch";
 import { Textarea } from "../ui/textarea";
+import { contactAdmin } from "@/services/user.service";
+import { toast } from "../ui/use-toast";
 
 const ContactForm = () => {
   const [accpetTerms, setAccpetTerms] = useState(false);
@@ -28,18 +30,19 @@ const ContactForm = () => {
   });
 
   const onSubmit = async (data) => {
-    // try {
-    //   if (message == "") throw new Error("Please type a message!!");
-    //   if (!response) {
-    //     throw new Error("Oops something went wrong. Try again !!");
-    //   }
-    //   toast.success("Email send successfully", { draggable: false });
-    // } catch (error) {
-    //   const errorMessage = (error).message;
-    //   toast.error(errorMessage || "Oops something went wrong. Try again !!", {
-    //     draggable: false,
-    //   });
-    // }
+    try {
+     
+      await contactAdmin(data)
+      
+      toast({
+        title: "Success",
+        description: "Email send successfully",
+      });
+      contactForm.reset();
+    } catch (error) {
+      const errorMessage = (error).message;
+     
+    }
   };
 
   return (
@@ -112,15 +115,7 @@ const ContactForm = () => {
             )}
           />
         </div>
-
-        {/* <textarea
-          id="message"
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="How can we help you?"
-          className="px-3 py-3 rounded-md bg-zinc-200 border border-tertiary w-full font-medium text-black placeholder:text-black/60"
-          rows={4}
-          cols={50}
-        ></textarea> */}
+ 
         <div className="flex items-center gap-2 my-5">
           <Switch onClick={() => setAccpetTerms(!accpetTerms)}></Switch>
           <p className="text-sm text-[#5f6368]">
@@ -129,7 +124,7 @@ const ContactForm = () => {
           </p>
         </div>
         <button
-          type={accpetTerms ? "submit" : "button"}
+          type={accpetTerms ? "submit" : ""}
           disabled={!accpetTerms}
           className={`${
             accpetTerms ? "btn bg-primary border-accent text-white" : " text-secondary"
