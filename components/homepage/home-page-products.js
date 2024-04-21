@@ -6,6 +6,7 @@ import BoatSlider from "../listing_swipper_boat";
 import CycleSlider from "../listing_swipper_cycle";
 import { toast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const HomePageProducts = () => {
   const [boatData, setBoatData] = useState();
@@ -47,9 +48,9 @@ const HomePageProducts = () => {
       <div className="">
       <div className="flex justify-between items-center  secondary-title lg:text-[1.5rem]  py-10 text-neutral-500 layout">
           <h1>Boats</h1>
-          <div className="font-[500] text-[.9rem] hover:text-primary hover:translate-x-[-10px] duration-300 h-[30px] lg:text-[1rem] min-[2000px]:text-[1.2rem]">
+          <Link href="/boats" className="font-[500] text-[.9rem] hover:text-primary hover:translate-x-[-10px] duration-300 h-[30px] lg:text-[1rem] min-[2000px]:text-[1.2rem]">
             Show more
-          </div>
+          </Link>
         </div>
       <BoatSlider
         slides={boatData}
@@ -60,9 +61,9 @@ const HomePageProducts = () => {
       <div className="">
         <div className="flex justify-between items-center  secondary-title lg:text-[1.5rem]  py-10 text-neutral-500 layout">
           <h1>Cycles</h1>
-          <div className="font-[500] text-[.9rem] hover:text-primary hover:translate-x-[-10px] duration-300 h-[30px] lg:text-[1rem] min-[2000px]:text-[1.2rem]">
+          <Link href="/cycles" className="font-[500] text-[.9rem] hover:text-primary hover:translate-x-[-10px] duration-300 h-[30px] lg:text-[1rem] min-[2000px]:text-[1.2rem]">
             Show more
-          </div>
+          </Link>
         </div>
       <CycleSlider
         slides={cycleData}

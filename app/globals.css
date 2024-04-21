@@ -523,21 +523,21 @@ html {
 
 .img-1 { 
   grid-area: img-1; 
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)),url("/lakesideBoat.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)),url("/aboutus-1.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .img-2 { 
   grid-area: img-2; 
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)),url("/lakesideBoat.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)),url("/poster.jpeg");
   background-repeat: no-repeat;
   background-size: cover; 
 }
 
 .img-3 { 
   grid-area: img-3;  
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0,0)),url("/lakesideBoat.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0,0)),url("/aboutus-boat.jpeg");
   background-repeat: no-repeat;
   background-size: cover;  }
 
@@ -547,7 +547,7 @@ html {
   background-size: cover;   }
 
 .img-4 { grid-area: img-4; 
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)),url("/lakesideBoat.jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)),url("/tourism.jpeg");
   background-repeat: no-repeat;
   background-size: cover;   
   background-position: center;
